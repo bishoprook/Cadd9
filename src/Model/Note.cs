@@ -9,6 +9,8 @@ namespace Model
 {
     public struct Note
     {
+        private static readonly Note C_NATURAL = new Note(C, NATURAL);
+    
         public Name Name { get; }
         public Accidental Accidental { get; }
 
@@ -29,7 +31,7 @@ namespace Model
 
         public int PitchClass()
         {
-            return Interval.Between(new Note(C, NATURAL), this).Specific;
+            return Interval.Between(C_NATURAL, this).Specific;
         }
 
         ///<summary>

@@ -120,7 +120,7 @@ public class IntervalTest
         Note[] circleOfFifths = "Cb Gb Db Ab Eb Bb F C G D A E B F# C#"
             .Split(" ").Select(N).ToArray();
         Note[] result = new Note[15];
-        result[0] = new Note(C, FLAT);
+        result[0] = N("Cb");
         for (int i = 1; i < 15; i++) {
             result[i] = result[i - 1].Apply(PERFECT_FIFTH);
         }

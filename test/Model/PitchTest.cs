@@ -11,20 +11,12 @@ using static Util.ParseHelpers;
 
 public class PitchTest
 {
-    [Fact]
-    public void CanTransposeUp()
+    [Theory]
+    [InlineData("F#3", 2, "F#5")]
+    [InlineData("Gb3", -2, "Gb1")]
+    public void CanTransposeUp(string root, int octaves, string expected)
     {
-        Pitch input = new Pitch(new Note(F, SHARP), 3);
-        Pitch output = input.Transpose(2);
-        Assert.Equal(new Pitch(F, SHARP, 5), output);
-    }
-
-    [Fact]
-    public void CanTransposeDown()
-    {
-        Pitch input = new Pitch(new Note(G, FLAT), 3);
-        Pitch output = input.Transpose(-2);
-        Assert.Equal(new Pitch(G, FLAT, 1), output);
+        Assert.Equal(P(expected), P(root).Transpose(octaves));
     }
 
     public static IEnumerable<object[]> Enharmonics =>
