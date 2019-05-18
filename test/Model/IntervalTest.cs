@@ -107,6 +107,17 @@ public class IntervalTest
 
 #pragma warning restore xUnit1026
 
+    [Theory]
+    [InlineData("P2", typeof(ArgumentException), "Second is not a perfect interval")]
+    [InlineData("M4", typeof(ArgumentException), "Fourth is a perfect interval")]
+    [InlineData("foo", typeof(FormatException), "Unrecognized interval: foo")]
+    public void ParseIntervalFailure(string input, Type exceptionType, string expectedMessage)
+    {
+        var err = Assert.ThrowsAny<Exception>(() => Interval.Parse(input));
+        Assert.IsType(exceptionType, err);
+        Assert.Equal(expectedMessage, err.Message);
+    }
+
     [Fact]
     public void EnharmonicIntervals()
     {

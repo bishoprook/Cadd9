@@ -82,9 +82,12 @@ namespace Model
             var match = Regex.Match(input, @"^([^\d\+-]+)([\+-]?\d+)$");
             if (!match.Success)
             {
-                throw new FormatException("Unrecognized input: " + input);
+                throw new FormatException("Unrecognized pitch: " + input);
             }
-            return new Pitch(Note.Parse(match.Groups[1].Value), int.Parse(match.Groups[2].Value));
+            return new Pitch(
+                Note.Parse(match.Groups[1].Value),
+                int.Parse(match.Groups[2].Value)
+            );
         }
 
         public bool Enharmonic(Pitch other)

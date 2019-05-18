@@ -77,7 +77,10 @@ namespace Model
 
         public static Note Parse(string input)
         {
-            return new Note(input.Substring(0, 1).ParseEnum<Name>(), input.Substring(1).ParseEnum<Accidental>());
+            return new Note(
+                input.Substring(0, 1).ToUpper().ParseEnum<Name>(),
+                input.Substring(1).ToLower().ParseEnum<Accidental>()
+            );
         }
 
         public bool Enharmonic(Note other)

@@ -39,7 +39,7 @@ public class PitchTest
             new object[] { new Pitch(G, SHARP, 7), "G#7" },
             new object[] { new Pitch(B, DOUBLE_FLAT, 3), "Bbb3" },
             new object[] { new Pitch(F, DOUBLE_SHARP, -2), "F##-2" },
-            new object[] { new Pitch(E, NATURAL, 17), "E17" },
+            new object[] { new Pitch(E, NATURAL, 17), "e17" },
             new object[] { new Pitch(C, NATURAL, 3), "Cnat+3" }
         };
 
@@ -47,5 +47,15 @@ public class PitchTest
     public void CanParse(Pitch expected, string input)
     {
         Assert.Equal(expected, Pitch.Parse(input));
+    }
+
+    [Theory]
+    [InlineData("foobar")]
+    [InlineData("GA4")]
+    [InlineData("C#b7")]
+    [InlineData("4C")]
+    public void ParseIntervalFailure(string input)
+    {
+        Assert.Throws<FormatException>(() => Pitch.Parse(input));
     }
 }

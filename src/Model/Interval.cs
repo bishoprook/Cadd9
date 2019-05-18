@@ -58,11 +58,14 @@ namespace Model
             
             var lookup = IS_PERFECT[Generic.Modulus(NAMES_PER_OCTAVE)] ?
                 PERFECT_MODIFIERS : IMPERFECT_MODIFIERS;
-
-            string genericIntervalName = Generic < GENERIC_INTERVAL_NAMES.Length ?
-                GENERIC_INTERVAL_NAMES[Generic] : (Generic + 1).Ordinal();
             
-            return $"{lookup[intervalDiff]} {genericIntervalName}";
+            return $"{lookup[intervalDiff]} {GenericIntervalName(Generic)}";
+        }
+
+        private static string GenericIntervalName(int generic)
+        {
+            return generic < GENERIC_INTERVAL_NAMES.Length ?
+                GENERIC_INTERVAL_NAMES[generic] : (generic + 1).Ordinal();
         }
 
         public string Abbreviate()
@@ -78,12 +81,27 @@ namespace Model
 
         public static Interval Parse(string input)
         {
-            int generic = int.Parse(input.Substring(1)) - 1;
+            var match = Regex.Match(input, @"^([PdmMA])(\d+)$");
+            if (!match.Success)
+            {
+                throw new FormatException("Unrecognized interval: " + input);
+            }
 
-            var lookup = IS_PERFECT[generic.Modulus(NAMES_PER_OCTAVE)] ?
-                PERFECT_ABBREVIATIONS : IMPERFECT_ABBREVIATIONS;
+            int generic = int.Parse(match.Groups[2].Value) - 1;
+            bool isPerfect = IS_PERFECT[generic.Modulus(NAMES_PER_OCTAVE)];
+            
+            string modifierPart = match.Groups[1].Value;
+            if (isPerfect && (modifierPart.Equals("m") || modifierPart.Equals("M")))
+            {
+                throw new ArgumentException($"{GenericIntervalName(generic)} is a perfect interval");
+            }
+            if (!isPerfect && (modifierPart.Equals("P")))
+            {
+                throw new ArgumentException($"{GenericIntervalName(generic)} is not a perfect interval");
+            }
 
-            int modifier = lookup.Where(kvp => kvp.Value.Equals(input.Substring(0, 1))).First().Key;
+            var lookup = isPerfect ? PERFECT_ABBREVIATIONS : IMPERFECT_ABBREVIATIONS;
+            int modifier = lookup.Where(kvp => kvp.Value.Equals(modifierPart)).First().Key;
 
             int specific = SEMITONES_PER_OCTAVE * (generic / NAMES_PER_OCTAVE) +
                 MAJOR_SPECIFIC_INTERVAL[generic % NAMES_PER_OCTAVE] +
