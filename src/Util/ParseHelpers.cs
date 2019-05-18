@@ -13,5 +13,10 @@ namespace Util
         {
             return Pitch.Parse(input);
         }
+
+        public static Interval I(string input)
+        {
+            return Interval.Parse(input);
+        }
     }
 }

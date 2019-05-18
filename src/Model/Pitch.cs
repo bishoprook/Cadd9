@@ -26,14 +26,14 @@ namespace Model
             return MIDDLE_C_MIDI_NUMBER + Note.PitchClass() + SEMITONES_PER_OCTAVE * (Octave - MIDDLE_C_OCTAVE);
         }
 
+        override public string ToString()
+        {
+            return $"Pitch[Note={Note}, Octave={Octave}]";
+        }
+
         public string Describe()
         {
             return Note.Describe() + Octave;
-        }
-
-        override public string ToString()
-        {
-            return $"Pitch[Note={Note.ToString()}, Octave={Octave}]";
         }
 
         ///<summary>

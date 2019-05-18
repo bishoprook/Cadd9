@@ -14,6 +14,16 @@ namespace Model
             this.Mode = mode;
         }
 
+        override public string ToString()
+        {
+            return $"Scale[Tonic={Tonic}, Mode={Mode}]";
+        }
+
+        public string Describe()
+        {
+            return $"{Tonic.Describe()} {Mode.Describe()}";
+        }
+
         public IEnumerable<Note> Ascend()
         {
             Note root = Tonic;
