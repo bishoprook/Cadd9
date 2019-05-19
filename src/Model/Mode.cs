@@ -63,6 +63,21 @@ namespace Model
             }
         }
 
+        public IEnumerable<Note> Scale(Note tonic)
+        {
+            return Ascend().Select(tonic.Apply);
+        }
+
+        public IEnumerable<Pitch> Scale(Pitch tonic)
+        {
+            return Ascend().Select(tonic.Apply);
+        }
+
+        public Accidental AccidentalFor(Note key, Name name)
+        {
+            return Scale(key).First(n => n.Name == name).Accidental;
+        }
+
         [Describe("Ionian (Major)")]
         public static readonly Mode IONIAN = new Mode("P1", "M2", "M3", "P4", "P5", "M6", "M7");
 

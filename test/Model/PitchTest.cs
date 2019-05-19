@@ -7,6 +7,7 @@ using Xunit;
 
 using static Model.Name;
 using static Model.Accidental;
+using static Model.Mode;
 using static Util.ParseHelpers;
 
 public class PitchTest
@@ -47,6 +48,24 @@ public class PitchTest
     public void CanParse(Pitch expected, string input)
     {
         Assert.Equal(expected, Pitch.Parse(input));
+    }
+
+    [Theory]
+    [InlineData("C", "C4", "C4")]
+    [InlineData("G", "F4", "F♮4")]
+    [InlineData("Bb", "Bb4", "B4")]
+    public void DescribeInMajorKey(string key, string note, string expected)
+    {
+        Assert.Equal(expected, P(note).DescribeInKey(N(key), IONIAN));
+    }
+
+    [Theory]
+    [InlineData("A", "C4", "C4")]
+    [InlineData("C", "E4", "E♮4")]
+    [InlineData("C", "Eb4", "E4")]
+    public void DescribeInMinorKey(string key, string note, string expected)
+    {
+        Assert.Equal(expected, P(note).DescribeInKey(N(key), AEOLIAN));
     }
 
     [Theory]

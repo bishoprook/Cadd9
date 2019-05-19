@@ -33,7 +33,13 @@ namespace Model
 
         public string Describe()
         {
-            return Note.Describe() + Octave;
+            return $"{Note.Describe()}{Octave}";
+        }
+
+        public string DescribeInKey(Note key, Mode signature)
+        {
+            Accidental forKey = signature.AccidentalFor(key, Note.Name);
+            return forKey == Note.Accidental ? $"{Note.Name}{Octave}" : Describe();
         }
 
         ///<summary>
