@@ -79,14 +79,8 @@ namespace Model
             return $"{lookup[intervalDiff]}{Generic + 1}";
         }
 
-        public static Interval Parse(string input)
+        private static Interval ParseFormal(Match match)
         {
-            var match = Regex.Match(input, @"^([PdmMA])(\d+)$");
-            if (!match.Success)
-            {
-                throw new FormatException("Unrecognized interval: " + input);
-            }
-
             int generic = int.Parse(match.Groups[2].Value) - 1;
             bool isPerfect = IS_PERFECT[generic.Modulus(NAMES_PER_OCTAVE)];
             
@@ -108,6 +102,36 @@ namespace Model
                 modifier;
 
             return new Interval(generic, specific);
+        }
+
+        private static Interval ParseSimple(Match match)
+        {
+            int generic = int.Parse(match.Groups[2].Value) - 1;
+            
+            string modifierPart = match.Groups[1].Value;
+            Accidental accidental = modifierPart.ParseEnum<Accidental>();
+
+            int specific = SEMITONES_PER_OCTAVE * (generic / NAMES_PER_OCTAVE) +
+                MAJOR_SPECIFIC_INTERVAL[generic % NAMES_PER_OCTAVE] +
+                (int) accidental;
+
+            return new Interval(generic, specific);
+        }
+
+        public static Interval Parse(string input)
+        {
+            var matchFormal = Regex.Match(input, @"^([PdmMA])(\d+)$");
+            var matchSimple = Regex.Match(input, @"^([b#]*)(\d+)$");
+            if (matchFormal.Success)
+            {
+                return ParseFormal(matchFormal);
+            }
+            if (matchSimple.Success)
+            {
+                return ParseSimple(matchSimple);
+            }
+            
+            throw new FormatException("Unrecognized interval: " + input);
         }
 
         public bool Enharmonic(Interval other)
@@ -138,6 +162,16 @@ namespace Model
             int generic = (second.Note.Name - first.Note.Name).Modulus(NAMES_PER_OCTAVE) +
                 ((specific / SEMITONES_PER_OCTAVE) * NAMES_PER_OCTAVE);
             return new Interval(generic, specific);
+        }
+
+        public static Interval operator+(Interval a, Interval b)
+        {
+            return new Interval(a.Generic + b.Generic, a.Specific + b.Specific);
+        }
+
+        public static Interval operator-(Interval a, Interval b)
+        {
+            return new Interval(a.Generic - b.Generic, a.Specific - b.Specific);
         }
 
         public static readonly Interval PERFECT_UNISON = new Interval(0, 0);

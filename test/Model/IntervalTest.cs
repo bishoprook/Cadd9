@@ -45,13 +45,13 @@ public class IntervalTest
     public static IEnumerable<object[]> DescriptionData =>
         new List<object[]>
         {
-            new object[] { PERFECT_UNISON, "Perfect Unison", "P1" },
-            new object[] { AUGMENTED_SECOND, "Augmented Second", "A2" },
-            new object[] { MINOR_THIRD, "Minor Third", "m3" },
-            new object[] { PERFECT_FIFTH, "Perfect Fifth", "P5" },
-            new object[] { DIMINISHED_SEVENTH, "Diminished Seventh", "d7" },
-            new object[] { MAJOR_THIRTEENTH, "Major Thirteenth", "M13" },
-            new object[] { new Interval(106, 181), "Minor 107th", "m107" }
+            new object[] { PERFECT_UNISON, "Perfect Unison", "P1", "1" },
+            new object[] { AUGMENTED_SECOND, "Augmented Second", "A2", "#2" },
+            new object[] { MINOR_THIRD, "Minor Third", "m3", "b3" },
+            new object[] { PERFECT_FIFTH, "Perfect Fifth", "P5", "5" },
+            new object[] { DIMINISHED_SEVENTH, "Diminished Seventh", "d7", "bb7" },
+            new object[] { MAJOR_THIRTEENTH, "Major Thirteenth", "M13", "13" },
+            new object[] { new Interval(106, 181), "Minor 107th", "m107", "b107" }
         };
 
     [Theory] [MemberData(nameof(BetweenNoteData))]
@@ -88,21 +88,27 @@ public class IntervalTest
 
     [Theory]
     [MemberData(nameof(DescriptionData))]
-    public void CanDescribeIntervals(Interval interval, string description, string abbreviation)
+    public void CanDescribeIntervals(Interval interval, string description, string formal, string simple)
     {
         Assert.Equal(description, interval.Describe());
     }
 
     [Theory] [MemberData(nameof(DescriptionData))]
-    public void CanAbbreviateIntervals(Interval interval, string description, string abbreviation)
+    public void CanAbbreviateIntervals(Interval interval, string description, string formal, string simple)
     {
-        Assert.Equal(abbreviation, interval.Abbreviate());
+        Assert.Equal(formal, interval.Abbreviate());
     }
 
     [Theory] [MemberData(nameof(DescriptionData))]
-    public void CanParseIntervals(Interval interval, string description, string abbreviation)
+    public void CanParseIntervals(Interval interval, string description, string formal, string simple)
     {
-        Assert.Equal(interval, Interval.Parse(abbreviation));
+        Assert.Equal(interval, Interval.Parse(formal));
+    }
+
+    [Theory] [MemberData(nameof(DescriptionData))]
+    public void CanParseSimple(Interval interval, string description, string formal, string simple)
+    {
+        Assert.Equal(interval, Interval.Parse(simple));
     }
 
 #pragma warning restore xUnit1026
@@ -116,6 +122,17 @@ public class IntervalTest
         var err = Assert.ThrowsAny<Exception>(() => Interval.Parse(input));
         Assert.IsType(exceptionType, err);
         Assert.Equal(expectedMessage, err.Message);
+    }
+
+    [Theory]
+    [InlineData("M2", "M2", "M3")]
+    [InlineData("P4", "M3", "M6")]
+    [InlineData("P8", "m2", "m9")]
+    public void IntervalArithmetic(string first, string second, string compound)
+    {
+        Assert.Equal(I(compound), I(first) + I(second));
+        Assert.Equal(I(first), I(compound) - I(second));
+        Assert.Equal(I(second), I(compound) - I(first));
     }
 
     [Fact]
