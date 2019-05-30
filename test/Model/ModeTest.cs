@@ -6,7 +6,7 @@ using Model;
 
 using static Model.Accidental;
 using static Model.Mode;
-using static Model.Chord;
+using static Model.Quality;
 using static Model.Name;
 using static Util.ParseHelpers;
 
@@ -38,14 +38,14 @@ public class ModeTest
         {
             new object[] { IONIAN, 0, 3, MAJOR_TRIAD },
             new object[] { PHRYGIAN, 2, 4, DOMINANT_SEVENTH },
-            new object[] { DORIAN, 5, 4, new Chord("P1", "m3", "d5", "m7") },
-            new object[] { MIXOLYDIAN, 2, 4, new Chord("P1", "m3", "d5", "m7") }
+            new object[] { DORIAN, 5, 4, new Quality("P1", "m3", "d5", "m7") },
+            new object[] { MIXOLYDIAN, 2, 4, new Quality("P1", "m3", "d5", "m7") }
         };
 
     [Theory] [MemberData(nameof(ModeChords))]
-    public void ChordsFromModes(Mode mode, int degree, int width, Chord expected)
+    public void ChordsFromModes(Mode mode, int degree, int width, Quality expected)
     {
-        Assert.Equal(expected, mode.Chord(degree, width));
+        Assert.Equal(expected, mode.Quality(degree, width));
     }
 
     public static IEnumerable<object[]> ModeScales =>

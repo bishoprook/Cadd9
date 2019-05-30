@@ -5,7 +5,7 @@ using Xunit;
 
 using Model;
 
-using static Model.Chord;
+using static Model.Quality;
 using static Util.ParseHelpers;
 
 public class ChordTest
@@ -18,7 +18,7 @@ public class ChordTest
         };
     [Theory]
     [MemberData(nameof(AddModifierData))]
-    public void CanAddModifiers(Chord input, Chord expected, params string[] adds)
+    public void CanAddModifiers(Quality input, Quality expected, params string[] adds)
     {
         Assert.Equal(expected, input.Add(adds.Select(I).ToArray()));
     }
@@ -31,7 +31,7 @@ public class ChordTest
         };
     [Theory]
     [MemberData(nameof(ApplyPitchData))]
-    public void CanApply(Chord chord, Pitch root, params Pitch[] expected)
+    public void CanApply(Quality chord, Pitch root, params Pitch[] expected)
     {
         Assert.Equal(expected.ToList(), chord.Apply(root).ToList());
         Assert.Equal(expected.Select(p => p.Note).ToList(), chord.Apply(root.Note).ToList());

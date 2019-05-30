@@ -39,15 +39,15 @@ namespace Model
             return Intervals.SequenceEqual(other.Intervals);
         }
 
-        public Chord Chord(int degree, int width)
+        public Quality Quality(int degree, int width)
         {
-            // These intervals are based on the tonic; but the returned chord will be
+            // These intervals are based on the tonic; but the returned quality will be
             // based on the given scale degree as the root. So each one will need to
             // be decremented by root.
             Interval[] intervals = Ascend().Skip(degree).EveryN(2).Take(width).ToArray();
             Interval root = intervals[0];
             
-            return new Chord(intervals.Select(i => i - root).ToArray());
+            return new Quality(intervals.Select(i => i - root).ToArray());
         }
 
         public IEnumerable<Interval> Ascend()
