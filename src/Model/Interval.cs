@@ -11,7 +11,7 @@ using static Model.Name;
 
 namespace Model
 {
-    public struct Interval
+    public class Interval : IEquatable<Interval>
     {
         private static readonly bool[] IS_PERFECT = new bool[] {true, false, false, true, true, false, false};
         private static readonly int[] MAJOR_SPECIFIC_INTERVAL = new int[] {0, 2, 4, 5, 7, 9, 11};
@@ -45,38 +45,48 @@ namespace Model
             this.Generic = generic;
             this.Specific = specific;
         }
+
+        public bool Equals(Interval other)
+        {
+            return Generic == other.Generic && Specific == other.Specific;
+        }
         
         override public string ToString()
         {
             return $"Interval[Generic={Generic}, Specific={Specific}]";
         }
 
-        public string Describe()
+        public string Description
         {
-            int intervalDiff = Specific.Modulus(SEMITONES_PER_OCTAVE) -
-                MAJOR_SPECIFIC_INTERVAL[Generic.Modulus(NAMES_PER_OCTAVE)];
-            
-            var lookup = IS_PERFECT[Generic.Modulus(NAMES_PER_OCTAVE)] ?
-                PERFECT_MODIFIERS : IMPERFECT_MODIFIERS;
-            
-            return $"{lookup[intervalDiff]} {GenericIntervalName(Generic)}";
+            get {
+                int intervalDiff = Specific.Modulus(SEMITONES_PER_OCTAVE) -
+                    MAJOR_SPECIFIC_INTERVAL[Generic.Modulus(NAMES_PER_OCTAVE)];
+                
+                var lookup = IS_PERFECT[Generic.Modulus(NAMES_PER_OCTAVE)] ?
+                    PERFECT_MODIFIERS : IMPERFECT_MODIFIERS;
+                
+                return $"{lookup[intervalDiff]} {GenericIntervalName(Generic)}";
+            }
+        }
+
+        public string Abbreviation
+        {
+            get
+            {
+                int intervalDiff = Specific.Modulus(SEMITONES_PER_OCTAVE) -
+                    MAJOR_SPECIFIC_INTERVAL[Generic.Modulus(NAMES_PER_OCTAVE)];
+                
+                var lookup = IS_PERFECT[Generic.Modulus(NAMES_PER_OCTAVE)] ?
+                    PERFECT_ABBREVIATIONS : IMPERFECT_ABBREVIATIONS;
+                
+                return $"{lookup[intervalDiff]}{Generic + 1}";
+            }
         }
 
         private static string GenericIntervalName(int generic)
         {
             return generic < GENERIC_INTERVAL_NAMES.Length ?
                 GENERIC_INTERVAL_NAMES[generic] : (generic + 1).Ordinal();
-        }
-
-        public string Abbreviate()
-        {
-            int intervalDiff = Specific.Modulus(SEMITONES_PER_OCTAVE) -
-                MAJOR_SPECIFIC_INTERVAL[Generic.Modulus(NAMES_PER_OCTAVE)];
-            
-            var lookup = IS_PERFECT[Generic.Modulus(NAMES_PER_OCTAVE)] ?
-                PERFECT_ABBREVIATIONS : IMPERFECT_ABBREVIATIONS;
-            
-            return $"{lookup[intervalDiff]}{Generic + 1}";
         }
 
         private static Interval ParseFormal(Match match)
@@ -109,11 +119,11 @@ namespace Model
             int generic = int.Parse(match.Groups[2].Value) - 1;
             
             string modifierPart = match.Groups[1].Value;
-            Accidental accidental = modifierPart.ParseEnum<Accidental>();
+            Accidental accidental = Accidental.Parse(modifierPart);
 
             int specific = SEMITONES_PER_OCTAVE * (generic / NAMES_PER_OCTAVE) +
                 MAJOR_SPECIFIC_INTERVAL[generic % NAMES_PER_OCTAVE] +
-                (int) accidental;
+                accidental.Semitones;
 
             return new Interval(generic, specific);
         }
@@ -150,15 +160,15 @@ namespace Model
         public static Interval Between(Note first, Note second)
         {
             int generic = (second.Name - first.Name).Modulus(NAMES_PER_OCTAVE);
-            int firstPC = MAJOR_SPECIFIC_INTERVAL[(int) first.Name] + (int) first.Accidental;
-            int secondPC = MAJOR_SPECIFIC_INTERVAL[(int) second.Name] + (int) second.Accidental;
+            int firstPC = MAJOR_SPECIFIC_INTERVAL[(int) first.Name] + first.Accidental.Semitones;
+            int secondPC = MAJOR_SPECIFIC_INTERVAL[(int) second.Name] + second.Accidental.Semitones;
             int specific = (secondPC - firstPC).Modulus(SEMITONES_PER_OCTAVE);
             return new Interval(generic, specific);
         }
 
         public static Interval Between(Pitch first, Pitch second)
         {
-            int specific = second.Midi() - first.Midi();
+            int specific = second.Midi - first.Midi;
             int generic = (second.Note.Name - first.Note.Name).Modulus(NAMES_PER_OCTAVE) +
                 ((specific / SEMITONES_PER_OCTAVE) * NAMES_PER_OCTAVE);
             return new Interval(generic, specific);

@@ -7,7 +7,7 @@ using static Model.Accidental;
 
 namespace Model
 {
-    public struct Note
+    public class Note : IEquatable<Note>
     {
         private static readonly Note C_NATURAL = new Note(C, NATURAL);
     
@@ -19,9 +19,9 @@ namespace Model
             this.Accidental = accidental;
         }
 
-        public string Describe()
+        public bool Equals(Note other)
         {
-            return Name.Describe() + Accidental.Describe();
+            return Name.Equals(other.Name) && Accidental.Equals(other.Accidental);
         }
 
         override public string ToString()
@@ -29,9 +29,19 @@ namespace Model
             return $"Note[Name={Name}, Accidental={Accidental}]";
         }
 
-        public int PitchClass()
+        public string Description
         {
-            return Interval.Between(C_NATURAL, this).Specific;
+            get {
+                return $"{Name}{Accidental.Description}";
+            }
+        }
+
+        public int PitchClass
+        {
+            get
+            {
+                return Interval.Between(C_NATURAL, this).Specific;
+            }
         }
 
         ///<summary>
@@ -65,12 +75,12 @@ namespace Model
             // 6 [spec interval] - (5 [G to C distance] - (-2) [current accidental]) = -1
             // or equivalently
             // -2 [current accidental] + 6 [spec interval] - 5 [generic interval] = -1
-            int accidentalSemitones = (int)Accidental + interval.Specific
+            int accidentalSemitones = Accidental.Semitones + interval.Specific
                 - Interval.Between(Name, nextName).Specific;
             
             // The "demodulus" operator here produces the enharmonic accidental closest to natural;
             // for example 11 sharps would be converted to 1 flat.
-            Accidental nextAccidental = (Accidental) accidentalSemitones.Demodulus(SEMITONES_PER_OCTAVE);
+            Accidental nextAccidental = new Accidental(accidentalSemitones.Demodulus(SEMITONES_PER_OCTAVE));
 
             return new Note(nextName, nextAccidental);
         }
@@ -78,14 +88,14 @@ namespace Model
         public static Note Parse(string input)
         {
             return new Note(
-                input.Substring(0, 1).ToUpper().ParseEnum<Name>(),
-                input.Substring(1).ToLower().ParseEnum<Accidental>()
+                Enum.Parse<Name>(input.Substring(0, 1).ToUpper()),
+                Accidental.Parse(input.Substring(1).ToLower())
             );
         }
 
         public bool Enharmonic(Note other)
         {
-            return PitchClass() == other.PitchClass();
+            return PitchClass == other.PitchClass;
         }
     }
 }

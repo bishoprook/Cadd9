@@ -30,7 +30,7 @@ public class ModeTest
         Note[] cMajor = "C D E F G A B".Split(" ").Select(N).ToArray();
         Note[] shifted = cMajor.Skip(shift).Concat(cMajor.Take(shift)).ToArray();
         Interval[] intervals = shifted.Select(n => Interval.Between(shifted[0], n)).ToArray();
-        Assert.Equal(expected, new Mode(intervals));
+        Assert.Equal(expected.Intervals, intervals);
     }
 
     public static IEnumerable<object[]> ModeChords =>

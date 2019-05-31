@@ -90,13 +90,13 @@ public class IntervalTest
     [MemberData(nameof(DescriptionData))]
     public void CanDescribeIntervals(Interval interval, string description, string formal, string simple)
     {
-        Assert.Equal(description, interval.Describe());
+        Assert.Equal(description, interval.Description);
     }
 
     [Theory] [MemberData(nameof(DescriptionData))]
     public void CanAbbreviateIntervals(Interval interval, string description, string formal, string simple)
     {
-        Assert.Equal(formal, interval.Abbreviate());
+        Assert.Equal(formal, interval.Abbreviation);
     }
 
     [Theory] [MemberData(nameof(DescriptionData))]

@@ -6,7 +6,7 @@ using static Model.Constants;
 
 namespace Model
 {
-    public struct Pitch
+    public class Pitch : IEquatable<Pitch>
     {
         public Note Note { get; }
         public int Octave { get; }
@@ -21,9 +21,9 @@ namespace Model
             this.Octave = octave;
         }
 
-        public int Midi()
+        public bool Equals(Pitch other)
         {
-            return MIDDLE_C_MIDI_NUMBER + Note.PitchClass() + SEMITONES_PER_OCTAVE * (Octave - MIDDLE_C_OCTAVE);
+            return Note.Equals(other.Note) && Octave == other.Octave;
         }
 
         override public string ToString()
@@ -31,15 +31,27 @@ namespace Model
             return $"Pitch[Note={Note}, Octave={Octave}]";
         }
 
-        public string Describe()
+        public string Description
         {
-            return $"{Note.Describe()}{Octave}";
+            get
+            {
+                return $"{Note.Description}{Octave}";
+            }
+        }
+
+        public int Midi
+        {
+            get
+            {
+                return MIDDLE_C_MIDI_NUMBER + Note.PitchClass +
+                    SEMITONES_PER_OCTAVE * (Octave - MIDDLE_C_OCTAVE);
+            }
         }
 
         public string DescribeInKey(Note key, Mode signature)
         {
             Accidental forKey = signature.AccidentalFor(key, Note.Name);
-            return forKey == Note.Accidental ? $"{Note.Name}{Octave}" : Describe();
+            return forKey.Equals(Note.Accidental) ? $"{Note.Name}{Octave}" : Description;
         }
 
         ///<summary>
@@ -98,7 +110,7 @@ namespace Model
 
         public bool Enharmonic(Pitch other)
         {
-            return Midi() == other.Midi();
+            return Midi == other.Midi;
         }
     }
 }
