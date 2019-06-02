@@ -1,65 +1,63 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Linq;
-using Util;
 
-using static Model.Constants;
-using static Model.Name;
+using Cadd9.Util;
 
-namespace Model
+using static Cadd9.Model.Constants;
+using static Cadd9.Model.Name;
+
+namespace Cadd9.Model
 {
+    ///<summary>
+    ///Represents a musical width between notes or pitches.
+    ///</summary>
     public class Interval : IEquatable<Interval>
     {
-        private static readonly bool[] IS_PERFECT = new bool[] {true, false, false, true, true, false, false};
-        private static readonly int[] MAJOR_SPECIFIC_INTERVAL = new int[] {0, 2, 4, 5, 7, 9, 11};
-        private static readonly string[] GENERIC_INTERVAL_NAMES = new string[]
-        {
-            "Unison", "Second", "Third", "Fourth", "Fifth", "Sixth", "Seventh",
-            "Octave", "Ninth", "Tenth", "Eleventh", "Twelfth", "Thirteenth", "Fourteenth", "Fifteenth"
-        };
-        private static readonly Dictionary<int, string> PERFECT_MODIFIERS = new Dictionary<int, string>()
-        {
-            [-1] = "Diminished", [0] = "Perfect", [1] = "Augmented"
-        };
-        private static readonly Dictionary<int, string> PERFECT_ABBREVIATIONS = new Dictionary<int, string>()
-        {
-            [-1] = "d", [0] = "P", [1] = "A"
-        };
-        private static readonly Dictionary<int, string> IMPERFECT_MODIFIERS = new Dictionary<int, string>()
-        {
-            [-2] = "Diminished", [-1] = "Minor", [0] = "Major", [1] = "Augmented"
-        };
-        private static readonly Dictionary<int, string> IMPERFECT_ABBREVIATIONS = new Dictionary<int, string>()
-        {
-            [-2] = "d", [-1] = "m", [0] = "M", [1] = "A"
-        };
-
+        ///<summary>
+        ///The number of note names shifted between the bottom and top of this Interval:
+        ///for example a minor third, major third, and augmented third would all have
+        ///a Generic value of 2, and when applied to a C with any accidentals will produce
+        ///an E with accidentals determined by this Interval's <c>Specific</c> value.
+        ///</summary>
         public int Generic { get; }
+
+        ///<summary>
+        ///The number of semitones shifted between the bottom and top of this Interval.
+        ///For example, a minor third and augmented second both have a Specific value of 3,
+        ///because both move up 3 semitones, like from C to E♭/D♯ respectively.
+        ///</summary>
         public int Specific { get; }
 
+        ///<summary>
+        ///Creates an Interval with the given generic and specific widths.
+        ///</summary>
+        ///<param name="generic">The number of note names spanned by the interval</param>
+        ///<param name="specific">The number of semitones spanned by the interval</param>
         public Interval(int generic, int specific)
         {
             this.Generic = generic;
             this.Specific = specific;
         }
 
-        public bool Equals(Interval other)
-        {
-            return Generic == other.Generic && Specific == other.Specific;
-        }
-        
+        ///<summary>
+        ///A string representation of this Interval, useful for debugging.
+        ///</summary>
         override public string ToString()
         {
             return $"Interval[Generic={Generic}, Specific={Specific}]";
         }
 
+        ///<summary>
+        ///A long-form formatted description of the interval, like "Perfect Fourth"
+        ///</summary>
         public string Description
         {
             get {
-                int intervalDiff = Specific.Modulus(SEMITONES_PER_OCTAVE) -
+                var intervalDiff = Specific.Modulus(SEMITONES_PER_OCTAVE) -
                     MAJOR_SPECIFIC_INTERVAL[Generic.Modulus(NAMES_PER_OCTAVE)];
                 
                 var lookup = IS_PERFECT[Generic.Modulus(NAMES_PER_OCTAVE)] ?
@@ -69,11 +67,14 @@ namespace Model
             }
         }
 
+        ///<summary>
+        ///A short formatted description of the interval, like "P4"
+        ///</summary>
         public string Abbreviation
         {
             get
             {
-                int intervalDiff = Specific.Modulus(SEMITONES_PER_OCTAVE) -
+                var intervalDiff = Specific.Modulus(SEMITONES_PER_OCTAVE) -
                     MAJOR_SPECIFIC_INTERVAL[Generic.Modulus(NAMES_PER_OCTAVE)];
                 
                 var lookup = IS_PERFECT[Generic.Modulus(NAMES_PER_OCTAVE)] ?
@@ -91,10 +92,10 @@ namespace Model
 
         private static Interval ParseFormal(Match match)
         {
-            int generic = int.Parse(match.Groups[2].Value) - 1;
-            bool isPerfect = IS_PERFECT[generic.Modulus(NAMES_PER_OCTAVE)];
+            var generic = int.Parse(match.Groups[2].Value) - 1;
+            var isPerfect = IS_PERFECT[generic.Modulus(NAMES_PER_OCTAVE)];
             
-            string modifierPart = match.Groups[1].Value;
+            var modifierPart = match.Groups[1].Value;
             if (isPerfect && (modifierPart.Equals("m") || modifierPart.Equals("M")))
             {
                 throw new ArgumentException($"{GenericIntervalName(generic)} is a perfect interval");
@@ -105,10 +106,10 @@ namespace Model
             }
 
             var lookup = isPerfect ? PERFECT_ABBREVIATIONS : IMPERFECT_ABBREVIATIONS;
-            int modifier = lookup.Where(kvp => kvp.Value.Equals(modifierPart)).First().Key;
+            var modifier = lookup.Where(kvp => kvp.Value.Equals(modifierPart)).First().Key;
 
-            int specific = SEMITONES_PER_OCTAVE * (generic / NAMES_PER_OCTAVE) +
-                MAJOR_SPECIFIC_INTERVAL[generic % NAMES_PER_OCTAVE] +
+            var specific = SEMITONES_PER_OCTAVE * (generic / NAMES_PER_OCTAVE) +
+                MAJOR_SPECIFIC_INTERVAL[generic.Modulus(NAMES_PER_OCTAVE)] +
                 modifier;
 
             return new Interval(generic, specific);
@@ -116,18 +117,26 @@ namespace Model
 
         private static Interval ParseSimple(Match match)
         {
-            int generic = int.Parse(match.Groups[2].Value) - 1;
+            var generic = int.Parse(match.Groups[2].Value) - 1;
             
-            string modifierPart = match.Groups[1].Value;
-            Accidental accidental = Accidental.Parse(modifierPart);
+            var modifierPart = match.Groups[1].Value;
+            var accidental = Accidental.Parse(modifierPart);
 
-            int specific = SEMITONES_PER_OCTAVE * (generic / NAMES_PER_OCTAVE) +
-                MAJOR_SPECIFIC_INTERVAL[generic % NAMES_PER_OCTAVE] +
+            var specific = SEMITONES_PER_OCTAVE * (generic / NAMES_PER_OCTAVE) +
+                MAJOR_SPECIFIC_INTERVAL[generic.Modulus(NAMES_PER_OCTAVE)] +
                 accidental.Semitones;
 
             return new Interval(generic, specific);
         }
 
+        ///<summary>
+        ///Returns a new Interval by parsing the given string input. Two formats are accepted:
+        ///Formal, like <c>P4</c> and </c>d3</c>, or simple, like <c>b5</c> and <c>#9</c>. If
+        ///the simple form is used, then the major/perfect matching interval is sharped the
+        ///given number of times. The formal form understands (P)erfect, (d)iminished,
+        ///(m)inor, (M)ajor, and (A)ugmented descriptors for each interval.
+        ///</summary>
+        ///<param name="input">The input to parse</param>
         public static Interval Parse(string input)
         {
             var matchFormal = Regex.Match(input, @"^([PdmMA])(\d+)$");
@@ -144,19 +153,44 @@ namespace Model
             throw new FormatException("Unrecognized interval: " + input);
         }
 
+        ///<summary>
+        ///Returns true if <c>other</c> is enharmonically equivalent to this interval, or in
+        ///other words, the two intervals have the same specific width. Perfect unison and
+        ///diminished second, for example, are enharmonic despite having different generic
+        ///widths.
+        ///</summary>
+        ///<param name="other">The other Interval to compare</param>
         public bool Enharmonic(Interval other)
         {
             return Specific == other.Specific;
         }
 
+        ///<summary>
+        ///Returns a new Interval representing the width between two <c>Name</c>s. It is
+        ///always assumed that the interval is going up from first to second: C to B would
+        ///give an interval of a major seventh (despite being much closer to go down a
+        ///minor second). Also for this reason, this method will always produce an interval
+        ///between unison (inclusive) and an octave (exclusive).
+        ///</summary>
+        ///<param name="first">The lower Name to compare</param>
+        ///<param name="second">The higher Name to compare</param>
         public static Interval Between(Name first, Name second)
         {
-            int generic = (second - first).Modulus(NAMES_PER_OCTAVE);
-            int specific = (MAJOR_SPECIFIC_INTERVAL[(int) second] - MAJOR_SPECIFIC_INTERVAL[(int) first])
+            var generic = (second - first).Modulus(NAMES_PER_OCTAVE);
+            var specific = (MAJOR_SPECIFIC_INTERVAL[(int) second] - MAJOR_SPECIFIC_INTERVAL[(int) first])
                 .Modulus(SEMITONES_PER_OCTAVE);
             return new Interval(generic, specific);
         }
 
+        ///<summary>
+        ///Returns a new Interval representing the width between two <c>Note</c>s. It is
+        ///always assumed that the interval is going up from first to second: C♯ to B would
+        ///give an interval of a minor seventh (despite being much closer to go down a
+        ///major second). Also for this reason, this method will always produce an interval
+        ///between unison (inclusive) and an octave (exclusive).
+        ///</summary>
+        ///<param name="first">The lower Note to compare</param>
+        ///<param name="second">The higher Note to compare</param>
         public static Interval Between(Note first, Note second)
         {
             int generic = (second.Name - first.Name).Modulus(NAMES_PER_OCTAVE);
@@ -166,6 +200,13 @@ namespace Model
             return new Interval(generic, specific);
         }
 
+        ///<summary>
+        ///Returns a new Interval representing the width between two <c>Pitch</c>es. It is
+        ///always assumed that the interval is going up from first to second: C♯3 to B4 would
+        ///give an interval of a minor fifteenth.
+        ///</summary>
+        ///<param name="first">The lower Pitch to compare</param>
+        ///<param name="second">The higher Pitch to compare</param>
         public static Interval Between(Pitch first, Pitch second)
         {
             int specific = second.Midi - first.Midi;
@@ -174,15 +215,89 @@ namespace Model
             return new Interval(generic, specific);
         }
 
+        ///<summary>
+        ///Creates a new compound Interval by combining two others. For example, adding together
+        ///a perfect octave and a perfect fifth produces a perfect thirteenth.
+        ///</summary>
         public static Interval operator+(Interval a, Interval b)
         {
             return new Interval(a.Generic + b.Generic, a.Specific + b.Specific);
         }
 
+        ///<summary>
+        ///Creates a new compound Interval by subtracting one from the other. For example,
+        ///subtracting a minor second from a perfect octave produces a major seventh.
+        ///</summary>
         public static Interval operator-(Interval a, Interval b)
         {
             return new Interval(a.Generic - b.Generic, a.Specific - b.Specific);
         }
+
+        #region Internal constants
+
+        private static readonly bool[] IS_PERFECT = new bool[] {true, false, false, true, true, false, false};
+
+        private static readonly int[] MAJOR_SPECIFIC_INTERVAL = new int[] {0, 2, 4, 5, 7, 9, 11};
+
+        private static readonly string[] GENERIC_INTERVAL_NAMES = new string[]
+        {
+            "Unison", "Second", "Third", "Fourth", "Fifth", "Sixth", "Seventh",
+            "Octave", "Ninth", "Tenth", "Eleventh", "Twelfth", "Thirteenth", "Fourteenth", "Fifteenth"
+        };
+
+        private static readonly Dictionary<int, string> PERFECT_MODIFIERS = new Dictionary<int, string>()
+        {
+            [-1] = "Diminished", [0] = "Perfect", [1] = "Augmented"
+        };
+
+        private static readonly Dictionary<int, string> PERFECT_ABBREVIATIONS = new Dictionary<int, string>()
+        {
+            [-1] = "d", [0] = "P", [1] = "A"
+        };
+
+        private static readonly Dictionary<int, string> IMPERFECT_MODIFIERS = new Dictionary<int, string>()
+        {
+            [-2] = "Diminished", [-1] = "Minor", [0] = "Major", [1] = "Augmented"
+        };
+
+        private static readonly Dictionary<int, string> IMPERFECT_ABBREVIATIONS = new Dictionary<int, string>()
+        {
+            [-2] = "d", [-1] = "m", [0] = "M", [1] = "A"
+        };
+
+        #endregion
+
+        #region Value equality
+        private static readonly int HASH_CODE_SEED = 59;
+        private static readonly int HASH_CODE_STEP = 223;
+
+        ///<summary>
+        ///Determines whether two Intervals are value-equivalent
+        ///</summary>
+        ///<param name="other">The Intervals to compare</param>
+        public bool Equals(Interval other)
+        {
+            return Generic == other.Generic && Specific == other.Specific;
+        }
+        
+        ///<summary>
+        ///Produces a high-entropy hash code such that two value-equivalent
+        ///Intervals are guaranteed to produce the same result.
+        ///</summary>
+        override public int GetHashCode()
+        {
+            unchecked
+            {
+                int hashCode = HASH_CODE_SEED;
+                hashCode = (HASH_CODE_STEP * hashCode) ^ Generic;
+                hashCode = (HASH_CODE_STEP * hashCode) ^ Specific;
+                return hashCode;
+            }
+        }
+
+        #endregion
+
+        #region Typical values
 
         public static readonly Interval PERFECT_UNISON = new Interval(0, 0);
         public static readonly Interval DIMINISHED_SECOND = new Interval(1, 0);
@@ -206,5 +321,7 @@ namespace Model
         public static readonly Interval PERFECT_ELEVENTH = new Interval(10, 17);
         public static readonly Interval MAJOR_THIRTEENTH = new Interval(12, 21);
         public static readonly Interval PERFECT_FIFTEENTH = new Interval(14, 24);
+
+        #endregion
     }
 }

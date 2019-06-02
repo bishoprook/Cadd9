@@ -1,11 +1,11 @@
 using System;
-using Util;
+using Cadd9.Util;
 
-using static Model.Constants;
-using static Model.Name;
-using static Model.Accidental;
+using static Cadd9.Model.Constants;
+using static Cadd9.Model.Name;
+using static Cadd9.Model.Accidental;
 
-namespace Model
+namespace Cadd9.Model
 {
     public class Note : IEquatable<Note>
     {

@@ -2,39 +2,25 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using static Util.ParseHelpers;
+using static Cadd9.Util.ParseHelpers;
 
-namespace Model
+namespace Cadd9.Model
 {
     public class Quality : IEquatable<Quality>
     {
-        public Interval[] Intervals { get; }
+        public ISet<Interval> Intervals { get; }
 
-        public Quality(Interval[] intervals)
+        public Quality(ISet<Interval> intervals)
         {
-            if (intervals.Zip(intervals.Skip(1), (b, t) => b.Specific >= t.Specific).Any(t => t))
-            {
-                throw new ArgumentException("Quality intervals must strictly increase");
-            }
             Intervals = intervals;
         }
 
         public Quality(params string[] intervals)
-            : this(intervals.Select(I).ToArray()) {}
-
-        public bool Equals(Quality other)
-        {
-            return Intervals.SequenceEqual(other.Intervals);
-        }
+            : this(intervals.Select(I).ToHashSet()) {}
 
         public Quality Add(params Interval[] adds)
         {
-            return new Quality(
-                Intervals.TakeWhile(i => i.Specific < adds.First().Specific)
-                    .Concat(adds)
-                    .Concat(Intervals.SkipWhile(i => i.Specific < adds.Last().Specific)
-                ).ToArray()
-            );
+            return new Quality(Intervals.Union(adds).ToHashSet());
         }
 
         public IEnumerable<Note> Apply(Note root)
@@ -46,6 +32,29 @@ namespace Model
         {
             return Intervals.Select(i => root.Apply(i));
         }
+
+#region Value equality
+        private static readonly int HASH_CODE_SEED = 13;
+        private static readonly int HASH_CODE_STEP = 439;
+
+        public bool Equals(Quality other)
+        {
+            return Intervals.SequenceEqual(other.Intervals);
+        }
+
+        override public int GetHashCode()
+        {
+            unchecked
+            {
+                int hashCode = HASH_CODE_SEED;
+                foreach (Interval interval in Intervals)
+                {
+                    hashCode = (HASH_CODE_STEP * hashCode) ^ interval.GetHashCode();
+                }
+                return hashCode;
+            }
+        }
+#endregion
 
         public static Quality MAJOR_TRIAD = new Quality("1", "3", "5");
         public static Quality MINOR_TRIAD = new Quality("1", "b3", "5");

@@ -2,13 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-using Model;
+using Cadd9.Model;
 using Xunit;
 
-using static Model.Name;
-using static Model.Accidental;
-using static Model.Mode;
-using static Util.ParseHelpers;
+using static Cadd9.Model.Name;
+using static Cadd9.Model.Accidental;
+using static Cadd9.Model.Mode;
+using static Cadd9.Util.ParseHelpers;
 
 public class PitchTest
 {

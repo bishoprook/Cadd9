@@ -1,30 +1,26 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Util;
+using Cadd9.Util;
 
-using static Model.Interval;
-using static Util.ParseHelpers;
+using static Cadd9.Model.Interval;
+using static Cadd9.Util.ParseHelpers;
 
-namespace Model
+namespace Cadd9.Model
 {
     public class Mode : IEquatable<Mode>
     {
         public string Title { get; }
-        public Interval[] Intervals { get; }
+        public ISet<Interval> Intervals { get; }
 
-        public Mode(string title, Interval[] intervals)
+        public Mode(string title, ISet<Interval> intervals)
         {
-            if (intervals.Zip(intervals.Skip(1), (b, t) => b.Specific >= t.Specific).Any(t => t))
-            {
-                throw new ArgumentException("Mode intervals must strictly increase");
-            }
             this.Title = title;
             this.Intervals = intervals;
         }
 
         public Mode(string title, params string[] intervals)
-            : this(title, intervals.Select(I).ToArray()) {}
+            : this(title, intervals.Select(I).ToHashSet()) {}
 
         public bool Equals(Mode other)
         {
@@ -33,7 +29,7 @@ namespace Model
 
         override public string ToString()
         {
-            return $"Mode[Title={Title}, Intervals={String.Join(",", Intervals.ToList())}]";
+            return $"Mode[Title={Title}, Intervals={String.Join(",", Intervals)}]";
         }
 
         public Quality Quality(int degree, int width)
@@ -41,10 +37,10 @@ namespace Model
             // These intervals are based on the tonic; but the returned quality will be
             // based on the given scale degree as the root. So each one will need to
             // be decremented by root.
-            Interval[] intervals = Ascend().Skip(degree).EveryN(2).Take(width).ToArray();
-            Interval root = intervals[0];
+            IEnumerable<Interval> intervals = Ascend().Skip(degree).EveryN(2).Take(width);
+            Interval root = intervals.First();
             
-            return new Quality(intervals.Select(i => i - root).ToArray());
+            return new Quality(intervals.Select(i => i - root).ToHashSet());
         }
 
         public IEnumerable<Interval> Ascend()
@@ -52,7 +48,7 @@ namespace Model
             Interval current = PERFECT_UNISON;
             while(true)
             {
-                foreach (Interval interval in Intervals)
+                foreach (Interval interval in Intervals.OrderBy(i => i.Specific))
                 {
                     yield return current + interval;
                 }

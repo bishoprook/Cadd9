@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Util
+namespace Cadd9.Util
 {
     public static class EnumerableExtensions
     {

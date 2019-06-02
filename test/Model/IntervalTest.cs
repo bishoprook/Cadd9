@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Xunit;
-using Model;
-using Util;
+using Cadd9.Model;
+using Cadd9.Util;
 
-using static Model.Interval;
-using static Model.Name;
-using static Model.Accidental;
-using static Util.ParseHelpers;
+using static Cadd9.Model.Interval;
+using static Cadd9.Model.Name;
+using static Cadd9.Model.Accidental;
+using static Cadd9.Util.ParseHelpers;
 
 public class IntervalTest
 {

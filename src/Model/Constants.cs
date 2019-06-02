@@ -1,4 +1,4 @@
-namespace Model
+namespace Cadd9.Model
 {
     public static class Constants
     {

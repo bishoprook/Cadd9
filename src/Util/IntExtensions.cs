@@ -1,6 +1,6 @@
 using System;
 
-namespace Util
+namespace Cadd9.Util
 {
     public static class IntExtensions
     {

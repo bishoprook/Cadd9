@@ -1,10 +1,10 @@
-using Util;
 using System;
 using System.Text.RegularExpressions;
+using Cadd9.Util;
 
-using static Model.Constants;
+using static Cadd9.Model.Constants;
 
-namespace Model
+namespace Cadd9.Model
 {
     public class Pitch : IEquatable<Pitch>
     {

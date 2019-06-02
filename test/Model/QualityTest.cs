@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
-using Model;
+using Cadd9.Model;
 
-using static Model.Quality;
-using static Util.ParseHelpers;
+using static Cadd9.Model.Quality;
+using static Cadd9.Util.ParseHelpers;
 
 public class ChordTest
 {
@@ -14,7 +14,8 @@ public class ChordTest
         new List<object[]>
         {
             new object[] { MAJOR_TRIAD, MAJOR_SEVENTH, "7" },
-            new object[] { MAJOR_TRIAD, SEVENTH_SHARP_NINE, "b7", "#9" }
+            new object[] { MAJOR_TRIAD, SEVENTH_SHARP_NINE, "b7", "#9" },
+            new object[] { MAJOR_TRIAD, MAJOR_TRIAD, "1", "1", "3", "5", "3", "5"}
         };
     [Theory]
     [MemberData(nameof(AddModifierData))]

@@ -1,9 +1,9 @@
 using System;
-using Util;
+using Cadd9.Util;
 
-using static Model.Name;
+using static Cadd9.Model.Name;
 
-namespace Model
+namespace Cadd9.Model
 {
     public enum Name : int
     {

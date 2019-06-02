@@ -1,6 +1,6 @@
-using Model;
+using Cadd9.Model;
 
-namespace Util
+namespace Cadd9.Util
 {
     public static class ParseHelpers
     {
