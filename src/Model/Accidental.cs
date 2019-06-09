@@ -86,6 +86,7 @@ namespace Cadd9.Model
         ///will be in plain ASCII format: "b" for flats, "#" for sharps.
         ///</summary>
         ///<param name="input">The plain ASCII input string to parse</param>
+        ///<exception cref="FormatException">The given input cannot be parsed</exception>
         public static Accidental Parse(String input)
         {
             if (input.Equals("") || input.Equals("nat"))

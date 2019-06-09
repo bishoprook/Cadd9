@@ -7,28 +7,43 @@ using static Cadd9.Model.Accidental;
 
 namespace Cadd9.Model
 {
+    ///<summary>
+    ///Represents a note Name with an associated modifying Accidental.
+    ///</summary>
     public class Note : IEquatable<Note>
     {
-        private static readonly Note C_NATURAL = new Note(C, NATURAL);
-    
+        ///<summary>
+        ///The Name associated with this Note
+        ///</summary>
         public Name Name { get; }
+
+        ///<summary>
+        ///The Accidental modifying this Note
+        ///</summary>
         public Accidental Accidental { get; }
 
+        ///<summary>
+        ///Returns a new Note
+        ///</summary>
+        ///<param name="name">The Name associated with this Note</param>
+        ///<param name="accidental">The Accidental modifying this Note</param>
         public Note(Name name, Accidental accidental) {
             this.Name = name;
             this.Accidental = accidental;
         }
 
-        public bool Equals(Note other)
-        {
-            return Name.Equals(other.Name) && Accidental.Equals(other.Accidental);
-        }
-
+        ///<summary>
+        ///Returns a string representation of this Note, primarily for
+        ///debugging purposes.
+        ///</summary>
         override public string ToString()
         {
             return $"Note[Name={Name}, Accidental={Accidental}]";
         }
 
+        ///<summary>
+        ///A formatted representation of this Note as a UTF-8 string.
+        ///</summary>
         public string Description
         {
             get {
@@ -36,11 +51,21 @@ namespace Cadd9.Model
             }
         }
 
+        ///<summary>
+        ///The pitch class (0 to 11) of this Note.
+        ///</summary>
+        ///<remarks>
+        ///The concept of pitch class is often used in post-tonal music to describe
+        ///pitches without being based in any given heptatonic scale. C is equivalent
+        ///to a pitch class of 0, and each pitch class going up is separated by a
+        ///semitone. All Notes that are enharmonic by definition have the same pitch
+        ///class.
+        ///</remarks>
         public int PitchClass
         {
             get
             {
-                return Interval.Between(C_NATURAL, this).Specific;
+                return Interval.Between(new Note(C, NATURAL), this).Specific;
             }
         }
 
@@ -85,6 +110,16 @@ namespace Cadd9.Model
             return new Note(nextName, nextAccidental);
         }
 
+        ///<summary>
+        ///Parses the given input as a Note
+        ///</summary>
+        ///<param name="input">The input to parse</param>
+        ///<remarks>
+        ///The input is treated as case-insensitive. The first character is parsed as a <see cref="Name" />
+        ///while the rest is parsed according to <see cref="Accidental.Parse(string)" />. Examples of valid
+        ///Notes would include "B", "Ebb", "c#"
+        ///</remarks>
+        ///<exception cref="FormatException">The given input cannot be parsed</exception>
         public static Note Parse(string input)
         {
             return new Note(
@@ -93,9 +128,48 @@ namespace Cadd9.Model
             );
         }
 
+        ///<summary>
+        ///Determines whether two Notes are enharmonically equivalent
+        ///</summary>
+        ///<param name="other">The other Note to compare</param>
+        ///<remarks>
+        ///Two Notes are enharmonic if they map to the same key on a keyboard: for example, while
+        ///D♯ and E♭ are distinct notes that play different musical roles, they are enharmonic.
+        ///</remarks>
         public bool Enharmonic(Note other)
         {
             return PitchClass == other.PitchClass;
         }
+
+        #region Value equality
+
+        ///<summary>
+        ///Determines whether two Notes are value-equivalent
+        ///</summary>
+        ///<param name="other">The other Note to compare</param>
+        public bool Equals(Note other)
+        {
+            return Name.Equals(other.Name) && Accidental.Equals(other.Accidental);
+        }
+
+        private static readonly int HASH_CODE_SEED = 59;
+        private static readonly int HASH_CODE_STEP = 223;
+
+        ///<summary>
+        ///Produces a high-entropy hash code such that two value-equivalent
+        ///Notes are guaranteed to produce the same result.
+        ///</summary>
+        override public int GetHashCode()
+        {
+            unchecked
+            {
+                int hashCode = HASH_CODE_SEED;
+                hashCode = (HASH_CODE_STEP * hashCode) ^ (int) Name;
+                hashCode = (HASH_CODE_STEP * hashCode) ^ Accidental.GetHashCode();
+                return hashCode;
+            }
+        }
+
+        #endregion
     }
 }

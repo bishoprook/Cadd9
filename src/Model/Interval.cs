@@ -84,14 +84,28 @@ namespace Cadd9.Model
             }
         }
 
+        ///<summary>
+        ///Returns the name of an interval with the given generic width, for example
+        ///0 -> "Unison", 4 -> "Fifth", 22 -> "23rd"
+        ///</summary>
         private static string GenericIntervalName(int generic)
         {
             return generic < GENERIC_INTERVAL_NAMES.Length ?
                 GENERIC_INTERVAL_NAMES[generic] : (generic + 1).Ordinal();
         }
 
-        private static Interval ParseFormal(Match match)
+        ///<summary>
+        ///Parses the given input using "formal" notation: "P4" for a perfect fourth, "m3" for a
+        ///minor third, etc. Returns null if the input cannot be parsed accordingly.
+        ///</summary>
+        private static Interval ParseFormal(string input)
         {
+            var match = Regex.Match(input, @"^([PdmMA])(\d+)$");
+            if (!match.Success)
+            {
+                return null;
+            }
+
             var generic = int.Parse(match.Groups[2].Value) - 1;
             var isPerfect = IS_PERFECT[generic.Modulus(NAMES_PER_OCTAVE)];
             
@@ -115,8 +129,18 @@ namespace Cadd9.Model
             return new Interval(generic, specific);
         }
 
-        private static Interval ParseSimple(Match match)
+        ///<summary>
+        ///Parses the given input using "simple" notation: "3" for a major third, "b5" for a flat fifth,
+        ///etc. This format is commonly used to describe the component intervals of chords.
+        ///</summary>
+        private static Interval ParseSimple(string input)
         {
+            var match = Regex.Match(input, @"^([b#]*)(\d+)$");
+            if (!match.Success)
+            {
+                return null;
+            }
+
             var generic = int.Parse(match.Groups[2].Value) - 1;
             
             var modifierPart = match.Groups[1].Value;
@@ -137,17 +161,19 @@ namespace Cadd9.Model
         ///(m)inor, (M)ajor, and (A)ugmented descriptors for each interval.
         ///</summary>
         ///<param name="input">The input to parse</param>
+        ///<exception cref="FormatException">The given input cannot be parsed</exception>
         public static Interval Parse(string input)
         {
-            var matchFormal = Regex.Match(input, @"^([PdmMA])(\d+)$");
-            var matchSimple = Regex.Match(input, @"^([b#]*)(\d+)$");
-            if (matchFormal.Success)
+            var formal = ParseFormal(input);
+            if (formal != null)
             {
-                return ParseFormal(matchFormal);
+                return formal;
             }
-            if (matchSimple.Success)
+
+            var simple = ParseSimple(input);
+            if (simple != null)
             {
-                return ParseSimple(matchSimple);
+                return simple;
             }
             
             throw new FormatException("Unrecognized interval: " + input);
@@ -268,9 +294,6 @@ namespace Cadd9.Model
         #endregion
 
         #region Value equality
-        private static readonly int HASH_CODE_SEED = 59;
-        private static readonly int HASH_CODE_STEP = 223;
-
         ///<summary>
         ///Determines whether two Intervals are value-equivalent
         ///</summary>
@@ -280,6 +303,9 @@ namespace Cadd9.Model
             return Generic == other.Generic && Specific == other.Specific;
         }
         
+        private static readonly int HASH_CODE_SEED = 59;
+        private static readonly int HASH_CODE_STEP = 223;
+
         ///<summary>
         ///Produces a high-entropy hash code such that two value-equivalent
         ///Intervals are guaranteed to produce the same result.
