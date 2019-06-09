@@ -46,20 +46,14 @@ namespace Cadd9.Model
         ///Returns a string representation of this Pitch, primarily for
         ///debugging purposes.
         ///</summary>
-        override public string ToString()
-        {
-            return $"Pitch[Note={Note}, Octave={Octave}]";
-        }
+        override public string ToString() => $"Pitch[Note={Note}, Octave={Octave}]";
 
         ///<summary>
         ///A formatted representation of this Pitch as a UTF-8 string.
         ///</summary>
         public string Description
         {
-            get
-            {
-                return $"{Note.Description}{Octave}";
-            }
+            get => $"{Note.Description}{Octave}";
         }
 
         ///<summary>
@@ -71,11 +65,8 @@ namespace Cadd9.Model
         ///</remarks>
         public int Midi
         {
-            get
-            {
-                return MIDDLE_C_MIDI_NUMBER + Note.PitchClass +
-                    SEMITONES_PER_OCTAVE * (Octave - MIDDLE_C_OCTAVE);
-            }
+            get => MIDDLE_C_MIDI_NUMBER + Note.PitchClass +
+                SEMITONES_PER_OCTAVE * (Octave - MIDDLE_C_OCTAVE);
         }
 
         ///<summary>
@@ -103,19 +94,13 @@ namespace Cadd9.Model
         ///The number of octaves to transpose. If positive, the pitch will increase. If
         ///negative, it will decrease.
         ///</param>
-        public Pitch Transpose(int octaves)
-        {
-            return new Pitch(Note, Octave + octaves);
-        }
+        public Pitch Transpose(int octaves) => new Pitch(Note, Octave + octaves);
 
         ///<summary>
         ///Returns a new Note transposed to the given octave.
         ///</summary>
         ///<param name="octave">The octave of the desired note.</param>
-        public Pitch InOctave(int octave)
-        {
-            return new Pitch(Note, octave);
-        }
+        public Pitch InOctave(int octave) => new Pitch(Note, octave);
 
         ///<summary>
         ///Produces a new (higher) Pitch by applying the given Interval.
@@ -157,10 +142,7 @@ namespace Cadd9.Model
         ///Two Pitches are enharmonic if they map to the same key on a keyboard: for example, while
         ///D♯4 and E♭4 are distinct notes that play different musical roles, they are enharmonic.
         ///</remarks>
-        public bool Enharmonic(Pitch other)
-        {
-            return Midi == other.Midi;
-        }
+        public bool Enharmonic(Pitch other) => Midi == other.Midi;
 
         #region Value equality
 
@@ -168,10 +150,8 @@ namespace Cadd9.Model
         ///Determines whether two Pitches are value-equivalent
         ///</summary>
         ///<param name="other">The other Pitch to compare</param>
-        public bool Equals(Pitch other)
-        {
-            return Note.Equals(other.Note) && Octave == other.Octave;
-        }
+        public bool Equals(Pitch other) =>
+            Note.Equals(other.Note) && Octave == other.Octave;
 
         private static readonly int HASH_CODE_SEED = 59;
         private static readonly int HASH_CODE_STEP = 223;

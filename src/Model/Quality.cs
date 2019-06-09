@@ -41,14 +41,12 @@ namespace Cadd9.Model
         ///</remarks>
         public Quality(params string[] intervals)
             : this(intervals.Select(I).ToHashSet()) {}
-        
+
         ///<summary>
         ///A string representation of this Mode, useful for debugging.
         ///</summary>
-        override public string ToString()
-        {
-            return $"Quality[Intervals={String.Join(",", Intervals.OrderBy(i => i.Generic))}]";
-        }
+        override public string ToString() =>
+            $"Quality[Intervals={String.Join(",", Intervals.OrderBy(i => i.Generic))}]";
 
         ///<summary>
         ///Returns a new Quality by adding the given Intervals
@@ -58,26 +56,20 @@ namespace Cadd9.Model
         ///This can be used to create a chord with arbitrary extensions. Common extensions include the
         ///7th, 9th, and 11th.
         ///</remarks>
-        public Quality Add(params Interval[] adds)
-        {
-            return new Quality(Intervals.Union(adds).ToHashSet());
-        }
+        public Quality Add(params Interval[] adds) =>
+            new Quality(Intervals.Union(adds).ToHashSet());
 
         ///<summary>
         ///Returns a sequence of Notes by applying all of this Quality's Intervals to the given root.
         ///</summary>
-        public IEnumerable<Note> Apply(Note root)
-        {
-            return Intervals.OrderBy(i => i.Generic).Select(i => root.Apply(i));
-        }
+        public IEnumerable<Note> Apply(Note root) =>
+            Intervals.OrderBy(i => i.Generic).Select(i => root.Apply(i));
 
         ///<summary>
         ///Returns a sequence of Pitches by applying all of this Quality's Intervals to the given root.
         ///</summary>
-        public IEnumerable<Pitch> Apply(Pitch root)
-        {
-            return Intervals.OrderBy(i => i.Generic).Select(i => root.Apply(i));
-        }
+        public IEnumerable<Pitch> Apply(Pitch root) =>
+            Intervals.OrderBy(i => i.Generic).Select(i => root.Apply(i));
 
         #region Value equality
 
@@ -85,10 +77,7 @@ namespace Cadd9.Model
         ///Determines whether two Qualities are value-equivalent
         ///</summary>
         ///<param name="other">The other Quality to compare</param>
-        public bool Equals(Quality other)
-        {
-            return !Intervals.Except(other.Intervals).Any();
-        }
+        public bool Equals(Quality other) => !Intervals.Except(other.Intervals).Any();
 
         private static readonly int HASH_CODE_SEED = 13;
         private static readonly int HASH_CODE_STEP = 439;

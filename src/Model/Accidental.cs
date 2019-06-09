@@ -36,17 +36,15 @@ namespace Cadd9.Model
         ///Returns a string representation of this Accidental, primarily for
         ///debugging purposes.
         ///</summary>
-        override public string ToString()
-        {
-            return $"Accidental[Semitones={Semitones}]";
-        }
+        override public string ToString() => $"Accidental[Semitones={Semitones}]";
 
         ///<summary>
         ///A formatted representation of this Accidental as a UTF-8 string.
         ///</summary>
         public string Description
         {
-            get {
+            get
+            {
                 switch(Semitones)
                 {
                     case -2: return "𝄫";
@@ -75,11 +73,8 @@ namespace Cadd9.Model
         ///sharps: C♯♯♯♯♯ and C♭♭♭♭♭♭♭ are both enharmonic with each other and with
         ///F natural.
         ///</remarks>
-        public bool Enharmonic(Accidental other)
-        {
-            return Semitones.Modulus(SEMITONES_PER_OCTAVE) ==
-                other.Semitones.Modulus(SEMITONES_PER_OCTAVE);
-        }
+        public bool Enharmonic(Accidental other) =>
+            Semitones.Modulus(SEMITONES_PER_OCTAVE) == other.Semitones.Modulus(SEMITONES_PER_OCTAVE);
 
         ///<summary>
         ///Returns a new Accidental based on the given input string. Assumes the input
@@ -106,17 +101,14 @@ namespace Cadd9.Model
 
             throw new FormatException($"{input} is not a valid accidental");
         }
-        
+
         #region Value equality
 
         ///<summary>
         ///Determines whether two Accidentals are value-equivalent
         ///</summary>
         ///<param name="other">The Accidental to compare</param>
-        public bool Equals(Accidental other)
-        {
-            return Semitones == other.Semitones;
-        }
+        public bool Equals(Accidental other) => Semitones == other.Semitones;
 
         private static readonly int HASH_CODE_SEED = 461;
         private static readonly int HASH_CODE_STEP = 211;

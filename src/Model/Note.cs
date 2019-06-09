@@ -36,19 +36,15 @@ namespace Cadd9.Model
         ///Returns a string representation of this Note, primarily for
         ///debugging purposes.
         ///</summary>
-        override public string ToString()
-        {
-            return $"Note[Name={Name}, Accidental={Accidental}]";
-        }
+        override public string ToString() =>
+            $"Note[Name={Name}, Accidental={Accidental}]";
 
         ///<summary>
         ///A formatted representation of this Note as a UTF-8 string.
         ///</summary>
         public string Description
         {
-            get {
-                return $"{Name}{Accidental.Description}";
-            }
+            get => $"{Name}{Accidental.Description}";
         }
 
         ///<summary>
@@ -63,10 +59,7 @@ namespace Cadd9.Model
         ///</remarks>
         public int PitchClass
         {
-            get
-            {
-                return Interval.Between(new Note(C, NATURAL), this).Specific;
-            }
+            get => Interval.Between(new Note(C, NATURAL), this).Specific;
         }
 
         ///<summary>
@@ -120,13 +113,11 @@ namespace Cadd9.Model
         ///Notes would include "B", "Ebb", "c#"
         ///</remarks>
         ///<exception cref="FormatException">The given input cannot be parsed</exception>
-        public static Note Parse(string input)
-        {
-            return new Note(
+        public static Note Parse(string input) =>
+            new Note(
                 Enum.Parse<Name>(input.Substring(0, 1).ToUpper()),
                 Accidental.Parse(input.Substring(1).ToLower())
             );
-        }
 
         ///<summary>
         ///Determines whether two Notes are enharmonically equivalent
@@ -136,10 +127,7 @@ namespace Cadd9.Model
         ///Two Notes are enharmonic if they map to the same key on a keyboard: for example, while
         ///D♯ and E♭ are distinct notes that play different musical roles, they are enharmonic.
         ///</remarks>
-        public bool Enharmonic(Note other)
-        {
-            return PitchClass == other.PitchClass;
-        }
+        public bool Enharmonic(Note other) => PitchClass == other.PitchClass;
 
         #region Value equality
 
@@ -147,10 +135,8 @@ namespace Cadd9.Model
         ///Determines whether two Notes are value-equivalent
         ///</summary>
         ///<param name="other">The other Note to compare</param>
-        public bool Equals(Note other)
-        {
-            return Name.Equals(other.Name) && Accidental.Equals(other.Accidental);
-        }
+        public bool Equals(Note other) =>
+            Name.Equals(other.Name) && Accidental.Equals(other.Accidental);
 
         private static readonly int HASH_CODE_SEED = 59;
         private static readonly int HASH_CODE_STEP = 223;

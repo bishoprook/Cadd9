@@ -46,17 +46,15 @@ namespace Cadd9.Model
         ///<summary>
         ///A string representation of this Interval, useful for debugging.
         ///</summary>
-        override public string ToString()
-        {
-            return $"Interval[Generic={Generic}, Specific={Specific}]";
-        }
+        override public string ToString() => $"Interval[Generic={Generic}, Specific={Specific}]";
 
         ///<summary>
         ///A long-form formatted description of the interval, like "Perfect Fourth"
         ///</summary>
         public string Description
         {
-            get {
+            get
+            {
                 var intervalDiff = Specific.Modulus(SEMITONES_PER_OCTAVE) -
                     MAJOR_SPECIFIC_INTERVAL[Generic.Modulus(NAMES_PER_OCTAVE)];
                 
@@ -88,16 +86,16 @@ namespace Cadd9.Model
         ///Returns the name of an interval with the given generic width, for example
         ///0 -> "Unison", 4 -> "Fifth", 22 -> "23rd"
         ///</summary>
-        private static string GenericIntervalName(int generic)
-        {
-            return generic < GENERIC_INTERVAL_NAMES.Length ?
-                GENERIC_INTERVAL_NAMES[generic] : (generic + 1).Ordinal();
-        }
+        private static string GenericIntervalName(int generic) =>
+            generic < GENERIC_INTERVAL_NAMES.Length ?
+                GENERIC_INTERVAL_NAMES[generic] :
+                (generic + 1).Ordinal();
 
         ///<summary>
         ///Parses the given input using "formal" notation: "P4" for a perfect fourth, "m3" for a
         ///minor third, etc. Returns null if the input cannot be parsed accordingly.
         ///</summary>
+        ///<exception cref="ArgumentException">If an illegal modifier is supplied for the interval</exception>
         private static Interval ParseFormal(string input)
         {
             var match = Regex.Match(input, @"^([PdmMA])(\d+)$");
@@ -162,6 +160,7 @@ namespace Cadd9.Model
         ///</summary>
         ///<param name="input">The input to parse</param>
         ///<exception cref="FormatException">The given input cannot be parsed</exception>
+        ///<exception cref="ArgumentException">If an illegal modifier is supplied for the interval</exception>
         public static Interval Parse(string input)
         {
             var formal = ParseFormal(input);
@@ -186,10 +185,7 @@ namespace Cadd9.Model
         ///widths.
         ///</summary>
         ///<param name="other">The other Interval to compare</param>
-        public bool Enharmonic(Interval other)
-        {
-            return Specific == other.Specific;
-        }
+        public bool Enharmonic(Interval other) => Specific == other.Specific;
 
         ///<summary>
         ///Returns a new Interval representing the width between two <c>Name</c>s. It is
@@ -245,19 +241,15 @@ namespace Cadd9.Model
         ///Creates a new compound Interval by combining two others. For example, adding together
         ///a perfect octave and a perfect fifth produces a perfect thirteenth.
         ///</summary>
-        public static Interval operator+(Interval a, Interval b)
-        {
-            return new Interval(a.Generic + b.Generic, a.Specific + b.Specific);
-        }
+        public static Interval operator +(Interval a, Interval b) =>
+            new Interval(a.Generic + b.Generic, a.Specific + b.Specific);
 
         ///<summary>
         ///Creates a new compound Interval by subtracting one from the other. For example,
         ///subtracting a minor second from a perfect octave produces a major seventh.
         ///</summary>
-        public static Interval operator-(Interval a, Interval b)
-        {
-            return new Interval(a.Generic - b.Generic, a.Specific - b.Specific);
-        }
+        public static Interval operator-(Interval a, Interval b) =>
+            new Interval(a.Generic - b.Generic, a.Specific - b.Specific);
 
         #region Internal constants
 
@@ -298,11 +290,9 @@ namespace Cadd9.Model
         ///Determines whether two Intervals are value-equivalent
         ///</summary>
         ///<param name="other">The Intervals to compare</param>
-        public bool Equals(Interval other)
-        {
-            return Generic == other.Generic && Specific == other.Specific;
-        }
-        
+        public bool Equals(Interval other) =>
+            Generic == other.Generic && Specific == other.Specific;
+
         private static readonly int HASH_CODE_SEED = 59;
         private static readonly int HASH_CODE_STEP = 223;
 

@@ -53,16 +53,15 @@ namespace Cadd9.Model
         ///<summary>
         ///A string representation of this Mode, useful for debugging.
         ///</summary>
-        override public string ToString()
-        {
-            return $"Mode[Title={Title}, Intervals={String.Join(",", Intervals.OrderBy(i => i.Generic))}]";
-        }
+        override public string ToString() =>
+            $"Mode[Title={Title}, Intervals={String.Join(",", Intervals.OrderBy(i => i.Generic))}]";
 
         ///<summary>
         ///Returns a chord based on the given scale degree of this mode.
         ///</summary>
         ///<param name="degree">The scale degree to use as the root</param>
         ///<param name="width">The number of notes to return (3 = major, 4 = dom 7, etc)</param>
+        ///<exception cref="ArgumentException">if degree or width are out of bounds</exception>
         ///<remarks>
         ///Each mode has 7 scale degrees that produce 7 signature chord qualities. For example, the
         ///major (Ionian) mode's fourth scale degree (iv) is a minor triad, while the Phrygian mode's
@@ -109,19 +108,13 @@ namespace Cadd9.Model
         ///Yields every Note in this mode starting from the given tonic. Will progress
         ///infinitely, so take only what is needed.
         ///</summary>
-        public IEnumerable<Note> Scale(Note tonic)
-        {
-            return Ascend().Select(tonic.Apply);
-        }
+        public IEnumerable<Note> Scale(Note tonic) => Ascend().Select(tonic.Apply);
 
         ///<summary>
         ///Yields every Pitch in this mode starting from the given tonic. Will progress
         ///infinitely, so take only what is needed.
         ///</summary>
-        public IEnumerable<Pitch> Scale(Pitch tonic)
-        {
-            return Ascend().Select(tonic.Apply);
-        }
+        public IEnumerable<Pitch> Scale(Pitch tonic) => Ascend().Select(tonic.Apply);
 
         ///<summary>
         ///Yields the Accidental associated with a given name for a given key.
@@ -133,20 +126,16 @@ namespace Cadd9.Model
         ///render a note: if its accidental is the same as the accidental for its name
         ///in the key, no symbol need be added.
         ///</remarks>
-        public Accidental AccidentalFor(Note key, Name name)
-        {
-            return Scale(key).First(n => n.Name == name).Accidental;
-        }
+        public Accidental AccidentalFor(Note key, Name name) =>
+            Scale(key).First(n => n.Name == name).Accidental;
 
         #region Value equality
+        
         ///<summary>
         ///Determines whether two Modes are value-equivalent.
         ///</summary>
         ///<param name="other">The other Mode to compare</param>
-        public bool Equals(Mode other)
-        {
-            return !Intervals.Except(other.Intervals).Any();
-        }
+        public bool Equals(Mode other) => !Intervals.Except(other.Intervals).Any();
 
         private static readonly int HASH_CODE_SEED = 59;
         private static readonly int HASH_CODE_STEP = 223;
