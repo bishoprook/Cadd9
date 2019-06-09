@@ -1,10 +1,16 @@
-// So apparently you can either build a class library for netstandard-2.0 or an executable library for netcore-2.2
-// But you can't build a class library for netcore-2.2
-// So you need a class with a Main entry point
-// Even if you don't plan on running as a console app or whatever
-// Fuck you Microsoft
+///<summary>
+///The main executable class
+///</summary>
+///<remarks>
+///This is intended to be a class library, but dotnetcore-2.2 won't build a class library,
+///only a program. So it requires something wtih a main method. Even if you tell it not to
+///generate the executable...
+///</remarks>
 public class Program
 {
+    ///<summary>
+    ///Dummy main method that won't be used...
+    ///</summary>
     public static void Main(string[] args)
     {}
 }

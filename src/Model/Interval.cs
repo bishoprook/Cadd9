@@ -153,7 +153,7 @@ namespace Cadd9.Model
 
         ///<summary>
         ///Returns a new Interval by parsing the given string input. Two formats are accepted:
-        ///Formal, like <c>P4</c> and </c>d3</c>, or simple, like <c>b5</c> and <c>#9</c>. If
+        ///Formal, like <c>P4</c> and <c>d3</c>, or simple, like <c>b5</c> and <c>#9</c>. If
         ///the simple form is used, then the major/perfect matching interval is sharped the
         ///given number of times. The formal form understands (P)erfect, (d)iminished,
         ///(m)inor, (M)ajor, and (A)ugmented descriptors for each interval.
