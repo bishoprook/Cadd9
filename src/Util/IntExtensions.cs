@@ -14,7 +14,7 @@ namespace Cadd9.Util
         ///  Formally this method returns the least non-negative integer <c>N</c> such that
         ///  <c>operand ≡ N (mod modulus)</c>. It differs from C#'s <c>%</c> operator in its
         ///  treatment of negative values: <c>-1 % 7 == -1</c> while <c>-1.Modulus(7) == 6</c>.
-        ///<remarks>
+        ///</remarks>
         public static int Modulus(this int operand, int modulus)
         {
             return operand >= 0 ? operand % modulus : modulus + (operand % modulus);

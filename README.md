@@ -8,6 +8,6 @@ Only covers Western tonal music (for now!).
 
 ## Getting started
 
-TODO: Add some nuget instructions?
+Cadd9 is available as a [NuGet package](https://www.nuget.org/packages/Cadd9/).
 
 See the API documentation (auto-generated with Vsxmd) [here](API.md).
