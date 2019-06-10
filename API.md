@@ -12,6 +12,13 @@
   - [GetHashCode()](#M-Cadd9-Model-Accidental-GetHashCode 'Cadd9.Model.Accidental.GetHashCode')
   - [Parse(input)](#M-Cadd9-Model-Accidental-Parse-System-String- 'Cadd9.Model.Accidental.Parse(System.String)')
   - [ToString()](#M-Cadd9-Model-Accidental-ToString 'Cadd9.Model.Accidental.ToString')
+- [Constants](#T-Cadd9-Model-Constants 'Cadd9.Model.Constants')
+- [EnumerableExtensions](#T-Cadd9-Util-EnumerableExtensions 'Cadd9.Util.EnumerableExtensions')
+  - [EveryN\`\`1()](#M-Cadd9-Util-EnumerableExtensions-EveryN``1-System-Collections-Generic-IEnumerable{``0},System-Int32- 'Cadd9.Util.EnumerableExtensions.EveryN``1(System.Collections.Generic.IEnumerable{``0},System.Int32)')
+- [IntExtensions](#T-Cadd9-Util-IntExtensions 'Cadd9.Util.IntExtensions')
+  - [Demodulus()](#M-Cadd9-Util-IntExtensions-Demodulus-System-Int32,System-Int32- 'Cadd9.Util.IntExtensions.Demodulus(System.Int32,System.Int32)')
+  - [Modulus()](#M-Cadd9-Util-IntExtensions-Modulus-System-Int32,System-Int32- 'Cadd9.Util.IntExtensions.Modulus(System.Int32,System.Int32)')
+  - [Ordinal()](#M-Cadd9-Util-IntExtensions-Ordinal-System-Int32- 'Cadd9.Util.IntExtensions.Ordinal(System.Int32)')
 - [Interval](#T-Cadd9-Model-Interval 'Cadd9.Model.Interval')
   - [#ctor(generic,specific)](#M-Cadd9-Model-Interval-#ctor-System-Int32,System-Int32- 'Cadd9.Model.Interval.#ctor(System.Int32,System.Int32)')
   - [Abbreviation](#P-Cadd9-Model-Interval-Abbreviation 'Cadd9.Model.Interval.Abbreviation')
@@ -32,7 +39,7 @@
   - [op_Addition()](#M-Cadd9-Model-Interval-op_Addition-Cadd9-Model-Interval,Cadd9-Model-Interval- 'Cadd9.Model.Interval.op_Addition(Cadd9.Model.Interval,Cadd9.Model.Interval)')
   - [op_Subtraction()](#M-Cadd9-Model-Interval-op_Subtraction-Cadd9-Model-Interval,Cadd9-Model-Interval- 'Cadd9.Model.Interval.op_Subtraction(Cadd9.Model.Interval,Cadd9.Model.Interval)')
 - [Mode](#T-Cadd9-Model-Mode 'Cadd9.Model.Mode')
-  - [#ctor(title,intervals)](#M-Cadd9-Model-Mode-#ctor-System-String,System-Collections-Generic-ISet{Cadd9-Model-Interval}- 'Cadd9.Model.Mode.#ctor(System.String,System.Collections.Generic.ISet{Cadd9.Model.Interval})')
+  - [#ctor(title,intervals)](#M-Cadd9-Model-Mode-#ctor-System-String,Cadd9-Model-Interval[]- 'Cadd9.Model.Mode.#ctor(System.String,Cadd9.Model.Interval[])')
   - [#ctor(title,intervals)](#M-Cadd9-Model-Mode-#ctor-System-String,System-String[]- 'Cadd9.Model.Mode.#ctor(System.String,System.String[])')
   - [Intervals](#P-Cadd9-Model-Mode-Intervals 'Cadd9.Model.Mode.Intervals')
   - [Title](#P-Cadd9-Model-Mode-Title 'Cadd9.Model.Mode.Title')
@@ -57,6 +64,10 @@
   - [GetHashCode()](#M-Cadd9-Model-Note-GetHashCode 'Cadd9.Model.Note.GetHashCode')
   - [Parse(input)](#M-Cadd9-Model-Note-Parse-System-String- 'Cadd9.Model.Note.Parse(System.String)')
   - [ToString()](#M-Cadd9-Model-Note-ToString 'Cadd9.Model.Note.ToString')
+- [ParseHelpers](#T-Cadd9-Util-ParseHelpers 'Cadd9.Util.ParseHelpers')
+  - [I()](#M-Cadd9-Util-ParseHelpers-I-System-String- 'Cadd9.Util.ParseHelpers.I(System.String)')
+  - [N()](#M-Cadd9-Util-ParseHelpers-N-System-String- 'Cadd9.Util.ParseHelpers.N(System.String)')
+  - [P()](#M-Cadd9-Util-ParseHelpers-P-System-String- 'Cadd9.Util.ParseHelpers.P(System.String)')
 - [Pitch](#T-Cadd9-Model-Pitch 'Cadd9.Model.Pitch')
   - [#ctor(note,octave)](#M-Cadd9-Model-Pitch-#ctor-Cadd9-Model-Note,System-Int32- 'Cadd9.Model.Pitch.#ctor(Cadd9.Model.Note,System.Int32)')
   - [#ctor(name,accidental,octave)](#M-Cadd9-Model-Pitch-#ctor-Cadd9-Model-Name,Cadd9-Model-Accidental,System-Int32- 'Cadd9.Model.Pitch.#ctor(Cadd9.Model.Name,Cadd9.Model.Accidental,System.Int32)')
@@ -70,6 +81,7 @@
   - [Equals(other)](#M-Cadd9-Model-Pitch-Equals-Cadd9-Model-Pitch- 'Cadd9.Model.Pitch.Equals(Cadd9.Model.Pitch)')
   - [GetHashCode()](#M-Cadd9-Model-Pitch-GetHashCode 'Cadd9.Model.Pitch.GetHashCode')
   - [InOctave(octave)](#M-Cadd9-Model-Pitch-InOctave-System-Int32- 'Cadd9.Model.Pitch.InOctave(System.Int32)')
+  - [Parse(input)](#M-Cadd9-Model-Pitch-Parse-System-String- 'Cadd9.Model.Pitch.Parse(System.String)')
   - [ToString()](#M-Cadd9-Model-Pitch-ToString 'Cadd9.Model.Pitch.ToString')
   - [Transpose(octaves)](#M-Cadd9-Model-Pitch-Transpose-System-Int32- 'Cadd9.Model.Pitch.Transpose(System.Int32)')
 - [Quality](#T-Cadd9-Model-Quality 'Cadd9.Model.Quality')
@@ -92,8 +104,7 @@ Cadd9.Model
 
 ##### Summary
 
-Represents an accidental that shifts some note or pitch by a certain number
-of semitones away from natural.
+Represents an accidental that shifts some note or pitch by a certain number of semitones away from natural.
 
 <a name='M-Cadd9-Model-Accidental-#ctor-System-Int32-'></a>
 ### #ctor(semitones) `constructor`
@@ -106,8 +117,7 @@ Returns a new Accidental
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| semitones | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The number of semitones this accidental shifts a pitch or note. Positive
-values indicate sharps, negative values indicate flats. |
+| semitones | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The number of semitones this accidental shifts a pitch or note |
 
 <a name='P-Cadd9-Model-Accidental-Description'></a>
 ### Description `property`
@@ -121,8 +131,8 @@ A formatted representation of this Accidental as a UTF-8 string.
 
 ##### Summary
 
-The number of semitones this accidental shifts a pitch or note. Positive
-values indicate sharps, negative values indicate flats.
+The number of semitones this accidental shifts a pitch or note. Positive values indicate sharps, negative
+  values indicate flats.
 
 <a name='M-Cadd9-Model-Accidental-Enharmonic-Cadd9-Model-Accidental-'></a>
 ### Enharmonic(other) `method`
@@ -139,10 +149,9 @@ Returns true if `other` is enharmonic with this Accidental.
 
 ##### Remarks
 
-Two accidentals are enharmonic if they are equal or if their `Semitones`
-differ by an even multiple of 12. For example 5 flats is enharmonic with 7
-sharps: C♯♯♯♯♯ and C♭♭♭♭♭♭♭ are both enharmonic with each other and with
-F natural.
+Two accidentals are enharmonic if they are equal or if their `Semitones` differ by an even multiple of
+  12. For example 5 sharps is enharmonic with 7 flats: C♯♯♯♯♯ and C♭♭♭♭♭♭♭ are both enharmonic with each
+  other and with F natural.
 
 <a name='M-Cadd9-Model-Accidental-Equals-Cadd9-Model-Accidental-'></a>
 ### Equals(other) `method`
@@ -162,8 +171,8 @@ Determines whether two Accidentals are value-equivalent
 
 ##### Summary
 
-Produces a high-entropy hash code such that two value-equivalent
-Accidentals are guaranteed to produce the same result.
+Produces a high-entropy hash code such that two value-equivalent Accidentals are guaranteed to produce the
+  same result.
 
 ##### Parameters
 
@@ -174,8 +183,7 @@ This method has no parameters.
 
 ##### Summary
 
-Returns a new Accidental based on the given input string. Assumes the input
-will be in plain ASCII format: "b" for flats, "#" for sharps.
+Returns a new Accidental based on the given input string.
 
 ##### Parameters
 
@@ -189,13 +197,122 @@ will be in plain ASCII format: "b" for flats, "#" for sharps.
 | ---- | ----------- |
 | [System.FormatException](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.FormatException 'System.FormatException') | The given input cannot be parsed |
 
+##### Remarks
+
+Assumes the input will be in plain ASCII: "b" for flats and "#" for sharps. An empty string or the string
+  `"nat"` may be used for natural.
+
 <a name='M-Cadd9-Model-Accidental-ToString'></a>
 ### ToString() `method`
 
 ##### Summary
 
-Returns a string representation of this Accidental, primarily for
-debugging purposes.
+Returns a string representation of this Accidental, primarily for debugging purposes.
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='T-Cadd9-Model-Constants'></a>
+## Constants `type`
+
+##### Namespace
+
+Cadd9.Model
+
+##### Summary
+
+Defines several frequently-used music theory constants.
+
+<a name='T-Cadd9-Util-EnumerableExtensions'></a>
+## EnumerableExtensions `type`
+
+##### Namespace
+
+Cadd9.Util
+
+##### Summary
+
+Adds useful extension methods to [IEnumerable\`1](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Collections.Generic.IEnumerable`1 'System.Collections.Generic.IEnumerable`1')
+
+<a name='M-Cadd9-Util-EnumerableExtensions-EveryN``1-System-Collections-Generic-IEnumerable{``0},System-Int32-'></a>
+### EveryN\`\`1() `method`
+
+##### Summary
+
+Returns the first element in the input and every Nth afterward.
+
+##### Parameters
+
+This method has no parameters.
+
+##### Example
+
+This example demonstrates how to use [EveryN\`\`1](#M-Cadd9-Util-EnumerableExtensions-EveryN``1-System-Collections-Generic-IEnumerable{``0},System-Int32- 'Cadd9.Util.EnumerableExtensions.EveryN``1(System.Collections.Generic.IEnumerable{``0},System.Int32)') to take every
+  Nth element of a range.
+
+```
+  var result = Enumerable.Range(1, 10).EveryN(3);
+  foreach (var num in result)
+  {
+      Console.WriteLine(num);
+  }
+  // This produces: 1, 4, 7, 10
+```
+
+<a name='T-Cadd9-Util-IntExtensions'></a>
+## IntExtensions `type`
+
+##### Namespace
+
+Cadd9.Util
+
+##### Summary
+
+Adds extension methods for some useful integer math
+
+<a name='M-Cadd9-Util-IntExtensions-Demodulus-System-Int32,System-Int32-'></a>
+### Demodulus() `method`
+
+##### Summary
+
+Returns the integer congruent to operand (mod modulus) with smallest absolute value.
+
+##### Parameters
+
+This method has no parameters.
+
+##### Remarks
+
+The range of this method is `[-modulus/2, modulus/2)` -- basically the goal is
+  to return an integer that is modulo-congruent with operand but is as close as
+  possible to zero. Primarily this is used to simplify accidentals as much as
+  possible: if we have 11 sharps, a more ideal (and enharmonic) accidental would be
+  one flat, represented as -1 and congruent to 11 (mod 12).
+
+<a name='M-Cadd9-Util-IntExtensions-Modulus-System-Int32,System-Int32-'></a>
+### Modulus() `method`
+
+##### Summary
+
+Returns the value of `operand` mod `modulus`
+
+##### Parameters
+
+This method has no parameters.
+
+##### Remarks
+
+Formally this method returns the least non-negative integer `N` such that
+  `operand ≡ N (mod modulus)`. It differs from C#'s `%` operator in its
+  treatment of negative values: `-1 % 7 == -1` while `-1.Modulus(7) == 6`.
+
+<a name='M-Cadd9-Util-IntExtensions-Ordinal-System-Int32-'></a>
+### Ordinal() `method`
+
+##### Summary
+
+Returns a string representation of an integer in ordinal form
 
 ##### Parameters
 
@@ -245,10 +362,13 @@ A long-form formatted description of the interval, like "Perfect Fourth"
 
 ##### Summary
 
-The number of note names shifted between the bottom and top of this Interval:
-for example a minor third, major third, and augmented third would all have
-a Generic value of 2, and when applied to a C with any accidentals will produce
-an E with accidentals determined by this Interval's `Specific` value.
+The number of note names shifted between the bottom and top of this Interval.
+
+##### Remarks
+
+This property is independent of the actual pitch difference of the interval. For example a minor third,
+  major third, and augmented third would all have a Generic value of 2, and when applied to a C with any
+  accidentals will produce an E with accidentals determined by this Interval's `Specific` value.
 
 <a name='P-Cadd9-Model-Interval-Specific'></a>
 ### Specific `property`
@@ -256,76 +376,89 @@ an E with accidentals determined by this Interval's `Specific` value.
 ##### Summary
 
 The number of semitones shifted between the bottom and top of this Interval.
-For example, a minor third and augmented second both have a Specific value of 3,
-because both move up 3 semitones, like from C to E♭/D♯ respectively.
+
+##### Remarks
+
+This property is independent of the change in names for the interval. For example, a minor third and
+  augmented second both have a Specific value of 3, because both move up 3 semitones, though they would go
+  from C to E♭/D♯ respectively.
 
 <a name='M-Cadd9-Model-Interval-Between-Cadd9-Model-Name,Cadd9-Model-Name-'></a>
 ### Between(first,second) `method`
 
 ##### Summary
 
-Returns a new Interval representing the width between two `Name`s. It is
-always assumed that the interval is going up from first to second: C to B would
-give an interval of a major seventh (despite being much closer to go down a
-minor second). Also for this reason, this method will always produce an interval
-between unison (inclusive) and an octave (exclusive).
+Returns a new Interval representing the width between two [Name](#T-Cadd9-Model-Name 'Cadd9.Model.Name')s.
 
 ##### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| first | [Cadd9.Model.Name](#T-Cadd9-Model-Name 'Cadd9.Model.Name') | The lower Name to compare |
-| second | [Cadd9.Model.Name](#T-Cadd9-Model-Name 'Cadd9.Model.Name') | The higher Name to compare |
+| first | [Cadd9.Model.Name](#T-Cadd9-Model-Name 'Cadd9.Model.Name') | The lower [Name](#T-Cadd9-Model-Name 'Cadd9.Model.Name') to compare |
+| second | [Cadd9.Model.Name](#T-Cadd9-Model-Name 'Cadd9.Model.Name') | The higher [Name](#T-Cadd9-Model-Name 'Cadd9.Model.Name') to compare |
+
+##### Remarks
+
+It is always assumed that the interval is going up from first to second: C to B would give an interval of a
+  major seventh (despite being much closer to go down a minor second). Also for this reason, this method will
+  always produce an interval between unison (inclusive) and an octave (exclusive).
 
 <a name='M-Cadd9-Model-Interval-Between-Cadd9-Model-Note,Cadd9-Model-Note-'></a>
 ### Between(first,second) `method`
 
 ##### Summary
 
-Returns a new Interval representing the width between two `Note`s. It is
-always assumed that the interval is going up from first to second: C♯ to B would
-give an interval of a minor seventh (despite being much closer to go down a
-major second). Also for this reason, this method will always produce an interval
-between unison (inclusive) and an octave (exclusive).
+Returns a new Interval representing the width between two [Note](#T-Cadd9-Model-Note 'Cadd9.Model.Note')s.
 
 ##### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| first | [Cadd9.Model.Note](#T-Cadd9-Model-Note 'Cadd9.Model.Note') | The lower Note to compare |
-| second | [Cadd9.Model.Note](#T-Cadd9-Model-Note 'Cadd9.Model.Note') | The higher Note to compare |
+| first | [Cadd9.Model.Note](#T-Cadd9-Model-Note 'Cadd9.Model.Note') | The lower [Note](#T-Cadd9-Model-Note 'Cadd9.Model.Note') to compare |
+| second | [Cadd9.Model.Note](#T-Cadd9-Model-Note 'Cadd9.Model.Note') | The higher [Note](#T-Cadd9-Model-Note 'Cadd9.Model.Note') to compare |
+
+##### Remarks
+
+It is always assumed that the interval is going up from first to second: C♯ to B would give an interval of
+  a minor seventh (despite being much closer to go down a major second). Also for this reason, this method
+  will always produce an interval between unison (inclusive) and an octave (exclusive).
 
 <a name='M-Cadd9-Model-Interval-Between-Cadd9-Model-Pitch,Cadd9-Model-Pitch-'></a>
 ### Between(first,second) `method`
 
 ##### Summary
 
-Returns a new Interval representing the width between two `Pitch`es. It is
-always assumed that the interval is going up from first to second: C♯3 to B4 would
-give an interval of a minor fifteenth.
+Returns a new Interval representing the width between two [Pitch](#T-Cadd9-Model-Pitch 'Cadd9.Model.Pitch')es.
 
 ##### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| first | [Cadd9.Model.Pitch](#T-Cadd9-Model-Pitch 'Cadd9.Model.Pitch') | The lower Pitch to compare |
-| second | [Cadd9.Model.Pitch](#T-Cadd9-Model-Pitch 'Cadd9.Model.Pitch') | The higher Pitch to compare |
+| first | [Cadd9.Model.Pitch](#T-Cadd9-Model-Pitch 'Cadd9.Model.Pitch') | The lower [Pitch](#T-Cadd9-Model-Pitch 'Cadd9.Model.Pitch') to compare |
+| second | [Cadd9.Model.Pitch](#T-Cadd9-Model-Pitch 'Cadd9.Model.Pitch') | The higher [Pitch](#T-Cadd9-Model-Pitch 'Cadd9.Model.Pitch') to compare |
+
+##### Remarks
+
+It is always assumed that the interval is going up from first to second: C♯3 to B4 would give an interval
+  of a minor fifteenth.
 
 <a name='M-Cadd9-Model-Interval-Enharmonic-Cadd9-Model-Interval-'></a>
 ### Enharmonic(other) `method`
 
 ##### Summary
 
-Returns true if `other` is enharmonically equivalent to this interval, or in
-other words, the two intervals have the same specific width. Perfect unison and
-diminished second, for example, are enharmonic despite having different generic
-widths.
+Returns true if `other` is enharmonically equivalent to this interval.
 
 ##### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | other | [Cadd9.Model.Interval](#T-Cadd9-Model-Interval 'Cadd9.Model.Interval') | The other Interval to compare |
+
+##### Remarks
+
+Two intervals are enharmonic if they have the same specific width. Perfect unison and diminished second,
+  for example, are enharmonic despite having different generic widths.
 
 <a name='M-Cadd9-Model-Interval-Equals-Cadd9-Model-Interval-'></a>
 ### Equals(other) `method`
@@ -345,8 +478,7 @@ Determines whether two Intervals are value-equivalent
 
 ##### Summary
 
-Returns the name of an interval with the given generic width, for example
-0 -> "Unison", 4 -> "Fifth", 22 -> "23rd"
+Returns the name of an interval with the given generic width
 
 ##### Parameters
 
@@ -357,8 +489,8 @@ This method has no parameters.
 
 ##### Summary
 
-Produces a high-entropy hash code such that two value-equivalent
-Intervals are guaranteed to produce the same result.
+Produces a high-entropy hash code such that two value-equivalent Intervals are guaranteed to produce the
+  same result.
 
 ##### Parameters
 
@@ -369,11 +501,7 @@ This method has no parameters.
 
 ##### Summary
 
-Returns a new Interval by parsing the given string input. Two formats are accepted:
-Formal, like `P4` and `d3`, or simple, like `b5` and `#9`. If
-the simple form is used, then the major/perfect matching interval is sharped the
-given number of times. The formal form understands (P)erfect, (d)iminished,
-(m)inor, (M)ajor, and (A)ugmented descriptors for each interval.
+Returns a new Interval by parsing the given string input.
 
 ##### Parameters
 
@@ -388,13 +516,19 @@ given number of times. The formal form understands (P)erfect, (d)iminished,
 | [System.FormatException](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.FormatException 'System.FormatException') | The given input cannot be parsed |
 | [System.ArgumentException](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.ArgumentException 'System.ArgumentException') | If an illegal modifier is supplied for the interval |
 
+##### Remarks
+
+Two formats are accepted: Formal, like `P4` and `d3`, or simple, like `b5` and `#9`. If
+  the simple form is used, then the major/perfect matching interval is sharped the given number of times. The
+  formal form understands (P)erfect, (d)iminished, (m)inor, (M)ajor, and (A)ugmented descriptors for each
+  interval as appropriate.
+
 <a name='M-Cadd9-Model-Interval-ParseFormal-System-String-'></a>
 ### ParseFormal() `method`
 
 ##### Summary
 
-Parses the given input using "formal" notation: "P4" for a perfect fourth, "m3" for a
-minor third, etc. Returns null if the input cannot be parsed accordingly.
+Parses the given input using "formal" notation, or null if it cannot be parsed accordingly
 
 ##### Parameters
 
@@ -406,17 +540,25 @@ This method has no parameters.
 | ---- | ----------- |
 | [System.ArgumentException](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.ArgumentException 'System.ArgumentException') | If an illegal modifier is supplied for the interval |
 
+##### Remarks
+
+"Formal" notation indicates "P4" for a perfect fourth, "m3" for a minor third, etc.
+
 <a name='M-Cadd9-Model-Interval-ParseSimple-System-String-'></a>
 ### ParseSimple() `method`
 
 ##### Summary
 
-Parses the given input using "simple" notation: "3" for a major third, "b5" for a flat fifth,
-etc. This format is commonly used to describe the component intervals of chords.
+Parses the given input using "simple" notation, or returns null if it cannot be parsed accordingly
 
 ##### Parameters
 
 This method has no parameters.
+
+##### Remarks
+
+This notation uses "3" for a major third, "b5" for a flat fifth, etc. Commonly used to describe the
+  component intervals of chords.
 
 <a name='M-Cadd9-Model-Interval-ToString'></a>
 ### ToString() `method`
@@ -434,24 +576,30 @@ This method has no parameters.
 
 ##### Summary
 
-Creates a new compound Interval by combining two others. For example, adding together
-a perfect octave and a perfect fifth produces a perfect thirteenth.
+Creates a new compound Interval by combining two others.
 
 ##### Parameters
 
 This method has no parameters.
+
+##### Remarks
+
+For example, adding together a perfect octave and a perfect fifth produces a perfect thirteenth.
 
 <a name='M-Cadd9-Model-Interval-op_Subtraction-Cadd9-Model-Interval,Cadd9-Model-Interval-'></a>
 ### op_Subtraction() `method`
 
 ##### Summary
 
-Creates a new compound Interval by subtracting one from the other. For example,
-subtracting a minor second from a perfect octave produces a major seventh.
+Creates a new compound Interval by subtracting one from the other.
 
 ##### Parameters
 
 This method has no parameters.
+
+##### Remarks
+
+For example, subtracting a minor second from a perfect octave produces a major seventh.
 
 <a name='T-Cadd9-Model-Mode'></a>
 ## Mode `type`
@@ -460,7 +608,11 @@ This method has no parameters.
 
 Cadd9.Model
 
-<a name='M-Cadd9-Model-Mode-#ctor-System-String,System-Collections-Generic-ISet{Cadd9-Model-Interval}-'></a>
+##### Summary
+
+Represents a heptatonic musical mode based on its component intervals.
+
+<a name='M-Cadd9-Model-Mode-#ctor-System-String,Cadd9-Model-Interval[]-'></a>
 ### #ctor(title,intervals) `constructor`
 
 ##### Summary
@@ -472,13 +624,13 @@ Returns a new Mode
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | title | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The title of this Mode |
-| intervals | [System.Collections.Generic.ISet{Cadd9.Model.Interval}](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Collections.Generic.ISet 'System.Collections.Generic.ISet{Cadd9.Model.Interval}') | The intervals that make up this Mode |
+| intervals | [Cadd9.Model.Interval[]](#T-Cadd9-Model-Interval[] 'Cadd9.Model.Interval[]') | The intervals that make up this Mode |
 
 ##### Exceptions
 
 | Name | Description |
 | ---- | ----------- |
-| [System.ArgumentException](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.ArgumentException 'System.ArgumentException') | Thrown if a generic interval appears multiple times |
+| [System.ArgumentException](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.ArgumentException 'System.ArgumentException') | Thrown if the given intervals do not feature every generic interval 0-6 exactly once |
 
 <a name='M-Cadd9-Model-Mode-#ctor-System-String,System-String[]-'></a>
 ### #ctor(title,intervals) `constructor`
@@ -498,12 +650,12 @@ Returns a new Mode
 
 | Name | Description |
 | ---- | ----------- |
-| [System.ArgumentException](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.ArgumentException 'System.ArgumentException') | Thrown if a generic interval appears multiple times |
+| [System.ArgumentException](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.ArgumentException 'System.ArgumentException') | Thrown if the given intervals do not feature every generic interval 0-6 exactly once |
 
 ##### Remarks
 
 The intervals given in this constructor will be parsed according to the behavior in
-[Parse](#M-Cadd9-Model-Interval-Parse-System-String- 'Cadd9.Model.Interval.Parse(System.String)') which allows short-hand construction.
+  [Parse](#M-Cadd9-Model-Interval-Parse-System-String- 'Cadd9.Model.Interval.Parse(System.String)') which allows short-hand construction.
 
 <a name='P-Cadd9-Model-Mode-Intervals'></a>
 ### Intervals `property`
@@ -511,6 +663,10 @@ The intervals given in this constructor will be parsed according to the behavior
 ##### Summary
 
 A set of all the Intervals that make up this Mode
+
+##### Remarks
+
+
 
 <a name='P-Cadd9-Model-Mode-Title'></a>
 ### Title `property`
@@ -524,7 +680,7 @@ A descriptive title of this Mode
 
 ##### Summary
 
-Yields the Accidental associated with a given name for a given key.
+Yields the [Accidental](#T-Cadd9-Model-Accidental 'Cadd9.Model.Accidental') associated with a given name for a given key.
 
 ##### Parameters
 
@@ -532,23 +688,25 @@ This method has no parameters.
 
 ##### Remarks
 
-This may be used, for example, to place sharps and flats on a staff given a
-particular key. In the D major (Ionian) key, F and C have a sharp accidental
-while all other names are natural. This may also be used to determine how to
-render a note: if its accidental is the same as the accidental for its name
-in the key, no symbol need be added.
+This may be used, for example, to place sharps and flats on a staff given a particular key. In the D major
+  (Ionian) key, F and C have a sharp accidental while all other names are natural. This may also be used to
+  determine how to render a note: if its accidental is the same as the accidental for its name in the key, no
+  symbol need be added.
 
 <a name='M-Cadd9-Model-Mode-Ascend'></a>
 ### Ascend() `method`
 
 ##### Summary
 
-Yields every Interval in this mode starting from unison. Will progress infinitely,
-so take only what is needed.
+Yields every Interval in this mode starting from unison.
 
 ##### Parameters
 
 This method has no parameters.
+
+##### Remarks
+
+Will progress infinitely, so take only what is needed.
 
 <a name='M-Cadd9-Model-Mode-Equals-Cadd9-Model-Mode-'></a>
 ### Equals(other) `method`
@@ -568,8 +726,8 @@ Determines whether two Modes are value-equivalent.
 
 ##### Summary
 
-Produces a high-entropy hash code such that two value-equivalent
-Modes are guaranteed to produce the same result.
+Produces a high-entropy hash code such that two value-equivalent Modes are guaranteed to produce the same
+  result.
 
 ##### Parameters
 
@@ -593,37 +751,46 @@ Returns a chord based on the given scale degree of this mode.
 
 | Name | Description |
 | ---- | ----------- |
-| [System.ArgumentException](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.ArgumentException 'System.ArgumentException') | if degree or width are out of bounds |
+| [System.ArgumentException](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.ArgumentException 'System.ArgumentException') | If degree or width are out of bounds |
 
 ##### Remarks
 
-Each mode has 7 scale degrees that produce 7 signature chord qualities. For example, the
-major (Ionian) mode's fourth scale degree (iv) is a minor triad, while the Phrygian mode's
-fifth scale degree (v°) is a diminished triad.
+Each mode has 7 scale degrees that produce 7 signature chord qualities. For example, the major (Ionian)
+  mode's fourth scale degree (iv) is a minor triad, while the Phrygian mode's fifth scale degree (v°) is a
+  diminished triad.
+
+Note also that the `width` parameter can be used to construct 7th and 9th chords in the correct
+  quality for their scale degree, however constructing a triad width width 3 is most common.
 
 <a name='M-Cadd9-Model-Mode-Scale-Cadd9-Model-Note-'></a>
 ### Scale() `method`
 
 ##### Summary
 
-Yields every Note in this mode starting from the given tonic. Will progress
-infinitely, so take only what is needed.
+Yields every [Note](#T-Cadd9-Model-Note 'Cadd9.Model.Note') in this mode starting from the given tonic.
 
 ##### Parameters
 
 This method has no parameters.
+
+##### Remarks
+
+Will progress infinitely, so take only what is needed.
 
 <a name='M-Cadd9-Model-Mode-Scale-Cadd9-Model-Pitch-'></a>
 ### Scale() `method`
 
 ##### Summary
 
-Yields every Pitch in this mode starting from the given tonic. Will progress
-infinitely, so take only what is needed.
+Yields every [Pitch](#T-Cadd9-Model-Pitch 'Cadd9.Model.Pitch') in this mode starting from the given tonic.
 
 ##### Parameters
 
 This method has no parameters.
+
+##### Remarks
+
+Will progress infinitely, so take only what is needed.
 
 <a name='M-Cadd9-Model-Mode-ToString'></a>
 ### ToString() `method`
@@ -669,15 +836,15 @@ Returns a new Note
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| name | [Cadd9.Model.Name](#T-Cadd9-Model-Name 'Cadd9.Model.Name') | The Name associated with this Note |
-| accidental | [Cadd9.Model.Accidental](#T-Cadd9-Model-Accidental 'Cadd9.Model.Accidental') | The Accidental modifying this Note |
+| name | [Cadd9.Model.Name](#T-Cadd9-Model-Name 'Cadd9.Model.Name') | The [Name](#P-Cadd9-Model-Note-Name 'Cadd9.Model.Note.Name') associated with this Note |
+| accidental | [Cadd9.Model.Accidental](#T-Cadd9-Model-Accidental 'Cadd9.Model.Accidental') | The [Accidental](#P-Cadd9-Model-Note-Accidental 'Cadd9.Model.Note.Accidental') modifying this Note |
 
 <a name='P-Cadd9-Model-Note-Accidental'></a>
 ### Accidental `property`
 
 ##### Summary
 
-The Accidental modifying this Note
+The [Accidental](#P-Cadd9-Model-Note-Accidental 'Cadd9.Model.Note.Accidental') modifying this Note
 
 <a name='P-Cadd9-Model-Note-Description'></a>
 ### Description `property`
@@ -691,7 +858,7 @@ A formatted representation of this Note as a UTF-8 string.
 
 ##### Summary
 
-The Name associated with this Note
+The [Name](#P-Cadd9-Model-Note-Name 'Cadd9.Model.Note.Name') associated with this Note
 
 <a name='P-Cadd9-Model-Note-PitchClass'></a>
 ### PitchClass `property`
@@ -702,27 +869,22 @@ The pitch class (0 to 11) of this Note.
 
 ##### Remarks
 
-The concept of pitch class is often used in post-tonal music to describe
-pitches without being based in any given heptatonic scale. C is equivalent
-to a pitch class of 0, and each pitch class going up is separated by a
-semitone. All Notes that are enharmonic by definition have the same pitch
-class.
+The concept of pitch class is often used in post-tonal music to describe pitches without being based in any
+  given heptatonic scale. C is equivalent to a pitch class of 0, and each pitch class going up is separated
+  by a semitone. All Notes that are enharmonic by definition have the same pitch class.
 
 <a name='M-Cadd9-Model-Note-Apply-Cadd9-Model-Interval-'></a>
 ### Apply(interval) `method`
 
 ##### Summary
 
-Produces a new Note by applying the given Interval.
+Produces a new Note by applying the given [Interval](#T-Cadd9-Model-Interval 'Cadd9.Model.Interval').
 
 ##### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| interval | [Cadd9.Model.Interval](#T-Cadd9-Model-Interval 'Cadd9.Model.Interval') | Describes how to generate the new note. The new note's Name will be incremented
-by interval.Generic, while the new note's pitch will be incremented by
-interval.Specific. The new note's Accidental will be set appropriately to this
-new pitch. |
+| interval | [Cadd9.Model.Interval](#T-Cadd9-Model-Interval 'Cadd9.Model.Interval') | The width between the current Note and the new Note to be generated. |
 
 <a name='M-Cadd9-Model-Note-Enharmonic-Cadd9-Model-Note-'></a>
 ### Enharmonic(other) `method`
@@ -739,8 +901,8 @@ Determines whether two Notes are enharmonically equivalent
 
 ##### Remarks
 
-Two Notes are enharmonic if they map to the same key on a keyboard: for example, while
-D♯ and E♭ are distinct notes that play different musical roles, they are enharmonic.
+Two Notes are enharmonic if they map to the same key on a keyboard: for example, while D♯ and E♭ are
+  distinct notes that play different musical roles, they are enharmonic.
 
 <a name='M-Cadd9-Model-Note-Equals-Cadd9-Model-Note-'></a>
 ### Equals(other) `method`
@@ -760,8 +922,8 @@ Determines whether two Notes are value-equivalent
 
 ##### Summary
 
-Produces a high-entropy hash code such that two value-equivalent
-Notes are guaranteed to produce the same result.
+Produces a high-entropy hash code such that two value-equivalent Notes are guaranteed to produce the same
+  result.
 
 ##### Parameters
 
@@ -788,17 +950,60 @@ Parses the given input as a Note
 
 ##### Remarks
 
-The input is treated as case-insensitive. The first character is parsed as a [Name](#P-Cadd9-Model-Note-Name 'Cadd9.Model.Note.Name')
-while the rest is parsed according to [Parse](#M-Cadd9-Model-Accidental-Parse-System-String- 'Cadd9.Model.Accidental.Parse(System.String)'). Examples of valid
-Notes would include "B", "Ebb", "c#"
+The input is treated as case-insensitive. The first character is parsed as a [Name](#P-Cadd9-Model-Note-Name 'Cadd9.Model.Note.Name') while the
+  rest is parsed according to [Parse](#M-Cadd9-Model-Accidental-Parse-System-String- 'Cadd9.Model.Accidental.Parse(System.String)'). Examples of valid Notes would include
+  "B", "Ebb", "c#"
 
 <a name='M-Cadd9-Model-Note-ToString'></a>
 ### ToString() `method`
 
 ##### Summary
 
-Returns a string representation of this Note, primarily for
-debugging purposes.
+Returns a string representation of this Note, primarily for debugging purposes.
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='T-Cadd9-Util-ParseHelpers'></a>
+## ParseHelpers `type`
+
+##### Namespace
+
+Cadd9.Util
+
+##### Summary
+
+Contains helper methods to parse notes, pitches, and intervals
+
+<a name='M-Cadd9-Util-ParseHelpers-I-System-String-'></a>
+### I() `method`
+
+##### Summary
+
+Parses the given input as an [Interval](#T-Cadd9-Model-Interval 'Cadd9.Model.Interval')
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='M-Cadd9-Util-ParseHelpers-N-System-String-'></a>
+### N() `method`
+
+##### Summary
+
+Parses the given input as a [Note](#T-Cadd9-Model-Note 'Cadd9.Model.Note')
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='M-Cadd9-Util-ParseHelpers-P-System-String-'></a>
+### P() `method`
+
+##### Summary
+
+Parses the given input as a [Pitch](#T-Cadd9-Model-Pitch 'Cadd9.Model.Pitch')
 
 ##### Parameters
 
@@ -813,7 +1018,7 @@ Cadd9.Model
 
 ##### Summary
 
-A particular musical pitch achieved by playing a Note in a particular octave
+A particular musical pitch achieved by playing a [Note](#P-Cadd9-Model-Pitch-Note 'Cadd9.Model.Pitch.Note') in a particular octave
 
 <a name='M-Cadd9-Model-Pitch-#ctor-Cadd9-Model-Note,System-Int32-'></a>
 ### #ctor(note,octave) `constructor`
@@ -826,7 +1031,7 @@ Returns a new Pitch
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| note | [Cadd9.Model.Note](#T-Cadd9-Model-Note 'Cadd9.Model.Note') | The Note to represent this Pitch |
+| note | [Cadd9.Model.Note](#T-Cadd9-Model-Note 'Cadd9.Model.Note') | The [Note](#P-Cadd9-Model-Pitch-Note 'Cadd9.Model.Pitch.Note') to represent this Pitch |
 | octave | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The octave corresponding to this Pitch |
 
 <a name='M-Cadd9-Model-Pitch-#ctor-Cadd9-Model-Name,Cadd9-Model-Accidental,System-Int32-'></a>
@@ -840,8 +1045,8 @@ Returns a new Pitch
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| name | [Cadd9.Model.Name](#T-Cadd9-Model-Name 'Cadd9.Model.Name') | The Name of this Pitch's Note |
-| accidental | [Cadd9.Model.Accidental](#T-Cadd9-Model-Accidental 'Cadd9.Model.Accidental') | The Accidental of this Pitch's Note |
+| name | [Cadd9.Model.Name](#T-Cadd9-Model-Name 'Cadd9.Model.Name') | The [Name](#T-Cadd9-Model-Name 'Cadd9.Model.Name') of this Pitch's [Note](#P-Cadd9-Model-Pitch-Note 'Cadd9.Model.Pitch.Note') |
+| accidental | [Cadd9.Model.Accidental](#T-Cadd9-Model-Accidental 'Cadd9.Model.Accidental') | The [Accidental](#T-Cadd9-Model-Accidental 'Cadd9.Model.Accidental') of this Pitch's [Note](#P-Cadd9-Model-Pitch-Note 'Cadd9.Model.Pitch.Note') |
 | octave | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The octave corresponding to this Pitch |
 
 <a name='P-Cadd9-Model-Pitch-Description'></a>
@@ -860,15 +1065,15 @@ The MIDI note number associated with this Pitch
 
 ##### Remarks
 
-Though there is no universal standard for what octave represents middle-C,
-this treats C-4 as middle C, with the MIDI note number 60.
+Though there is no universal standard for what octave represents middle-C, we treat C-4 as middle C, with
+  the MIDI note number 60.
 
 <a name='P-Cadd9-Model-Pitch-Note'></a>
 ### Note `property`
 
 ##### Summary
 
-The Note represented by this Pitch
+The [Note](#P-Cadd9-Model-Pitch-Note 'Cadd9.Model.Pitch.Note') represented by this Pitch
 
 <a name='P-Cadd9-Model-Pitch-Octave'></a>
 ### Octave `property`
@@ -882,19 +1087,19 @@ The octave corresponding to this Pitch, where middle C = C4
 
 ##### Summary
 
-Produces a new (higher) Pitch by applying the given Interval.
+Produces a new (higher) Pitch by applying the given [Interval](#T-Cadd9-Model-Interval 'Cadd9.Model.Interval').
 
 ##### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| interval | [Cadd9.Model.Interval](#T-Cadd9-Model-Interval 'Cadd9.Model.Interval') | The Interval between this and the new Pitch |
+| interval | [Cadd9.Model.Interval](#T-Cadd9-Model-Interval 'Cadd9.Model.Interval') | The [Interval](#T-Cadd9-Model-Interval 'Cadd9.Model.Interval') between this and the new Pitch |
 
 ##### Remarks
 
-The Note Name will be incremented by interval.Generic, while the pitch will be
-incremented by interval.Specific (in semitones). The new Accidental will be set
-as appropriate to this pitch.
+The Note [Name](#T-Cadd9-Model-Name 'Cadd9.Model.Name') will be incremented by `interval.Generic`, while the pitch will be
+  incremented by `interval.Specific` (in semitones). The new [Accidental](#T-Cadd9-Model-Accidental 'Cadd9.Model.Accidental') will be set as
+  appropriate to achieve this pitch.
 
 <a name='M-Cadd9-Model-Pitch-DescribeInKey-Cadd9-Model-Note,Cadd9-Model-Mode-'></a>
 ### DescribeInKey(key,signature) `method`
@@ -912,11 +1117,10 @@ A formatted representation of this Pitch as a UTF-8 string in the given key.
 
 ##### Remarks
 
-This method will include a symbol for the accidental only if it is different
-than the associated Name in the given key. For example, C♮4 would be rendered
-"C4" in the key of C Ionian, but would be "C♮4" in the key of D Ionian, because
-in that key a C would normally be sharp. Likewise, in D Ionian the pitch F♯3
-would be rendered as "F3" because F is normally sharp in that key.
+This method will include a symbol for the accidental only if it is different than the associated
+  [Name](#T-Cadd9-Model-Name 'Cadd9.Model.Name') in the given key. For example, C♮4 would be rendered "C4" in the key of C Ionian, but
+  would be "C♮4" in the key of D Ionian, because in that key a C would normally be sharp. Likewise, in D
+  Ionian the pitch F♯3 would be rendered as "F3" because F is normally sharp in that key.
 
 <a name='M-Cadd9-Model-Pitch-Enharmonic-Cadd9-Model-Pitch-'></a>
 ### Enharmonic(other) `method`
@@ -933,8 +1137,8 @@ Determines whether two Pitches are enharmonically equivalent
 
 ##### Remarks
 
-Two Pitches are enharmonic if they map to the same key on a keyboard: for example, while
-D♯4 and E♭4 are distinct notes that play different musical roles, they are enharmonic.
+Two Pitches are enharmonic if they map to the same key on a keyboard: for example, while D♯4 and E♭4 are
+  distinct notes that play different musical roles, they are enharmonic.
 
 <a name='M-Cadd9-Model-Pitch-Equals-Cadd9-Model-Pitch-'></a>
 ### Equals(other) `method`
@@ -954,8 +1158,8 @@ Determines whether two Pitches are value-equivalent
 
 ##### Summary
 
-Produces a high-entropy hash code such that two value-equivalent
-Notes are guaranteed to produce the same result.
+Produces a high-entropy hash code such that two value-equivalent Pitches are guaranteed to produce the same
+  result.
 
 ##### Parameters
 
@@ -966,7 +1170,7 @@ This method has no parameters.
 
 ##### Summary
 
-Returns a new Note transposed to the given octave.
+Returns a new Note transposed into the given octave.
 
 ##### Parameters
 
@@ -974,13 +1178,37 @@ Returns a new Note transposed to the given octave.
 | ---- | ---- | ----------- |
 | octave | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The octave of the desired note. |
 
+<a name='M-Cadd9-Model-Pitch-Parse-System-String-'></a>
+### Parse(input) `method`
+
+##### Summary
+
+Parses the given input as a Pitch
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| input | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The input to parse |
+
+##### Exceptions
+
+| Name | Description |
+| ---- | ----------- |
+| [System.FormatException](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.FormatException 'System.FormatException') | The given input cannot be parsed |
+
+##### Remarks
+
+The input is treated as case-insensitive. The first character is parsed as a [Name](#T-Cadd9-Model-Name 'Cadd9.Model.Name') and the
+  rest is broken into an accidental part and an octave. The accidental is parsed according to
+  [Parse](#M-Cadd9-Model-Accidental-Parse-System-String- 'Cadd9.Model.Accidental.Parse(System.String)'). Examples of valid Pitches would include "B2", "Ebb17", "c#-1"
+
 <a name='M-Cadd9-Model-Pitch-ToString'></a>
 ### ToString() `method`
 
 ##### Summary
 
-Returns a string representation of this Pitch, primarily for
-debugging purposes.
+Returns a string representation of this Pitch, primarily for debugging purposes.
 
 ##### Parameters
 
@@ -997,8 +1225,11 @@ Returns a new Note transposed by the given number of octaves.
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| octaves | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The number of octaves to transpose. If positive, the pitch will increase. If
-negative, it will decrease. |
+| octaves | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The number of octaves to transpose. |
+
+##### Remarks
+
+If `octaves` is positive, the pitch will increase. If negative, it will decrease.
 
 <a name='T-Cadd9-Model-Quality'></a>
 ## Quality `type`
@@ -1052,7 +1283,7 @@ Returns a new Quality
 ##### Remarks
 
 The intervals given in this constructor will be parsed according to the behavior in
-[Parse](#M-Cadd9-Model-Interval-Parse-System-String- 'Cadd9.Model.Interval.Parse(System.String)') which allows short-hand construction.
+  [Parse](#M-Cadd9-Model-Interval-Parse-System-String- 'Cadd9.Model.Interval.Parse(System.String)') which allows short-hand construction.
 
 <a name='P-Cadd9-Model-Quality-Intervals'></a>
 ### Intervals `property`
@@ -1076,8 +1307,7 @@ Returns a new Quality by adding the given Intervals
 
 ##### Remarks
 
-This can be used to create a chord with arbitrary extensions. Common extensions include the
-7th, 9th, and 11th.
+This can be used to create a chord with arbitrary extensions, like 9th, 13th, etc.
 
 <a name='M-Cadd9-Model-Quality-Apply-Cadd9-Model-Note-'></a>
 ### Apply() `method`
@@ -1119,8 +1349,8 @@ Determines whether two Qualities are value-equivalent
 
 ##### Summary
 
-Produces a high-entropy hash code such that two value-equivalent
-Qualities are guaranteed to produce the same result.
+Produces a high-entropy hash code such that two value-equivalent Qualities are guaranteed to produce the
+  same result.
 
 ##### Parameters
 
