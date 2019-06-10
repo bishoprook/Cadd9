@@ -6,22 +6,37 @@ using Xunit;
 using Cadd9.Model;
 
 using static Cadd9.Model.Quality;
+using static Cadd9.Model.Quality.Modification;
 using static Cadd9.Util.ParseHelpers;
 
 public class ChordTest
 {
-    public static IEnumerable<object[]> AddModifierData =>
+    public static IEnumerable<object[]> AddExtensionData =>
         new List<object[]>
         {
             new object[] { MAJOR_TRIAD, MAJOR_SEVENTH, "7" },
             new object[] { MAJOR_TRIAD, SEVENTH_SHARP_NINE, "b7", "#9" },
-            new object[] { MAJOR_TRIAD, MAJOR_TRIAD, "1", "1", "3", "5", "3", "5"}
         };
     [Theory]
-    [MemberData(nameof(AddModifierData))]
-    public void CanAddModifiers(Quality input, Quality expected, params string[] adds)
+    [MemberData(nameof(AddExtensionData))]
+    public void CanAddExtensions(Quality input, Quality expected, params string[] adds)
     {
-        Assert.Equal(expected, input.Add(adds.Select(I).ToArray()));
+        Assert.Equal(expected, adds.Select(I).Aggregate(input, (q, i) => q.Add(i)));
+    }
+
+    public static IEnumerable<object[]> ModifyData =>
+        new List<object[]>
+        {
+            new object[] { MAJOR_TRIAD, SUS4, "1", "4", "5" },
+            new object[] { MINOR_TRIAD, SUS2, "1", "2", "5" },
+            new object[] { DOMINANT_SEVENTH, FLAT5, "1", "3", "b5", "b7" },
+            new object[] { MAJOR_NINTH, SHARP5, "1", "3", "#5", "7", "9" }
+        };
+    [Theory]
+    [MemberData(nameof(ModifyData))]
+    public void CanModify(Quality start, Modification mod, params string[] intervals)
+    {
+        Assert.Equal(intervals.Select(I), start.Modify(mod).Intervals);
     }
 
     public static IEnumerable<object[]> ApplyPitchData =>

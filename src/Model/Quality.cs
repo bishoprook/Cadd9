@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using static Cadd9.Model.Interval;
 using static Cadd9.Util.ParseHelpers;
 
 namespace Cadd9.Model
@@ -14,20 +15,20 @@ namespace Cadd9.Model
         ///<summary>
         ///  The set of Intervals that define this chord quality
         ///</summary>
-        public ISet<Interval> Intervals { get; }
+        public Interval[] Intervals { get; }
 
         ///<summary>
         ///  Returns a new Quality
         ///</summary>
         ///<param name="intervals">The set of Intervals that define this chord quality</param>
         ///<exception cref="ArgumentException">Thrown if a generic interval appears multiple times</exception>
-        public Quality(ISet<Interval> intervals)
+        public Quality(Interval[] intervals)
         {
-            if (intervals.Select(i => i.Generic).Distinct().Count() != intervals.Count)
+            if (intervals.Select(i => i.Generic).Distinct().Count() != intervals.Count())
             {
-                throw new ArgumentException("All generic intervals must appear only once");
+                throw new ArgumentException("All generic intervals must appear at most once");
             }
-            Intervals = intervals;
+            Intervals = intervals.OrderBy(i => i.Generic).ToArray();
         }
 
         ///<summary>
@@ -39,22 +40,31 @@ namespace Cadd9.Model
         ///  The intervals given in this constructor will be parsed according to the behavior in
         ///  <see cref="Interval.Parse(string)" /> which allows short-hand construction.
         ///</remarks>
-        public Quality(params string[] intervals) : this(intervals.Select(I).ToHashSet()) {}
+        public Quality(params string[] intervals) : this(intervals.Select(I).ToArray()) {}
 
         ///<summary>
         ///  A string representation of this Mode, useful for debugging.
         ///</summary>
-        override public string ToString() =>
-            $"Quality[Intervals={String.Join(",", Intervals.OrderBy(i => i.Generic))}]";
+        override public string ToString() => $"Quality[Intervals={String.Join(",", Intervals.ToList())}]";
 
         ///<summary>
-        ///  Returns a new Quality by adding the given Intervals
+        ///  Returns a new Quality by adding the given Interval
         ///</summary>
-        ///<param name="adds">The Intervals to add</param>
+        ///<param name="add">The Interval to add</param>
         ///<remarks>
         ///  This can be used to create a chord with arbitrary extensions, like 9th, 13th, etc.
         ///</remarks>
-        public Quality Add(params Interval[] adds) => new Quality(Intervals.Union(adds).ToHashSet());
+        public Quality Add(Interval add) => new Quality(Intervals.Append(add).ToArray());
+
+        ///<summary>
+        ///  Returns a new Quality by applying the given Modification.
+        ///</summary>
+        ///<param name="mod">The Modification to apply</param>
+        ///<remarks>
+        ///  This is generally used to modify the 3rd or 5th of the quality, like creating a sus2 or a flat-5 chord.
+        ///</remarks>
+        public Quality Modify(Modification mod) =>
+            new Quality(Intervals.Where(i => i.Generic != mod.Replace).Append(mod.Add).ToArray());
 
         ///<summary>
         ///  Returns a sequence of Notes by applying all of this Quality's Intervals to the given root.
@@ -65,6 +75,40 @@ namespace Cadd9.Model
         ///  Returns a sequence of Pitches by applying all of this Quality's Intervals to the given root.
         ///</summary>
         public IEnumerable<Pitch> Apply(Pitch root) => Intervals.OrderBy(i => i.Generic).Select(i => root.Apply(i));
+
+        #region Modifications
+
+        ///<summary>
+        ///  Encapsulates a modification of a chord quality, usually replacing some interval with another
+        ///</summary>
+        public class Modification
+        {
+            ///<summary>
+            ///  The generic interval to be replaced by this modification
+            ///</summary>
+            public int Replace { get; }
+
+            ///<summary>
+            ///  The interval that is added as part of this modification
+            ///</summary>
+            public Interval Add { get; }
+
+            ///<summary>
+            ///  Returns a new Modification
+            ///</summary>
+            public Modification(int replace, Interval add)
+            {
+                Replace = replace;
+                Add = add;
+            }
+
+            public static readonly Modification SUS2 = new Modification(2, MAJOR_SECOND);
+            public static readonly Modification SUS4 = new Modification(2, PERFECT_FOURTH);
+            public static readonly Modification FLAT5 = new Modification(4, DIMINISHED_FIFTH);
+            public static readonly Modification SHARP5 = new Modification(4, AUGMENTED_FIFTH);
+        }
+
+        #endregion
 
         #region Value equality
 

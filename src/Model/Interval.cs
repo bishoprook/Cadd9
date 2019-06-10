@@ -345,6 +345,7 @@ namespace Cadd9.Model
         public static readonly Interval AUGMENTED_FOURTH = new Interval(3, 6);
         public static readonly Interval DIMINISHED_FIFTH = new Interval(4, 6);
         public static readonly Interval PERFECT_FIFTH = new Interval(4, 7);
+        public static readonly Interval AUGMENTED_FIFTH = new Interval(4, 8);
         public static readonly Interval MINOR_SIXTH = new Interval(5, 8);
         public static readonly Interval MAJOR_SIXTH = new Interval(5, 9);
         public static readonly Interval DIMINISHED_SEVENTH = new Interval(6, 9);

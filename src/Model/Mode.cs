@@ -94,7 +94,7 @@ namespace Cadd9.Model
             var intervals = Ascend().Skip(degree).EveryN(2).Take(width);
             var root = intervals.First();
             
-            return new Quality(intervals.Select(i => i - root).ToHashSet());
+            return new Quality(intervals.Select(i => i - root).ToArray());
         }
 
         ///<summary>

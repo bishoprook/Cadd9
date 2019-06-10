@@ -8,7 +8,7 @@ using static Cadd9.Model.Accidental;
 namespace Cadd9.Model
 {
     ///<summary>
-    ///  Represents a note Name with an associated modifying Accidental.
+    ///  Represents a note <see cref="Name"/> with an associated modifying <see cref="Accidental"/>.
     ///</summary>
     public class Note : IEquatable<Note>
     {
@@ -64,9 +64,6 @@ namespace Cadd9.Model
         ///<param name="interval">The width between the current Note and the new Note to be generated.</param>
         public Note Apply(Interval interval)
         {
-            // Names are enumerated starting at C, and by convention, so are octave numbers. Thus, the number of octaves
-            // shifted by this interval is entirely dependent on the number of times the name "wraps around" back to
-            // C=0.
             Name nextName = (Name) ((int) Name + interval.Generic).Modulus(NAMES_PER_OCTAVE);
 
             // A generic interval implicates a certain specific interval based on the distance between those natural

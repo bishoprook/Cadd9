@@ -51,6 +51,10 @@
   - [Scale()](#M-Cadd9-Model-Mode-Scale-Cadd9-Model-Note- 'Cadd9.Model.Mode.Scale(Cadd9.Model.Note)')
   - [Scale()](#M-Cadd9-Model-Mode-Scale-Cadd9-Model-Pitch- 'Cadd9.Model.Mode.Scale(Cadd9.Model.Pitch)')
   - [ToString()](#M-Cadd9-Model-Mode-ToString 'Cadd9.Model.Mode.ToString')
+- [Modification](#T-Cadd9-Model-Quality-Modification 'Cadd9.Model.Quality.Modification')
+  - [#ctor()](#M-Cadd9-Model-Quality-Modification-#ctor-System-Int32,Cadd9-Model-Interval- 'Cadd9.Model.Quality.Modification.#ctor(System.Int32,Cadd9.Model.Interval)')
+  - [Add](#P-Cadd9-Model-Quality-Modification-Add 'Cadd9.Model.Quality.Modification.Add')
+  - [Replace](#P-Cadd9-Model-Quality-Modification-Replace 'Cadd9.Model.Quality.Modification.Replace')
 - [Name](#T-Cadd9-Model-Name 'Cadd9.Model.Name')
 - [Note](#T-Cadd9-Model-Note 'Cadd9.Model.Note')
   - [#ctor(name,accidental)](#M-Cadd9-Model-Note-#ctor-Cadd9-Model-Name,Cadd9-Model-Accidental- 'Cadd9.Model.Note.#ctor(Cadd9.Model.Name,Cadd9.Model.Accidental)')
@@ -85,14 +89,15 @@
   - [ToString()](#M-Cadd9-Model-Pitch-ToString 'Cadd9.Model.Pitch.ToString')
   - [Transpose(octaves)](#M-Cadd9-Model-Pitch-Transpose-System-Int32- 'Cadd9.Model.Pitch.Transpose(System.Int32)')
 - [Quality](#T-Cadd9-Model-Quality 'Cadd9.Model.Quality')
-  - [#ctor(intervals)](#M-Cadd9-Model-Quality-#ctor-System-Collections-Generic-ISet{Cadd9-Model-Interval}- 'Cadd9.Model.Quality.#ctor(System.Collections.Generic.ISet{Cadd9.Model.Interval})')
+  - [#ctor(intervals)](#M-Cadd9-Model-Quality-#ctor-Cadd9-Model-Interval[]- 'Cadd9.Model.Quality.#ctor(Cadd9.Model.Interval[])')
   - [#ctor(intervals)](#M-Cadd9-Model-Quality-#ctor-System-String[]- 'Cadd9.Model.Quality.#ctor(System.String[])')
   - [Intervals](#P-Cadd9-Model-Quality-Intervals 'Cadd9.Model.Quality.Intervals')
-  - [Add(adds)](#M-Cadd9-Model-Quality-Add-Cadd9-Model-Interval[]- 'Cadd9.Model.Quality.Add(Cadd9.Model.Interval[])')
+  - [Add(add)](#M-Cadd9-Model-Quality-Add-Cadd9-Model-Interval- 'Cadd9.Model.Quality.Add(Cadd9.Model.Interval)')
   - [Apply()](#M-Cadd9-Model-Quality-Apply-Cadd9-Model-Note- 'Cadd9.Model.Quality.Apply(Cadd9.Model.Note)')
   - [Apply()](#M-Cadd9-Model-Quality-Apply-Cadd9-Model-Pitch- 'Cadd9.Model.Quality.Apply(Cadd9.Model.Pitch)')
   - [Equals(other)](#M-Cadd9-Model-Quality-Equals-Cadd9-Model-Quality- 'Cadd9.Model.Quality.Equals(Cadd9.Model.Quality)')
   - [GetHashCode()](#M-Cadd9-Model-Quality-GetHashCode 'Cadd9.Model.Quality.GetHashCode')
+  - [Modify(mod)](#M-Cadd9-Model-Quality-Modify-Cadd9-Model-Quality-Modification- 'Cadd9.Model.Quality.Modify(Cadd9.Model.Quality.Modification)')
   - [ToString()](#M-Cadd9-Model-Quality-ToString 'Cadd9.Model.Quality.ToString')
 
 <a name='T-Cadd9-Model-Accidental'></a>
@@ -803,6 +808,42 @@ A string representation of this Mode, useful for debugging.
 
 This method has no parameters.
 
+<a name='T-Cadd9-Model-Quality-Modification'></a>
+## Modification `type`
+
+##### Namespace
+
+Cadd9.Model.Quality
+
+##### Summary
+
+Encapsulates a modification of a chord quality, usually replacing some interval with another
+
+<a name='M-Cadd9-Model-Quality-Modification-#ctor-System-Int32,Cadd9-Model-Interval-'></a>
+### #ctor() `constructor`
+
+##### Summary
+
+Returns a new Modification
+
+##### Parameters
+
+This constructor has no parameters.
+
+<a name='P-Cadd9-Model-Quality-Modification-Add'></a>
+### Add `property`
+
+##### Summary
+
+The interval that is added as part of this modification
+
+<a name='P-Cadd9-Model-Quality-Modification-Replace'></a>
+### Replace `property`
+
+##### Summary
+
+The generic interval to be replaced by this modification
+
 <a name='T-Cadd9-Model-Name'></a>
 ## Name `type`
 
@@ -823,7 +864,7 @@ Cadd9.Model
 
 ##### Summary
 
-Represents a note Name with an associated modifying Accidental.
+Represents a note [Name](#P-Cadd9-Model-Note-Name 'Cadd9.Model.Note.Name') with an associated modifying [Accidental](#P-Cadd9-Model-Note-Accidental 'Cadd9.Model.Note.Accidental').
 
 <a name='M-Cadd9-Model-Note-#ctor-Cadd9-Model-Name,Cadd9-Model-Accidental-'></a>
 ### #ctor(name,accidental) `constructor`
@@ -1242,7 +1283,7 @@ Cadd9.Model
 
 Represents a particular chord quality that may be applied with any given root
 
-<a name='M-Cadd9-Model-Quality-#ctor-System-Collections-Generic-ISet{Cadd9-Model-Interval}-'></a>
+<a name='M-Cadd9-Model-Quality-#ctor-Cadd9-Model-Interval[]-'></a>
 ### #ctor(intervals) `constructor`
 
 ##### Summary
@@ -1253,7 +1294,7 @@ Returns a new Quality
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| intervals | [System.Collections.Generic.ISet{Cadd9.Model.Interval}](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Collections.Generic.ISet 'System.Collections.Generic.ISet{Cadd9.Model.Interval}') | The set of Intervals that define this chord quality |
+| intervals | [Cadd9.Model.Interval[]](#T-Cadd9-Model-Interval[] 'Cadd9.Model.Interval[]') | The set of Intervals that define this chord quality |
 
 ##### Exceptions
 
@@ -1292,18 +1333,18 @@ The intervals given in this constructor will be parsed according to the behavior
 
 The set of Intervals that define this chord quality
 
-<a name='M-Cadd9-Model-Quality-Add-Cadd9-Model-Interval[]-'></a>
-### Add(adds) `method`
+<a name='M-Cadd9-Model-Quality-Add-Cadd9-Model-Interval-'></a>
+### Add(add) `method`
 
 ##### Summary
 
-Returns a new Quality by adding the given Intervals
+Returns a new Quality by adding the given Interval
 
 ##### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| adds | [Cadd9.Model.Interval[]](#T-Cadd9-Model-Interval[] 'Cadd9.Model.Interval[]') | The Intervals to add |
+| add | [Cadd9.Model.Interval](#T-Cadd9-Model-Interval 'Cadd9.Model.Interval') | The Interval to add |
 
 ##### Remarks
 
@@ -1355,6 +1396,23 @@ Produces a high-entropy hash code such that two value-equivalent Qualities are g
 ##### Parameters
 
 This method has no parameters.
+
+<a name='M-Cadd9-Model-Quality-Modify-Cadd9-Model-Quality-Modification-'></a>
+### Modify(mod) `method`
+
+##### Summary
+
+Returns a new Quality by applying the given Modification.
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| mod | [Cadd9.Model.Quality.Modification](#T-Cadd9-Model-Quality-Modification 'Cadd9.Model.Quality.Modification') | The Modification to apply |
+
+##### Remarks
+
+This is generally used to modify the 3rd or 5th of the quality, like creating a sus2 or a flat-5 chord.
 
 <a name='M-Cadd9-Model-Quality-ToString'></a>
 ### ToString() `method`
