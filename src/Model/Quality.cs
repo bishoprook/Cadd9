@@ -157,6 +157,8 @@ namespace Cadd9.Model
         public static Quality NINTH = new Quality("1", "3", "5", "b7", "#9");
         public static Quality SEVENTH_SHARP_NINE = new Quality("1", "3", "5", "b7", "#9");
         public static Quality MAJOR_NINTH = new Quality("1", "3", "5", "7", "9");
+        public static Quality SUS2_TRIAD = new Quality("1", "2", "5");
+        public static Quality SUS4_TRIAD = new Quality("1", "4", "5");
 
         #endregion
     }
