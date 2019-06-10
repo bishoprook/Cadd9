@@ -1,5 +1,8 @@
 namespace Cadd9.Model
 {
+    ///<summary>
+    ///  Defines several frequently-used music theory constants.
+    ///</summary>
     public static class Constants
     {
         public const int SEMITONES_PER_OCTAVE = 12;

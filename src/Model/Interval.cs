@@ -13,27 +13,32 @@ using static Cadd9.Model.Name;
 namespace Cadd9.Model
 {
     ///<summary>
-    ///Represents a musical width between notes or pitches.
+    ///  Represents a musical width between notes or pitches.
     ///</summary>
     public class Interval : IEquatable<Interval>
     {
         ///<summary>
-        ///The number of note names shifted between the bottom and top of this Interval:
-        ///for example a minor third, major third, and augmented third would all have
-        ///a Generic value of 2, and when applied to a C with any accidentals will produce
-        ///an E with accidentals determined by this Interval's <c>Specific</c> value.
+        ///  The number of note names shifted between the bottom and top of this Interval.
         ///</summary>
+        ///<remarks>
+        ///  This property is independent of the actual pitch difference of the interval. For example a minor third,
+        ///  major third, and augmented third would all have a Generic value of 2, and when applied to a C with any
+        ///  accidentals will produce an E with accidentals determined by this Interval's <c>Specific</c> value.
+        ///</remarks>
         public int Generic { get; }
 
         ///<summary>
-        ///The number of semitones shifted between the bottom and top of this Interval.
-        ///For example, a minor third and augmented second both have a Specific value of 3,
-        ///because both move up 3 semitones, like from C to E♭/D♯ respectively.
+        ///  The number of semitones shifted between the bottom and top of this Interval.
         ///</summary>
+        ///<remarks>
+        ///  This property is independent of the change in names for the interval. For example, a minor third and
+        ///  augmented second both have a Specific value of 3, because both move up 3 semitones, though they would go
+        ///  from C to E♭/D♯ respectively.
+        ///</remarks>
         public int Specific { get; }
 
         ///<summary>
-        ///Creates an Interval with the given generic and specific widths.
+        ///  Creates an Interval with the given generic and specific widths.
         ///</summary>
         ///<param name="generic">The number of note names spanned by the interval</param>
         ///<param name="specific">The number of semitones spanned by the interval</param>
@@ -44,12 +49,12 @@ namespace Cadd9.Model
         }
 
         ///<summary>
-        ///A string representation of this Interval, useful for debugging.
+        ///  A string representation of this Interval, useful for debugging.
         ///</summary>
         override public string ToString() => $"Interval[Generic={Generic}, Specific={Specific}]";
 
         ///<summary>
-        ///A long-form formatted description of the interval, like "Perfect Fourth"
+        ///  A long-form formatted description of the interval, like "Perfect Fourth"
         ///</summary>
         public string Description
         {
@@ -66,7 +71,7 @@ namespace Cadd9.Model
         }
 
         ///<summary>
-        ///A short formatted description of the interval, like "P4"
+        ///  A short formatted description of the interval, like "P4"
         ///</summary>
         public string Abbreviation
         {
@@ -83,19 +88,18 @@ namespace Cadd9.Model
         }
 
         ///<summary>
-        ///Returns the name of an interval with the given generic width, for example
-        ///0 -> "Unison", 4 -> "Fifth", 22 -> "23rd"
+        ///  Returns the name of an interval with the given generic width
         ///</summary>
         private static string GenericIntervalName(int generic) =>
-            generic < GENERIC_INTERVAL_NAMES.Length ?
-                GENERIC_INTERVAL_NAMES[generic] :
-                (generic + 1).Ordinal();
+            generic < GENERIC_INTERVAL_NAMES.Length ? GENERIC_INTERVAL_NAMES[generic] : (generic + 1).Ordinal();
 
         ///<summary>
-        ///Parses the given input using "formal" notation: "P4" for a perfect fourth, "m3" for a
-        ///minor third, etc. Returns null if the input cannot be parsed accordingly.
+        ///  Parses the given input using "formal" notation, or null if it cannot be parsed accordingly
         ///</summary>
         ///<exception cref="ArgumentException">If an illegal modifier is supplied for the interval</exception>
+        ///<remarks>
+        ///  "Formal" notation indicates "P4" for a perfect fourth, "m3" for a minor third, etc.
+        ///</remarks>
         private static Interval ParseFormal(string input)
         {
             var match = Regex.Match(input, @"^([PdmMA])(\d+)$");
@@ -128,9 +132,12 @@ namespace Cadd9.Model
         }
 
         ///<summary>
-        ///Parses the given input using "simple" notation: "3" for a major third, "b5" for a flat fifth,
-        ///etc. This format is commonly used to describe the component intervals of chords.
+        ///  Parses the given input using "simple" notation, or returns null if it cannot be parsed accordingly
         ///</summary>
+        ///<remarks>
+        ///  This notation uses "3" for a major third, "b5" for a flat fifth, etc. Commonly used to describe the
+        ///  component intervals of chords.
+        ///</remarks>
         private static Interval ParseSimple(string input)
         {
             var match = Regex.Match(input, @"^([b#]*)(\d+)$");
@@ -152,15 +159,17 @@ namespace Cadd9.Model
         }
 
         ///<summary>
-        ///Returns a new Interval by parsing the given string input. Two formats are accepted:
-        ///Formal, like <c>P4</c> and <c>d3</c>, or simple, like <c>b5</c> and <c>#9</c>. If
-        ///the simple form is used, then the major/perfect matching interval is sharped the
-        ///given number of times. The formal form understands (P)erfect, (d)iminished,
-        ///(m)inor, (M)ajor, and (A)ugmented descriptors for each interval.
+        ///  Returns a new Interval by parsing the given string input.
         ///</summary>
         ///<param name="input">The input to parse</param>
         ///<exception cref="FormatException">The given input cannot be parsed</exception>
         ///<exception cref="ArgumentException">If an illegal modifier is supplied for the interval</exception>
+        ///<remarks>
+        ///  Two formats are accepted: Formal, like <c>P4</c> and <c>d3</c>, or simple, like <c>b5</c> and <c>#9</c>. If
+        ///  the simple form is used, then the major/perfect matching interval is sharped the given number of times. The
+        ///  formal form understands (P)erfect, (d)iminished, (m)inor, (M)ajor, and (A)ugmented descriptors for each
+        ///  interval as appropriate.
+        ///</remarks>
         public static Interval Parse(string input)
         {
             var formal = ParseFormal(input);
@@ -179,23 +188,25 @@ namespace Cadd9.Model
         }
 
         ///<summary>
-        ///Returns true if <c>other</c> is enharmonically equivalent to this interval, or in
-        ///other words, the two intervals have the same specific width. Perfect unison and
-        ///diminished second, for example, are enharmonic despite having different generic
-        ///widths.
+        ///  Returns true if <c>other</c> is enharmonically equivalent to this interval.
         ///</summary>
         ///<param name="other">The other Interval to compare</param>
+        ///<remarks>
+        ///  Two intervals are enharmonic if they have the same specific width. Perfect unison and diminished second,
+        ///  for example, are enharmonic despite having different generic widths.
+        ///</remarks>
         public bool Enharmonic(Interval other) => Specific == other.Specific;
 
         ///<summary>
-        ///Returns a new Interval representing the width between two <c>Name</c>s. It is
-        ///always assumed that the interval is going up from first to second: C to B would
-        ///give an interval of a major seventh (despite being much closer to go down a
-        ///minor second). Also for this reason, this method will always produce an interval
-        ///between unison (inclusive) and an octave (exclusive).
+        ///  Returns a new Interval representing the width between two <see cref="Name"/>s.
         ///</summary>
-        ///<param name="first">The lower Name to compare</param>
-        ///<param name="second">The higher Name to compare</param>
+        ///<param name="first">The lower <see cref="Name"/> to compare</param>
+        ///<param name="second">The higher <see cref="Name"/> to compare</param>
+        ///<remarks>
+        ///  It is always assumed that the interval is going up from first to second: C to B would give an interval of a
+        ///  major seventh (despite being much closer to go down a minor second). Also for this reason, this method will
+        ///  always produce an interval between unison (inclusive) and an octave (exclusive).
+        ///</remarks>
         public static Interval Between(Name first, Name second)
         {
             var generic = (second - first).Modulus(NAMES_PER_OCTAVE);
@@ -205,30 +216,33 @@ namespace Cadd9.Model
         }
 
         ///<summary>
-        ///Returns a new Interval representing the width between two <c>Note</c>s. It is
-        ///always assumed that the interval is going up from first to second: C♯ to B would
-        ///give an interval of a minor seventh (despite being much closer to go down a
-        ///major second). Also for this reason, this method will always produce an interval
-        ///between unison (inclusive) and an octave (exclusive).
+        ///  Returns a new Interval representing the width between two <see cref="Note"/>s.
         ///</summary>
-        ///<param name="first">The lower Note to compare</param>
-        ///<param name="second">The higher Note to compare</param>
+        ///<param name="first">The lower <see cref="Note"/> to compare</param>
+        ///<param name="second">The higher <see cref="Note"/> to compare</param>
+        ///<remarks>
+        ///  It is always assumed that the interval is going up from first to second: C♯ to B would give an interval of
+        ///  a minor seventh (despite being much closer to go down a major second). Also for this reason, this method
+        ///  will always produce an interval between unison (inclusive) and an octave (exclusive).
+        ///</remarks>
         public static Interval Between(Note first, Note second)
         {
-            int generic = (second.Name - first.Name).Modulus(NAMES_PER_OCTAVE);
-            int firstPC = MAJOR_SPECIFIC_INTERVAL[(int) first.Name] + first.Accidental.Semitones;
-            int secondPC = MAJOR_SPECIFIC_INTERVAL[(int) second.Name] + second.Accidental.Semitones;
-            int specific = (secondPC - firstPC).Modulus(SEMITONES_PER_OCTAVE);
+            var generic = (second.Name - first.Name).Modulus(NAMES_PER_OCTAVE);
+            var firstPC = MAJOR_SPECIFIC_INTERVAL[(int) first.Name] + first.Accidental.Semitones;
+            var secondPC = MAJOR_SPECIFIC_INTERVAL[(int) second.Name] + second.Accidental.Semitones;
+            var specific = (secondPC - firstPC).Modulus(SEMITONES_PER_OCTAVE);
             return new Interval(generic, specific);
         }
 
         ///<summary>
-        ///Returns a new Interval representing the width between two <c>Pitch</c>es. It is
-        ///always assumed that the interval is going up from first to second: C♯3 to B4 would
-        ///give an interval of a minor fifteenth.
+        ///  Returns a new Interval representing the width between two <see cref="Pitch"/>es.
         ///</summary>
-        ///<param name="first">The lower Pitch to compare</param>
-        ///<param name="second">The higher Pitch to compare</param>
+        ///<param name="first">The lower <see cref="Pitch"/> to compare</param>
+        ///<param name="second">The higher <see cref="Pitch"/> to compare</param>
+        ///<remarks>
+        ///  It is always assumed that the interval is going up from first to second: C♯3 to B4 would give an interval
+        ///  of a minor fifteenth.
+        ///</remarks>
         public static Interval Between(Pitch first, Pitch second)
         {
             int specific = second.Midi - first.Midi;
@@ -238,16 +252,20 @@ namespace Cadd9.Model
         }
 
         ///<summary>
-        ///Creates a new compound Interval by combining two others. For example, adding together
-        ///a perfect octave and a perfect fifth produces a perfect thirteenth.
+        ///  Creates a new compound Interval by combining two others.
         ///</summary>
+        ///<remarks>
+        ///  For example, adding together a perfect octave and a perfect fifth produces a perfect thirteenth.
+        ///</remarks>
         public static Interval operator +(Interval a, Interval b) =>
             new Interval(a.Generic + b.Generic, a.Specific + b.Specific);
 
         ///<summary>
-        ///Creates a new compound Interval by subtracting one from the other. For example,
-        ///subtracting a minor second from a perfect octave produces a major seventh.
+        ///  Creates a new compound Interval by subtracting one from the other.
         ///</summary>
+        ///<remarks>
+        ///  For example, subtracting a minor second from a perfect octave produces a major seventh.
+        ///</remarks>
         public static Interval operator-(Interval a, Interval b) =>
             new Interval(a.Generic - b.Generic, a.Specific - b.Specific);
 
@@ -287,7 +305,7 @@ namespace Cadd9.Model
 
         #region Value equality
         ///<summary>
-        ///Determines whether two Intervals are value-equivalent
+        ///  Determines whether two Intervals are value-equivalent
         ///</summary>
         ///<param name="other">The Intervals to compare</param>
         public bool Equals(Interval other) =>
@@ -297,8 +315,8 @@ namespace Cadd9.Model
         private static readonly int HASH_CODE_STEP = 223;
 
         ///<summary>
-        ///Produces a high-entropy hash code such that two value-equivalent
-        ///Intervals are guaranteed to produce the same result.
+        ///  Produces a high-entropy hash code such that two value-equivalent Intervals are guaranteed to produce the
+        ///  same result.
         ///</summary>
         override public int GetHashCode()
         {
