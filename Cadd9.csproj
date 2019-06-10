@@ -3,7 +3,7 @@
   <PropertyGroup>
     <PackageId>Cadd9</PackageId>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Version>0.0.1</Version>
+    <Version>0.0.2</Version>
     <Authors>bishoprook</Authors>
     <Company></Company>
     <OutputType>Library</OutputType>
