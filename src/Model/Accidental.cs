@@ -124,6 +124,7 @@ namespace Cadd9.Model
         #endregion
 
         #region Typical values
+        #pragma warning disable CS1591
 
         public static readonly Accidental NATURAL = new Accidental(0);
         public static readonly Accidental SHARP = new Accidental(1);
@@ -131,6 +132,7 @@ namespace Cadd9.Model
         public static readonly Accidental FLAT = new Accidental(-1);
         public static readonly Accidental DOUBLE_FLAT = new Accidental(-2);
         
+        #pragma warning restore CS1591
         #endregion
     }
 }

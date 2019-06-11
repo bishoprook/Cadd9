@@ -332,6 +332,7 @@ namespace Cadd9.Model
         #endregion
 
         #region Typical values
+        #pragma warning disable CS1591
 
         public static readonly Interval PERFECT_UNISON = new Interval(0, 0);
         public static readonly Interval DIMINISHED_SECOND = new Interval(1, 0);
@@ -357,6 +358,7 @@ namespace Cadd9.Model
         public static readonly Interval MAJOR_THIRTEENTH = new Interval(12, 21);
         public static readonly Interval PERFECT_FIFTEENTH = new Interval(14, 24);
 
+        #pragma warning restore CS1591
         #endregion
     }
 }

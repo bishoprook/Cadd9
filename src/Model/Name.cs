@@ -1,5 +1,7 @@
 namespace Cadd9.Model
 {
+    #pragma warning disable CS1591
+
     ///<summary>
     ///  An enumeration of the seven note Names used in Western tonal music.
     ///</summary>
@@ -7,4 +9,6 @@ namespace Cadd9.Model
     {
         C, D, E, F, G, A, B
     }
+
+    #pragma warning restore CS1591
 }

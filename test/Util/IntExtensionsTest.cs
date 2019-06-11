@@ -1,6 +1,8 @@
 using Cadd9.Util;
 using Xunit;
 
+#pragma warning disable CS1591
+
 public class IntExtensionsTest
 {
     [Theory]
@@ -25,3 +27,5 @@ public class IntExtensionsTest
         Assert.Equal(expected, operand.Demodulus(modulus));
     }
 }
+
+#pragma warning restore CS1591

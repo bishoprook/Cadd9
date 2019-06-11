@@ -10,6 +10,8 @@ using static Cadd9.Model.Quality;
 using static Cadd9.Model.Name;
 using static Cadd9.Util.ParseHelpers;
 
+#pragma warning disable CS1591
+
 public class ModeTest
 {
     public static IEnumerable<object[]> ModeShifts =>
@@ -78,3 +80,5 @@ public class ModeTest
         Assert.Equal(expected, mode.AccidentalFor(key, name));
     }
 }
+
+#pragma warning restore CS1591

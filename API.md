@@ -13,6 +13,10 @@
   - [Parse(input)](#M-Cadd9-Model-Accidental-Parse-System-String- 'Cadd9.Model.Accidental.Parse(System.String)')
   - [ToString()](#M-Cadd9-Model-Accidental-ToString 'Cadd9.Model.Accidental.ToString')
 - [Constants](#T-Cadd9-Model-Constants 'Cadd9.Model.Constants')
+  - [MIDDLE_C_MIDI_NUMBER](#F-Cadd9-Model-Constants-MIDDLE_C_MIDI_NUMBER 'Cadd9.Model.Constants.MIDDLE_C_MIDI_NUMBER')
+  - [MIDDLE_C_OCTAVE](#F-Cadd9-Model-Constants-MIDDLE_C_OCTAVE 'Cadd9.Model.Constants.MIDDLE_C_OCTAVE')
+  - [NAMES_PER_OCTAVE](#F-Cadd9-Model-Constants-NAMES_PER_OCTAVE 'Cadd9.Model.Constants.NAMES_PER_OCTAVE')
+  - [SEMITONES_PER_OCTAVE](#F-Cadd9-Model-Constants-SEMITONES_PER_OCTAVE 'Cadd9.Model.Constants.SEMITONES_PER_OCTAVE')
 - [EnumerableExtensions](#T-Cadd9-Util-EnumerableExtensions 'Cadd9.Util.EnumerableExtensions')
   - [EveryN\`\`1()](#M-Cadd9-Util-EnumerableExtensions-EveryN``1-System-Collections-Generic-IEnumerable{``0},System-Int32- 'Cadd9.Util.EnumerableExtensions.EveryN``1(System.Collections.Generic.IEnumerable{``0},System.Int32)')
 - [IntExtensions](#T-Cadd9-Util-IntExtensions 'Cadd9.Util.IntExtensions')
@@ -88,6 +92,8 @@
   - [Parse(input)](#M-Cadd9-Model-Pitch-Parse-System-String- 'Cadd9.Model.Pitch.Parse(System.String)')
   - [ToString()](#M-Cadd9-Model-Pitch-ToString 'Cadd9.Model.Pitch.ToString')
   - [Transpose(octaves)](#M-Cadd9-Model-Pitch-Transpose-System-Int32- 'Cadd9.Model.Pitch.Transpose(System.Int32)')
+- [Program](#T-Program 'Program')
+  - [Main()](#M-Program-Main-System-String[]- 'Program.Main(System.String[])')
 - [Quality](#T-Cadd9-Model-Quality 'Cadd9.Model.Quality')
   - [#ctor(intervals)](#M-Cadd9-Model-Quality-#ctor-Cadd9-Model-Interval[]- 'Cadd9.Model.Quality.#ctor(Cadd9.Model.Interval[])')
   - [#ctor(intervals)](#M-Cadd9-Model-Quality-#ctor-System-String[]- 'Cadd9.Model.Quality.#ctor(System.String[])')
@@ -228,6 +234,55 @@ Cadd9.Model
 ##### Summary
 
 Defines several frequently-used music theory constants.
+
+<a name='F-Cadd9-Model-Constants-MIDDLE_C_MIDI_NUMBER'></a>
+### MIDDLE_C_MIDI_NUMBER `constants`
+
+##### Summary
+
+The MIDI note number corresponding to middle C
+
+##### Remarks
+
+This is not a universal definition. In fact as far as the MIDI standard is concerned, the note numbers are
+  not strictly related to any musical pitches. They are simply a set of 127 sequential numbers that can be
+  turned on and off with control messages. But 60 is used by most device manufacturers.
+
+<a name='F-Cadd9-Model-Constants-MIDDLE_C_OCTAVE'></a>
+### MIDDLE_C_OCTAVE `constants`
+
+##### Summary
+
+The octave number of middle C
+
+##### Remarks
+
+There is no universal definition: middle C is also sometimes labeled as C3.
+
+<a name='F-Cadd9-Model-Constants-NAMES_PER_OCTAVE'></a>
+### NAMES_PER_OCTAVE `constants`
+
+##### Summary
+
+The number of note names per octave
+
+##### Remarks
+
+Western tonal music is built around the diatonic scale, which is a heptatonic scale (containing seven
+  tones) arranged so there are 2 half-steps (single semitone) and 5 whole-steps (two semitones) separating
+  each. The arrangement of steps and half-steps determines the [Mode](#T-Cadd9-Model-Mode 'Cadd9.Model.Mode') of the scale.
+
+<a name='F-Cadd9-Model-Constants-SEMITONES_PER_OCTAVE'></a>
+### SEMITONES_PER_OCTAVE `constants`
+
+##### Summary
+
+The number of semitones per octave
+
+##### Remarks
+
+In Western tonal music using equal temperament, an octave is a doubling of frequency, and it is further
+  subdivided into 12 semitones where each is in a 2^(1/12):1 ratio with the one before it.
 
 <a name='T-Cadd9-Util-EnumerableExtensions'></a>
 ## EnumerableExtensions `type`
@@ -1271,6 +1326,33 @@ Returns a new Note transposed by the given number of octaves.
 ##### Remarks
 
 If `octaves` is positive, the pitch will increase. If negative, it will decrease.
+
+<a name='T-Program'></a>
+## Program `type`
+
+##### Namespace
+
+
+
+##### Summary
+
+Empty program class
+
+##### Remarks
+
+Exists only to allow the library to compile successfully. For some reason, netcoreapp2.2 class libraries still
+  require a class with a Main method.
+
+<a name='M-Program-Main-System-String[]-'></a>
+### Main() `method`
+
+##### Summary
+
+Empty main method
+
+##### Parameters
+
+This method has no parameters.
 
 <a name='T-Cadd9-Model-Quality'></a>
 ## Quality `type`

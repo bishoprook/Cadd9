@@ -10,6 +10,8 @@ using static Cadd9.Model.Accidental;
 using static Cadd9.Model.Mode;
 using static Cadd9.Util.ParseHelpers;
 
+#pragma warning disable CS1591
+
 public class PitchTest
 {
     [Theory]
@@ -78,3 +80,5 @@ public class PitchTest
         Assert.Throws<FormatException>(() => Pitch.Parse(input));
     }
 }
+
+#pragma warning restore CS1591

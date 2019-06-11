@@ -174,6 +174,7 @@ namespace Cadd9.Model
         #endregion
 
         #region Typical values
+        #pragma warning disable CS1591
 
         public static readonly Mode IONIAN = new Mode("Ionian (Major)", "P1", "M2", "M3", "P4", "P5", "M6", "M7");
         public static readonly Mode DORIAN = new Mode("Dorian", "P1", "M2", "m3", "P4", "P5", "M6", "m7");
@@ -185,6 +186,7 @@ namespace Cadd9.Model
         public static readonly Mode MAJOR = IONIAN;
         public static readonly Mode MINOR = AEOLIAN;
 
+        #pragma warning restore CS1591
         #endregion
     }
 }

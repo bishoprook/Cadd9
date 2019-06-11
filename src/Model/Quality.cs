@@ -102,10 +102,14 @@ namespace Cadd9.Model
                 Add = add;
             }
 
+            #pragma warning disable CS1591
+
             public static readonly Modification SUS2 = new Modification(2, MAJOR_SECOND);
             public static readonly Modification SUS4 = new Modification(2, PERFECT_FOURTH);
             public static readonly Modification FLAT5 = new Modification(4, DIMINISHED_FIFTH);
             public static readonly Modification SHARP5 = new Modification(4, AUGMENTED_FIFTH);
+
+            #pragma warning restore CS1591
         }
 
         #endregion
@@ -141,6 +145,7 @@ namespace Cadd9.Model
         #endregion
 
         #region Typical values
+        #pragma warning disable CS1591
 
         public static Quality MAJOR_TRIAD = new Quality("1", "3", "5");
         public static Quality MINOR_TRIAD = new Quality("1", "b3", "5");
@@ -160,6 +165,7 @@ namespace Cadd9.Model
         public static Quality SUS2_TRIAD = new Quality("1", "2", "5");
         public static Quality SUS4_TRIAD = new Quality("1", "4", "5");
 
+        #pragma warning restore CS1591
         #endregion
     }
 }

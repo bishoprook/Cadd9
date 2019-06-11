@@ -9,6 +9,8 @@ using static Cadd9.Model.Quality;
 using static Cadd9.Model.Quality.Modification;
 using static Cadd9.Util.ParseHelpers;
 
+#pragma warning disable CS1591
+
 public class ChordTest
 {
     public static IEnumerable<object[]> AddExtensionData =>
@@ -53,3 +55,5 @@ public class ChordTest
         Assert.Equal(expected.Select(p => p.Note).ToList(), chord.Apply(root.Note).ToList());
     }
 }
+
+#pragma warning restore CS1591

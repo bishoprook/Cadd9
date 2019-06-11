@@ -12,6 +12,8 @@ using static Cadd9.Model.Name;
 using static Cadd9.Model.Accidental;
 using static Cadd9.Util.ParseHelpers;
 
+#pragma warning disable CS1591
+
 public class IntervalTest
 {
     public static IEnumerable<object[]> BetweenNameData =>
@@ -155,3 +157,5 @@ public class IntervalTest
         Assert.Equal(circleOfFifths, result);
     }
 }
+
+#pragma warning restore CS1591
