@@ -57,14 +57,22 @@ namespace Cadd9.Model
         public Quality Add(Interval add) => new Quality(Intervals.Append(add).ToArray());
 
         ///<summary>
-        ///  Returns a new Quality by applying the given Modification.
+        ///  Returns a new Quality by applying the given Alteration.
         ///</summary>
-        ///<param name="mod">The Modification to apply</param>
+        ///<param name="alt">The Alteration to apply</param>
         ///<remarks>
         ///  This is generally used to modify the 3rd or 5th of the quality, like creating a sus2 or a flat-5 chord.
         ///</remarks>
-        public Quality Modify(Modification mod) =>
-            new Quality(Intervals.Where(i => i.Generic != mod.Replace).Append(mod.Add).ToArray());
+        public Quality Alter(Alteration alt) {
+            IEnumerable<Interval> newIntervals = Intervals;
+            if (alt.Drop.HasValue) {
+                newIntervals = newIntervals.Where(i => i.Generic != alt.Drop.Value);
+            }
+            if (alt.Add != null) {
+                newIntervals = newIntervals.Append(alt.Add);
+            }
+            return new Quality(newIntervals.ToArray());
+        }
 
         ///<summary>
         ///  Returns a sequence of Notes by applying all of this Quality's Intervals to the given root.
@@ -76,38 +84,53 @@ namespace Cadd9.Model
         ///</summary>
         public IEnumerable<Pitch> Apply(Pitch root) => Intervals.OrderBy(i => i.Generic).Select(i => root.Apply(i));
 
-        #region Modifications
+        #region Alterations
 
         ///<summary>
-        ///  Encapsulates a modification of a chord quality, usually replacing some interval with another
+        ///  Encapsulates an alteration of a chord quality, by dropping, adding, or replacing some intervals.
         ///</summary>
-        public class Modification
+        public class Alteration
         {
             ///<summary>
-            ///  The generic interval to be replaced by this modification
+            ///  The generic interval to be removed by this modification, or null if nothing is removed.
             ///</summary>
-            public int Replace { get; }
+            public int? Drop { get; }
 
             ///<summary>
-            ///  The interval that is added as part of this modification
+            ///  The interval that is added as part of this modification, or null if nothing is added.
             ///</summary>
             public Interval Add { get; }
 
             ///<summary>
-            ///  Returns a new Modification
+            ///  Returns a new Alteration
             ///</summary>
-            public Modification(int replace, Interval add)
+            public Alteration(int? drop, Interval add)
             {
-                Replace = replace;
+                Drop = drop;
                 Add = add;
             }
 
             #pragma warning disable CS1591
 
-            public static readonly Modification SUS2 = new Modification(2, MAJOR_SECOND);
-            public static readonly Modification SUS4 = new Modification(2, PERFECT_FOURTH);
-            public static readonly Modification FLAT5 = new Modification(4, DIMINISHED_FIFTH);
-            public static readonly Modification SHARP5 = new Modification(4, AUGMENTED_FIFTH);
+            public static readonly Alteration DROP1 = new Alteration(0, null);
+            public static readonly Alteration DROP3 = new Alteration(2, null);
+            public static readonly Alteration DROP5 = new Alteration(4, null);
+            public static readonly Alteration SUS2 = new Alteration(2, I("2"));
+            public static readonly Alteration SUS4 = new Alteration(2, I("4"));
+            public static readonly Alteration FLAT5 = new Alteration(4, I("b5"));
+            public static readonly Alteration SHARP5 = new Alteration(4, I("#5"));
+            public static readonly Alteration ADD6 = new Alteration(null, I("6"));
+            public static readonly Alteration DOM7 = new Alteration(null, I("b7"));
+            public static readonly Alteration MAJ7 = new Alteration(null, I("7"));
+            public static readonly Alteration ADD9 = new Alteration(null, I("9"));
+            public static readonly Alteration FLAT9 = new Alteration(null, I("b9"));
+            public static readonly Alteration SHARP9 = new Alteration(null, I("#9"));
+            public static readonly Alteration ADD11 = new Alteration(null, I("11"));
+            public static readonly Alteration FLAT11 = new Alteration(null, I("b11"));
+            public static readonly Alteration SHARP11 = new Alteration(null, I("#11"));
+            public static readonly Alteration ADD13 = new Alteration(null, I("13"));
+            public static readonly Alteration FLAT13 = new Alteration(null, I("b13"));
+            public static readonly Alteration SHARP13 = new Alteration(null, I("#13"));
 
             #pragma warning restore CS1591
         }
@@ -153,15 +176,12 @@ namespace Cadd9.Model
         public static Quality MAJOR_SEVENTH = new Quality("1", "3", "5", "7");
         public static Quality MINOR_SEVENTH = new Quality("1", "b3", "5", "b7");
         public static Quality SIXTH = new Quality("1", "3", "5", "6");
+        public static Quality SIX_NINE = new Quality("1", "3", "5", "6", "9");
         public static Quality MINOR_SIXTH = new Quality("1", "b3", "5", "6");
         public static Quality DIMINISHED = new Quality("1", "b3", "b5");
         public static Quality DIMINISHED_SEVENTH = new Quality("1", "b3", "b5", "bb7");
         public static Quality HALF_DIMINISHED_SEVENTH = new Quality("1", "b3", "b5", "b7");
         public static Quality AUGMENTED = new Quality("1", "3", "#5");
-        public static Quality SEVENTH_SHARP_FIFTH = new Quality("1", "3", "#5", "b7");
-        public static Quality NINTH = new Quality("1", "3", "5", "b7", "#9");
-        public static Quality SEVENTH_SHARP_NINE = new Quality("1", "3", "5", "b7", "#9");
-        public static Quality MAJOR_NINTH = new Quality("1", "3", "5", "7", "9");
         public static Quality SUS2_TRIAD = new Quality("1", "2", "5");
         public static Quality SUS4_TRIAD = new Quality("1", "4", "5");
 
