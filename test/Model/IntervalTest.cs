@@ -1,15 +1,12 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 using Xunit;
 using Cadd9.Model;
-using Cadd9.Util;
 
 using static Cadd9.Model.Interval;
 using static Cadd9.Model.Name;
-using static Cadd9.Model.Accidental;
 using static Cadd9.Util.ParseHelpers;
 
 #pragma warning disable CS1591
@@ -53,7 +50,7 @@ public class IntervalTest
             new object[] { PERFECT_FIFTH, "Perfect Fifth", "P5", "5" },
             new object[] { DIMINISHED_SEVENTH, "Diminished Seventh", "d7", "bb7" },
             new object[] { MAJOR_THIRTEENTH, "Major Thirteenth", "M13", "13" },
-            new object[] { new Interval(106, 181), "Minor 107th", "m107", "b107" }
+            new object[] { new Interval((Interval.Generic) 106, 181), "Minor 107th", "m107", "b107" }
         };
 
     [Theory] [MemberData(nameof(BetweenNoteData))]
@@ -132,9 +129,9 @@ public class IntervalTest
     [InlineData("P8", "m2", "m9")]
     public void IntervalArithmetic(string first, string second, string compound)
     {
-        Assert.Equal(I(compound), I(first) + I(second));
-        Assert.Equal(I(first), I(compound) - I(second));
-        Assert.Equal(I(second), I(compound) - I(first));
+        Assert.Equal(W(compound), W(first) + W(second));
+        Assert.Equal(W(first), W(compound) - W(second));
+        Assert.Equal(W(second), W(compound) - W(first));
     }
 
     [Fact]

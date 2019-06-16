@@ -1,10 +1,10 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 using Cadd9.Model;
 
 using static Cadd9.Model.Accidental;
+using static Cadd9.Model.Degree;
 using static Cadd9.Model.Mode;
 using static Cadd9.Model.Quality;
 using static Cadd9.Model.Name;
@@ -38,16 +38,16 @@ public class ModeTest
     public static IEnumerable<object[]> ModeChords =>
         new List<object[]>
         {
-            new object[] { IONIAN, 0, 3, MAJOR_TRIAD },
-            new object[] { PHRYGIAN, 2, 4, DOMINANT_SEVENTH },
-            new object[] { DORIAN, 5, 4, new Quality("P1", "m3", "d5", "m7") },
-            new object[] { MIXOLYDIAN, 2, 4, new Quality("P1", "m3", "d5", "m7") }
+            new object[] { IONIAN, I, 3, MAJOR_TRIAD },
+            new object[] { PHRYGIAN, III, 4, DOMINANT_SEVENTH },
+            new object[] { DORIAN, VI, 4, new Quality("P1", "m3", "d5", "m7") },
+            new object[] { MIXOLYDIAN, III, 4, new Quality("P1", "m3", "d5", "m7") }
         };
 
     [Theory] [MemberData(nameof(ModeChords))]
-    public void ChordsFromModes(Mode mode, int degree, int width, Quality expected)
+    public void ChordsFromModes(Mode mode, Degree degree, int width, Quality expected)
     {
-        Assert.Equal(expected, mode.Quality(degree, width));
+        Assert.Equal(expected, mode.DiatonicChord(degree, width));
     }
 
     public static IEnumerable<object[]> ModeScales =>

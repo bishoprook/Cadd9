@@ -113,7 +113,7 @@ namespace Cadd9.Model
             // Names are enumerated starting at C, and by convention, so are octave numbers. Thus, the number of octaves
             // shifted by this interval is entirely dependent on the number of times the name "wraps around" back to
             // C=0.
-            int octaveShift = ((int) Note.Name + interval.Generic) / NAMES_PER_OCTAVE;
+            int octaveShift = ((int) Note.Name + (int) interval.GenericWidth) / NAMES_PER_OCTAVE;
 
             return new Pitch(Note.Apply(interval), Octave + octaveShift);
         }

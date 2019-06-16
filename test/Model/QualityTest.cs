@@ -27,7 +27,7 @@ public class ChordTest
     [MemberData(nameof(AlterData))]
     public void CanAlter(Quality start, Alteration alt, params string[] intervals)
     {
-        Assert.Equal(intervals.Select(I), start.Alter(alt).Intervals);
+        Assert.Equal(intervals.Select(W), start.Alter(alt).Intervals);
     }
 
     public static IEnumerable<object[]> ApplyPitchData =>

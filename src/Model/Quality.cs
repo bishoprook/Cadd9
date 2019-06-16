@@ -2,7 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using static Cadd9.Model.Interval;
+using static Cadd9.Model.Interval.Generic;
+
 using static Cadd9.Util.ParseHelpers;
 
 namespace Cadd9.Model
@@ -24,11 +25,11 @@ namespace Cadd9.Model
         ///<exception cref="ArgumentException">Thrown if a generic interval appears multiple times</exception>
         public Quality(Interval[] intervals)
         {
-            if (intervals.Select(i => i.Generic).Distinct().Count() != intervals.Count())
+            if (intervals.Select(i => i.GenericWidth).Distinct().Count() != intervals.Count())
             {
                 throw new ArgumentException("All generic intervals must appear at most once");
             }
-            Intervals = intervals.OrderBy(i => i.Generic).ToArray();
+            Intervals = intervals.OrderBy(i => i.GenericWidth).ToArray();
         }
 
         ///<summary>
@@ -40,7 +41,7 @@ namespace Cadd9.Model
         ///  The intervals given in this constructor will be parsed according to the behavior in
         ///  <see cref="Interval.Parse(string)" /> which allows short-hand construction.
         ///</remarks>
-        public Quality(params string[] intervals) : this(intervals.Select(I).ToArray()) {}
+        public Quality(params string[] intervals) : this(intervals.Select(W).ToArray()) {}
 
         ///<summary>
         ///  A string representation of this Mode, useful for debugging.
@@ -66,7 +67,7 @@ namespace Cadd9.Model
         public Quality Alter(Alteration alt) {
             IEnumerable<Interval> newIntervals = Intervals;
             if (alt.Drop.HasValue) {
-                newIntervals = newIntervals.Where(i => i.Generic != alt.Drop.Value);
+                newIntervals = newIntervals.Where(i => i.GenericWidth != alt.Drop.Value);
             }
             if (alt.Add != null) {
                 newIntervals = newIntervals.Append(alt.Add);
@@ -77,12 +78,12 @@ namespace Cadd9.Model
         ///<summary>
         ///  Returns a sequence of Notes by applying all of this Quality's Intervals to the given root.
         ///</summary>
-        public IEnumerable<Note> Apply(Note root) => Intervals.OrderBy(i => i.Generic).Select(i => root.Apply(i));
+        public IEnumerable<Note> Apply(Note root) => Intervals.Select(i => root.Apply(i));
 
         ///<summary>
         ///  Returns a sequence of Pitches by applying all of this Quality's Intervals to the given root.
         ///</summary>
-        public IEnumerable<Pitch> Apply(Pitch root) => Intervals.OrderBy(i => i.Generic).Select(i => root.Apply(i));
+        public IEnumerable<Pitch> Apply(Pitch root) => Intervals.Select(i => root.Apply(i));
 
         #region Alterations
 
@@ -94,7 +95,7 @@ namespace Cadd9.Model
             ///<summary>
             ///  The generic interval to be removed by this modification, or null if nothing is removed.
             ///</summary>
-            public int? Drop { get; }
+            public Interval.Generic? Drop { get; }
 
             ///<summary>
             ///  The interval that is added as part of this modification, or null if nothing is added.
@@ -104,7 +105,7 @@ namespace Cadd9.Model
             ///<summary>
             ///  Returns a new Alteration
             ///</summary>
-            public Alteration(int? drop, Interval add)
+            public Alteration(Interval.Generic? drop, Interval add)
             {
                 Drop = drop;
                 Add = add;
@@ -112,25 +113,25 @@ namespace Cadd9.Model
 
             #pragma warning disable CS1591
 
-            public static readonly Alteration DROP1 = new Alteration(0, null);
-            public static readonly Alteration DROP3 = new Alteration(2, null);
-            public static readonly Alteration DROP5 = new Alteration(4, null);
-            public static readonly Alteration SUS2 = new Alteration(2, I("2"));
-            public static readonly Alteration SUS4 = new Alteration(2, I("4"));
-            public static readonly Alteration FLAT5 = new Alteration(4, I("b5"));
-            public static readonly Alteration SHARP5 = new Alteration(4, I("#5"));
-            public static readonly Alteration ADD6 = new Alteration(null, I("6"));
-            public static readonly Alteration DOM7 = new Alteration(null, I("b7"));
-            public static readonly Alteration MAJ7 = new Alteration(null, I("7"));
-            public static readonly Alteration ADD9 = new Alteration(null, I("9"));
-            public static readonly Alteration FLAT9 = new Alteration(null, I("b9"));
-            public static readonly Alteration SHARP9 = new Alteration(null, I("#9"));
-            public static readonly Alteration ADD11 = new Alteration(null, I("11"));
-            public static readonly Alteration FLAT11 = new Alteration(null, I("b11"));
-            public static readonly Alteration SHARP11 = new Alteration(null, I("#11"));
-            public static readonly Alteration ADD13 = new Alteration(null, I("13"));
-            public static readonly Alteration FLAT13 = new Alteration(null, I("b13"));
-            public static readonly Alteration SHARP13 = new Alteration(null, I("#13"));
+            public static readonly Alteration DROP1 = new Alteration(UNISON, null);
+            public static readonly Alteration DROP3 = new Alteration(THIRD, null);
+            public static readonly Alteration DROP5 = new Alteration(FIFTH, null);
+            public static readonly Alteration SUS2 = new Alteration(THIRD, W("2"));
+            public static readonly Alteration SUS4 = new Alteration(THIRD, W("4"));
+            public static readonly Alteration FLAT5 = new Alteration(FIFTH, W("b5"));
+            public static readonly Alteration SHARP5 = new Alteration(FIFTH, W("#5"));
+            public static readonly Alteration ADD6 = new Alteration(null, W("6"));
+            public static readonly Alteration DOM7 = new Alteration(null, W("b7"));
+            public static readonly Alteration MAJ7 = new Alteration(null, W("7"));
+            public static readonly Alteration ADD9 = new Alteration(null, W("9"));
+            public static readonly Alteration FLAT9 = new Alteration(null, W("b9"));
+            public static readonly Alteration SHARP9 = new Alteration(null, W("#9"));
+            public static readonly Alteration ADD11 = new Alteration(null, W("11"));
+            public static readonly Alteration FLAT11 = new Alteration(null, W("b11"));
+            public static readonly Alteration SHARP11 = new Alteration(null, W("#11"));
+            public static readonly Alteration ADD13 = new Alteration(null, W("13"));
+            public static readonly Alteration FLAT13 = new Alteration(null, W("b13"));
+            public static readonly Alteration SHARP13 = new Alteration(null, W("#13"));
 
             #pragma warning restore CS1591
         }
@@ -157,7 +158,7 @@ namespace Cadd9.Model
             unchecked
             {
                 int hashCode = HASH_CODE_SEED;
-                foreach (Interval interval in Intervals.OrderBy(i => i.Generic))
+                foreach (Interval interval in Intervals)
                 {
                     hashCode = (HASH_CODE_STEP * hashCode) ^ interval.GetHashCode();
                 }

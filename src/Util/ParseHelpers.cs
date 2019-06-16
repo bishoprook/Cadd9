@@ -26,7 +26,11 @@ namespace Cadd9.Util
         ///<summary>
         ///  Parses the given input as an <see cref="Interval" />
         ///</summary>
-        public static Interval I(string input)
+        ///<remarks>
+        ///  The letter W (for Width) is used instead of I to prevent collision with <see cref="Degree.I" /> when both
+        ///  are statically included in the same file.
+        ///</remarks>
+        public static Interval W(string input)
         {
             return Interval.Parse(input);
         }

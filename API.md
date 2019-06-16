@@ -13,7 +13,7 @@
   - [Parse(input)](#M-Cadd9-Model-Accidental-Parse-System-String- 'Cadd9.Model.Accidental.Parse(System.String)')
   - [ToString()](#M-Cadd9-Model-Accidental-ToString 'Cadd9.Model.Accidental.ToString')
 - [Alteration](#T-Cadd9-Model-Quality-Alteration 'Cadd9.Model.Quality.Alteration')
-  - [#ctor()](#M-Cadd9-Model-Quality-Alteration-#ctor-System-Nullable{System-Int32},Cadd9-Model-Interval- 'Cadd9.Model.Quality.Alteration.#ctor(System.Nullable{System.Int32},Cadd9.Model.Interval)')
+  - [#ctor()](#M-Cadd9-Model-Quality-Alteration-#ctor-System-Nullable{Cadd9-Model-Interval-Generic},Cadd9-Model-Interval- 'Cadd9.Model.Quality.Alteration.#ctor(System.Nullable{Cadd9.Model.Interval.Generic},Cadd9.Model.Interval)')
   - [Add](#P-Cadd9-Model-Quality-Alteration-Add 'Cadd9.Model.Quality.Alteration.Add')
   - [Drop](#P-Cadd9-Model-Quality-Alteration-Drop 'Cadd9.Model.Quality.Alteration.Drop')
 - [Constants](#T-Cadd9-Model-Constants 'Cadd9.Model.Constants')
@@ -23,26 +23,28 @@
   - [SEMITONES_PER_OCTAVE](#F-Cadd9-Model-Constants-SEMITONES_PER_OCTAVE 'Cadd9.Model.Constants.SEMITONES_PER_OCTAVE')
 - [EnumerableExtensions](#T-Cadd9-Util-EnumerableExtensions 'Cadd9.Util.EnumerableExtensions')
   - [EveryN\`\`1()](#M-Cadd9-Util-EnumerableExtensions-EveryN``1-System-Collections-Generic-IEnumerable{``0},System-Int32- 'Cadd9.Util.EnumerableExtensions.EveryN``1(System.Collections.Generic.IEnumerable{``0},System.Int32)')
+- [Generic](#T-Cadd9-Model-Interval-Generic 'Cadd9.Model.Interval.Generic')
 - [IntExtensions](#T-Cadd9-Util-IntExtensions 'Cadd9.Util.IntExtensions')
   - [Demodulus()](#M-Cadd9-Util-IntExtensions-Demodulus-System-Int32,System-Int32- 'Cadd9.Util.IntExtensions.Demodulus(System.Int32,System.Int32)')
   - [Modulus()](#M-Cadd9-Util-IntExtensions-Modulus-System-Int32,System-Int32- 'Cadd9.Util.IntExtensions.Modulus(System.Int32,System.Int32)')
   - [Ordinal()](#M-Cadd9-Util-IntExtensions-Ordinal-System-Int32- 'Cadd9.Util.IntExtensions.Ordinal(System.Int32)')
 - [Interval](#T-Cadd9-Model-Interval 'Cadd9.Model.Interval')
-  - [#ctor(generic,specific)](#M-Cadd9-Model-Interval-#ctor-System-Int32,System-Int32- 'Cadd9.Model.Interval.#ctor(System.Int32,System.Int32)')
+  - [#ctor(genericWidth,specificWidth)](#M-Cadd9-Model-Interval-#ctor-Cadd9-Model-Interval-Generic,System-Int32- 'Cadd9.Model.Interval.#ctor(Cadd9.Model.Interval.Generic,System.Int32)')
   - [Abbreviation](#P-Cadd9-Model-Interval-Abbreviation 'Cadd9.Model.Interval.Abbreviation')
   - [Description](#P-Cadd9-Model-Interval-Description 'Cadd9.Model.Interval.Description')
-  - [Generic](#P-Cadd9-Model-Interval-Generic 'Cadd9.Model.Interval.Generic')
-  - [Specific](#P-Cadd9-Model-Interval-Specific 'Cadd9.Model.Interval.Specific')
-  - [Between(first,second)](#M-Cadd9-Model-Interval-Between-Cadd9-Model-Name,Cadd9-Model-Name- 'Cadd9.Model.Interval.Between(Cadd9.Model.Name,Cadd9.Model.Name)')
-  - [Between(first,second)](#M-Cadd9-Model-Interval-Between-Cadd9-Model-Note,Cadd9-Model-Note- 'Cadd9.Model.Interval.Between(Cadd9.Model.Note,Cadd9.Model.Note)')
-  - [Between(first,second)](#M-Cadd9-Model-Interval-Between-Cadd9-Model-Pitch,Cadd9-Model-Pitch- 'Cadd9.Model.Interval.Between(Cadd9.Model.Pitch,Cadd9.Model.Pitch)')
+  - [GenericWidth](#P-Cadd9-Model-Interval-GenericWidth 'Cadd9.Model.Interval.GenericWidth')
+  - [SpecificWidth](#P-Cadd9-Model-Interval-SpecificWidth 'Cadd9.Model.Interval.SpecificWidth')
+  - [Between(bottom,top)](#M-Cadd9-Model-Interval-Between-Cadd9-Model-Name,Cadd9-Model-Name- 'Cadd9.Model.Interval.Between(Cadd9.Model.Name,Cadd9.Model.Name)')
+  - [Between(bottom,top)](#M-Cadd9-Model-Interval-Between-Cadd9-Model-Note,Cadd9-Model-Note- 'Cadd9.Model.Interval.Between(Cadd9.Model.Note,Cadd9.Model.Note)')
+  - [Between(bottom,top)](#M-Cadd9-Model-Interval-Between-Cadd9-Model-Pitch,Cadd9-Model-Pitch- 'Cadd9.Model.Interval.Between(Cadd9.Model.Pitch,Cadd9.Model.Pitch)')
   - [Enharmonic(other)](#M-Cadd9-Model-Interval-Enharmonic-Cadd9-Model-Interval- 'Cadd9.Model.Interval.Enharmonic(Cadd9.Model.Interval)')
   - [Equals(other)](#M-Cadd9-Model-Interval-Equals-Cadd9-Model-Interval- 'Cadd9.Model.Interval.Equals(Cadd9.Model.Interval)')
-  - [GenericIntervalName()](#M-Cadd9-Model-Interval-GenericIntervalName-System-Int32- 'Cadd9.Model.Interval.GenericIntervalName(System.Int32)')
+  - [GenericName()](#M-Cadd9-Model-Interval-GenericName-Cadd9-Model-Interval-Generic- 'Cadd9.Model.Interval.GenericName(Cadd9.Model.Interval.Generic)')
   - [GetHashCode()](#M-Cadd9-Model-Interval-GetHashCode 'Cadd9.Model.Interval.GetHashCode')
   - [Parse(input)](#M-Cadd9-Model-Interval-Parse-System-String- 'Cadd9.Model.Interval.Parse(System.String)')
   - [ParseFormal()](#M-Cadd9-Model-Interval-ParseFormal-System-String- 'Cadd9.Model.Interval.ParseFormal(System.String)')
   - [ParseSimple()](#M-Cadd9-Model-Interval-ParseSimple-System-String- 'Cadd9.Model.Interval.ParseSimple(System.String)')
+  - [ReducedGenericWidth()](#M-Cadd9-Model-Interval-ReducedGenericWidth-Cadd9-Model-Interval-Generic- 'Cadd9.Model.Interval.ReducedGenericWidth(Cadd9.Model.Interval.Generic)')
   - [ToString()](#M-Cadd9-Model-Interval-ToString 'Cadd9.Model.Interval.ToString')
   - [op_Addition()](#M-Cadd9-Model-Interval-op_Addition-Cadd9-Model-Interval,Cadd9-Model-Interval- 'Cadd9.Model.Interval.op_Addition(Cadd9.Model.Interval,Cadd9.Model.Interval)')
   - [op_Subtraction()](#M-Cadd9-Model-Interval-op_Subtraction-Cadd9-Model-Interval,Cadd9-Model-Interval- 'Cadd9.Model.Interval.op_Subtraction(Cadd9.Model.Interval,Cadd9.Model.Interval)')
@@ -53,9 +55,9 @@
   - [Title](#P-Cadd9-Model-Mode-Title 'Cadd9.Model.Mode.Title')
   - [AccidentalFor()](#M-Cadd9-Model-Mode-AccidentalFor-Cadd9-Model-Note,Cadd9-Model-Name- 'Cadd9.Model.Mode.AccidentalFor(Cadd9.Model.Note,Cadd9.Model.Name)')
   - [Ascend()](#M-Cadd9-Model-Mode-Ascend 'Cadd9.Model.Mode.Ascend')
+  - [DiatonicChord(degree,count)](#M-Cadd9-Model-Mode-DiatonicChord-Cadd9-Model-Degree,System-Int32- 'Cadd9.Model.Mode.DiatonicChord(Cadd9.Model.Degree,System.Int32)')
   - [Equals(other)](#M-Cadd9-Model-Mode-Equals-Cadd9-Model-Mode- 'Cadd9.Model.Mode.Equals(Cadd9.Model.Mode)')
   - [GetHashCode()](#M-Cadd9-Model-Mode-GetHashCode 'Cadd9.Model.Mode.GetHashCode')
-  - [Quality(degree,width)](#M-Cadd9-Model-Mode-Quality-System-Int32,System-Int32- 'Cadd9.Model.Mode.Quality(System.Int32,System.Int32)')
   - [Scale()](#M-Cadd9-Model-Mode-Scale-Cadd9-Model-Note- 'Cadd9.Model.Mode.Scale(Cadd9.Model.Note)')
   - [Scale()](#M-Cadd9-Model-Mode-Scale-Cadd9-Model-Pitch- 'Cadd9.Model.Mode.Scale(Cadd9.Model.Pitch)')
   - [ToString()](#M-Cadd9-Model-Mode-ToString 'Cadd9.Model.Mode.ToString')
@@ -73,9 +75,9 @@
   - [Parse(input)](#M-Cadd9-Model-Note-Parse-System-String- 'Cadd9.Model.Note.Parse(System.String)')
   - [ToString()](#M-Cadd9-Model-Note-ToString 'Cadd9.Model.Note.ToString')
 - [ParseHelpers](#T-Cadd9-Util-ParseHelpers 'Cadd9.Util.ParseHelpers')
-  - [I()](#M-Cadd9-Util-ParseHelpers-I-System-String- 'Cadd9.Util.ParseHelpers.I(System.String)')
   - [N()](#M-Cadd9-Util-ParseHelpers-N-System-String- 'Cadd9.Util.ParseHelpers.N(System.String)')
   - [P()](#M-Cadd9-Util-ParseHelpers-P-System-String- 'Cadd9.Util.ParseHelpers.P(System.String)')
+  - [W()](#M-Cadd9-Util-ParseHelpers-W-System-String- 'Cadd9.Util.ParseHelpers.W(System.String)')
 - [Pitch](#T-Cadd9-Model-Pitch 'Cadd9.Model.Pitch')
   - [#ctor(note,octave)](#M-Cadd9-Model-Pitch-#ctor-Cadd9-Model-Note,System-Int32- 'Cadd9.Model.Pitch.#ctor(Cadd9.Model.Note,System.Int32)')
   - [#ctor(name,accidental,octave)](#M-Cadd9-Model-Pitch-#ctor-Cadd9-Model-Name,Cadd9-Model-Accidental,System-Int32- 'Cadd9.Model.Pitch.#ctor(Cadd9.Model.Name,Cadd9.Model.Accidental,System.Int32)')
@@ -105,6 +107,9 @@
   - [Equals(other)](#M-Cadd9-Model-Quality-Equals-Cadd9-Model-Quality- 'Cadd9.Model.Quality.Equals(Cadd9.Model.Quality)')
   - [GetHashCode()](#M-Cadd9-Model-Quality-GetHashCode 'Cadd9.Model.Quality.GetHashCode')
   - [ToString()](#M-Cadd9-Model-Quality-ToString 'Cadd9.Model.Quality.ToString')
+- [Voicing](#T-Cadd9-Model-Voicing 'Cadd9.Model.Voicing')
+  - [Equals(other)](#M-Cadd9-Model-Voicing-Equals-Cadd9-Model-Voicing- 'Cadd9.Model.Voicing.Equals(Cadd9.Model.Voicing)')
+  - [GetHashCode()](#M-Cadd9-Model-Voicing-GetHashCode 'Cadd9.Model.Voicing.GetHashCode')
 
 <a name='T-Cadd9-Model-Accidental'></a>
 ## Accidental `type`
@@ -235,7 +240,7 @@ Cadd9.Model.Quality
 
 Encapsulates an alteration of a chord quality, by dropping, adding, or replacing some intervals.
 
-<a name='M-Cadd9-Model-Quality-Alteration-#ctor-System-Nullable{System-Int32},Cadd9-Model-Interval-'></a>
+<a name='M-Cadd9-Model-Quality-Alteration-#ctor-System-Nullable{Cadd9-Model-Interval-Generic},Cadd9-Model-Interval-'></a>
 ### #ctor() `constructor`
 
 ##### Summary
@@ -356,6 +361,23 @@ This example demonstrates how to use [EveryN\`\`1](#M-Cadd9-Util-EnumerableExten
   // This produces: 1, 4, 7, 10
 ```
 
+<a name='T-Cadd9-Model-Interval-Generic'></a>
+## Generic `type`
+
+##### Namespace
+
+Cadd9.Model.Interval
+
+##### Summary
+
+Represents a generic interval between two notes or pitches independent of semitone width
+
+##### Remarks
+
+For instance, the generic interval between any F and any A is always a third. From F to A♯ is an augmented
+  third (5 semitones), and from F to A♭ is a minor third (3 semitones) but the generic interval is always a
+  third. In other words, this is the number of note names shifted from the bottom to top of the interval.
+
 <a name='T-Cadd9-Util-IntExtensions'></a>
 ## IntExtensions `type`
 
@@ -425,8 +447,8 @@ Cadd9.Model
 
 Represents a musical width between notes or pitches.
 
-<a name='M-Cadd9-Model-Interval-#ctor-System-Int32,System-Int32-'></a>
-### #ctor(generic,specific) `constructor`
+<a name='M-Cadd9-Model-Interval-#ctor-Cadd9-Model-Interval-Generic,System-Int32-'></a>
+### #ctor(genericWidth,specificWidth) `constructor`
 
 ##### Summary
 
@@ -436,8 +458,8 @@ Creates an Interval with the given generic and specific widths.
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| generic | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The number of note names spanned by the interval |
-| specific | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The number of semitones spanned by the interval |
+| genericWidth | [Cadd9.Model.Interval.Generic](#T-Cadd9-Model-Interval-Generic 'Cadd9.Model.Interval.Generic') | The number of note names spanned by the interval |
+| specificWidth | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The number of semitones spanned by the interval |
 
 <a name='P-Cadd9-Model-Interval-Abbreviation'></a>
 ### Abbreviation `property`
@@ -453,34 +475,22 @@ A short formatted description of the interval, like "P4"
 
 A long-form formatted description of the interval, like "Perfect Fourth"
 
-<a name='P-Cadd9-Model-Interval-Generic'></a>
-### Generic `property`
+<a name='P-Cadd9-Model-Interval-GenericWidth'></a>
+### GenericWidth `property`
 
 ##### Summary
 
-The number of note names shifted between the bottom and top of this Interval.
+The generic width of this Interval, in other words, the difference in note names from bottom to top.
 
-##### Remarks
-
-This property is independent of the actual pitch difference of the interval. For example a minor third,
-  major third, and augmented third would all have a Generic value of 2, and when applied to a C with any
-  accidentals will produce an E with accidentals determined by this Interval's `Specific` value.
-
-<a name='P-Cadd9-Model-Interval-Specific'></a>
-### Specific `property`
+<a name='P-Cadd9-Model-Interval-SpecificWidth'></a>
+### SpecificWidth `property`
 
 ##### Summary
 
-The number of semitones shifted between the bottom and top of this Interval.
-
-##### Remarks
-
-This property is independent of the change in names for the interval. For example, a minor third and
-  augmented second both have a Specific value of 3, because both move up 3 semitones, though they would go
-  from C to E♭/D♯ respectively.
+The specific width of this Interval, in other words, the semitones shifted between the bottom and top.
 
 <a name='M-Cadd9-Model-Interval-Between-Cadd9-Model-Name,Cadd9-Model-Name-'></a>
-### Between(first,second) `method`
+### Between(bottom,top) `method`
 
 ##### Summary
 
@@ -490,8 +500,8 @@ Returns a new Interval representing the width between two [Name](#T-Cadd9-Model-
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| first | [Cadd9.Model.Name](#T-Cadd9-Model-Name 'Cadd9.Model.Name') | The lower [Name](#T-Cadd9-Model-Name 'Cadd9.Model.Name') to compare |
-| second | [Cadd9.Model.Name](#T-Cadd9-Model-Name 'Cadd9.Model.Name') | The higher [Name](#T-Cadd9-Model-Name 'Cadd9.Model.Name') to compare |
+| bottom | [Cadd9.Model.Name](#T-Cadd9-Model-Name 'Cadd9.Model.Name') | The lower [Name](#T-Cadd9-Model-Name 'Cadd9.Model.Name') to compare |
+| top | [Cadd9.Model.Name](#T-Cadd9-Model-Name 'Cadd9.Model.Name') | The higher [Name](#T-Cadd9-Model-Name 'Cadd9.Model.Name') to compare |
 
 ##### Remarks
 
@@ -500,7 +510,7 @@ It is always assumed that the interval is going up from first to second: C to B 
   always produce an interval between unison (inclusive) and an octave (exclusive).
 
 <a name='M-Cadd9-Model-Interval-Between-Cadd9-Model-Note,Cadd9-Model-Note-'></a>
-### Between(first,second) `method`
+### Between(bottom,top) `method`
 
 ##### Summary
 
@@ -510,8 +520,8 @@ Returns a new Interval representing the width between two [Note](#T-Cadd9-Model-
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| first | [Cadd9.Model.Note](#T-Cadd9-Model-Note 'Cadd9.Model.Note') | The lower [Note](#T-Cadd9-Model-Note 'Cadd9.Model.Note') to compare |
-| second | [Cadd9.Model.Note](#T-Cadd9-Model-Note 'Cadd9.Model.Note') | The higher [Note](#T-Cadd9-Model-Note 'Cadd9.Model.Note') to compare |
+| bottom | [Cadd9.Model.Note](#T-Cadd9-Model-Note 'Cadd9.Model.Note') | The lower [Note](#T-Cadd9-Model-Note 'Cadd9.Model.Note') to compare |
+| top | [Cadd9.Model.Note](#T-Cadd9-Model-Note 'Cadd9.Model.Note') | The higher [Note](#T-Cadd9-Model-Note 'Cadd9.Model.Note') to compare |
 
 ##### Remarks
 
@@ -520,7 +530,7 @@ It is always assumed that the interval is going up from first to second: C♯ to
   will always produce an interval between unison (inclusive) and an octave (exclusive).
 
 <a name='M-Cadd9-Model-Interval-Between-Cadd9-Model-Pitch,Cadd9-Model-Pitch-'></a>
-### Between(first,second) `method`
+### Between(bottom,top) `method`
 
 ##### Summary
 
@@ -530,8 +540,8 @@ Returns a new Interval representing the width between two [Pitch](#T-Cadd9-Model
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| first | [Cadd9.Model.Pitch](#T-Cadd9-Model-Pitch 'Cadd9.Model.Pitch') | The lower [Pitch](#T-Cadd9-Model-Pitch 'Cadd9.Model.Pitch') to compare |
-| second | [Cadd9.Model.Pitch](#T-Cadd9-Model-Pitch 'Cadd9.Model.Pitch') | The higher [Pitch](#T-Cadd9-Model-Pitch 'Cadd9.Model.Pitch') to compare |
+| bottom | [Cadd9.Model.Pitch](#T-Cadd9-Model-Pitch 'Cadd9.Model.Pitch') | The lower [Pitch](#T-Cadd9-Model-Pitch 'Cadd9.Model.Pitch') to compare |
+| top | [Cadd9.Model.Pitch](#T-Cadd9-Model-Pitch 'Cadd9.Model.Pitch') | The higher [Pitch](#T-Cadd9-Model-Pitch 'Cadd9.Model.Pitch') to compare |
 
 ##### Remarks
 
@@ -569,12 +579,12 @@ Determines whether two Intervals are value-equivalent
 | ---- | ---- | ----------- |
 | other | [Cadd9.Model.Interval](#T-Cadd9-Model-Interval 'Cadd9.Model.Interval') | The Intervals to compare |
 
-<a name='M-Cadd9-Model-Interval-GenericIntervalName-System-Int32-'></a>
-### GenericIntervalName() `method`
+<a name='M-Cadd9-Model-Interval-GenericName-Cadd9-Model-Interval-Generic-'></a>
+### GenericName() `method`
 
 ##### Summary
 
-Returns the name of an interval with the given generic width
+Returns the name of the given generic width
 
 ##### Parameters
 
@@ -656,6 +666,17 @@ This method has no parameters.
 This notation uses "3" for a major third, "b5" for a flat fifth, etc. Commonly used to describe the
   component intervals of chords.
 
+<a name='M-Cadd9-Model-Interval-ReducedGenericWidth-Cadd9-Model-Interval-Generic-'></a>
+### ReducedGenericWidth() `method`
+
+##### Summary
+
+Returns the generic width from unison to seventh that is enharmonic with the given generic width
+
+##### Parameters
+
+This method has no parameters.
+
 <a name='M-Cadd9-Model-Interval-ToString'></a>
 ### ToString() `method`
 
@@ -706,7 +727,7 @@ Cadd9.Model
 
 ##### Summary
 
-Represents a heptatonic musical mode based on its component intervals.
+Represents a musical mode based on its component intervals.
 
 <a name='M-Cadd9-Model-Mode-#ctor-System-String,Cadd9-Model-Interval[]-'></a>
 ### #ctor(title,intervals) `constructor`
@@ -726,7 +747,7 @@ Returns a new Mode
 
 | Name | Description |
 | ---- | ----------- |
-| [System.ArgumentException](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.ArgumentException 'System.ArgumentException') | Thrown if the given intervals do not feature every generic interval 0-6 exactly once |
+| [System.ArgumentException](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.ArgumentException 'System.ArgumentException') | Thrown if a generic interval appears multiple times |
 
 <a name='M-Cadd9-Model-Mode-#ctor-System-String,System-String[]-'></a>
 ### #ctor(title,intervals) `constructor`
@@ -804,6 +825,34 @@ This method has no parameters.
 
 Will progress infinitely, so take only what is needed.
 
+<a name='M-Cadd9-Model-Mode-DiatonicChord-Cadd9-Model-Degree,System-Int32-'></a>
+### DiatonicChord(degree,count) `method`
+
+##### Summary
+
+Returns a chord based on stacked thirds from the given scale degree of this mode.
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| degree | [Cadd9.Model.Degree](#T-Cadd9-Model-Degree 'Cadd9.Model.Degree') | The scale degree to use as the root |
+| count | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The number of notes to return (3 = triad, 4 = 7th, 5 = 9th, etc) (min 3) |
+
+##### Exceptions
+
+| Name | Description |
+| ---- | ----------- |
+| [System.ArgumentException](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.ArgumentException 'System.ArgumentException') | If degree or width are out of bounds |
+
+##### Remarks
+
+Each mode has 7 scale degrees that produce 7 signature chord qualities. For example, the major (Ionian)
+  mode's fourth scale degree (iv) is a minor triad, while the Phrygian mode's fifth scale degree (v°) is a
+  diminished triad.
+
+Important note: the value of `degree` is treated starting at zero.
+
 <a name='M-Cadd9-Model-Mode-Equals-Cadd9-Model-Mode-'></a>
 ### Equals(other) `method`
 
@@ -828,35 +877,6 @@ Produces a high-entropy hash code such that two value-equivalent Modes are guara
 ##### Parameters
 
 This method has no parameters.
-
-<a name='M-Cadd9-Model-Mode-Quality-System-Int32,System-Int32-'></a>
-### Quality(degree,width) `method`
-
-##### Summary
-
-Returns a chord based on the given scale degree of this mode.
-
-##### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| degree | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The scale degree to use as the root |
-| width | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The number of notes to return (3 = major, 4 = dom 7, etc) |
-
-##### Exceptions
-
-| Name | Description |
-| ---- | ----------- |
-| [System.ArgumentException](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.ArgumentException 'System.ArgumentException') | If degree or width are out of bounds |
-
-##### Remarks
-
-Each mode has 7 scale degrees that produce 7 signature chord qualities. For example, the major (Ionian)
-  mode's fourth scale degree (iv) is a minor triad, while the Phrygian mode's fifth scale degree (v°) is a
-  diminished triad.
-
-Note also that the `width` parameter can be used to construct 7th and 9th chords in the correct
-  quality for their scale degree, however constructing a triad width width 3 is most common.
 
 <a name='M-Cadd9-Model-Mode-Scale-Cadd9-Model-Note-'></a>
 ### Scale() `method`
@@ -1072,17 +1092,6 @@ Cadd9.Util
 
 Contains helper methods to parse notes, pitches, and intervals
 
-<a name='M-Cadd9-Util-ParseHelpers-I-System-String-'></a>
-### I() `method`
-
-##### Summary
-
-Parses the given input as an [Interval](#T-Cadd9-Model-Interval 'Cadd9.Model.Interval')
-
-##### Parameters
-
-This method has no parameters.
-
 <a name='M-Cadd9-Util-ParseHelpers-N-System-String-'></a>
 ### N() `method`
 
@@ -1104,6 +1113,22 @@ Parses the given input as a [Pitch](#T-Cadd9-Model-Pitch 'Cadd9.Model.Pitch')
 ##### Parameters
 
 This method has no parameters.
+
+<a name='M-Cadd9-Util-ParseHelpers-W-System-String-'></a>
+### W() `method`
+
+##### Summary
+
+Parses the given input as an [Interval](#T-Cadd9-Model-Interval 'Cadd9.Model.Interval')
+
+##### Parameters
+
+This method has no parameters.
+
+##### Remarks
+
+The letter W (for Width) is used instead of I to prevent collision with [I](#F-Cadd9-Model-Degree-I 'Cadd9.Model.Degree.I') when both
+  are statically included in the same file.
 
 <a name='T-Cadd9-Model-Pitch'></a>
 ## Pitch `type`
@@ -1502,6 +1527,38 @@ This method has no parameters.
 ##### Summary
 
 A string representation of this Mode, useful for debugging.
+
+##### Parameters
+
+This method has no parameters.
+
+<a name='T-Cadd9-Model-Voicing'></a>
+## Voicing `type`
+
+##### Namespace
+
+Cadd9.Model
+
+<a name='M-Cadd9-Model-Voicing-Equals-Cadd9-Model-Voicing-'></a>
+### Equals(other) `method`
+
+##### Summary
+
+Determines whether two Voicings are value-equivalent
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| other | [Cadd9.Model.Voicing](#T-Cadd9-Model-Voicing 'Cadd9.Model.Voicing') | The other Voicings to compare |
+
+<a name='M-Cadd9-Model-Voicing-GetHashCode'></a>
+### GetHashCode() `method`
+
+##### Summary
+
+Produces a high-entropy hash code such that two value-equivalent Qualities are guaranteed to produce the
+  same result.
 
 ##### Parameters
 

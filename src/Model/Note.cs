@@ -55,7 +55,7 @@ namespace Cadd9.Model
         ///</remarks>
         public int PitchClass
         {
-            get => Interval.Between(new Note(C, NATURAL), this).Specific;
+            get => Interval.Between(new Note(C, NATURAL), this).SpecificWidth;
         }
 
         ///<summary>
@@ -64,7 +64,7 @@ namespace Cadd9.Model
         ///<param name="interval">The width between the current Note and the new Note to be generated.</param>
         public Note Apply(Interval interval)
         {
-            Name nextName = (Name) ((int) Name + interval.Generic).Modulus(NAMES_PER_OCTAVE);
+            Name nextName = (Name) ((int) Name + (int)interval.GenericWidth).Modulus(NAMES_PER_OCTAVE);
 
             // A generic interval implicates a certain specific interval based on the distance between those natural
             // names in the C major scale. For example, going from G♮ to C♮ (a "fourth" or generic=3) is 5 semitones.
@@ -78,8 +78,8 @@ namespace Cadd9.Model
             //   6 [specific interval] - (5 [interval from G to C] - (-2) [current accidental]) = -1
             // or equivalently
             //   -2 [current accidental] + 6 [specific interval] - 5 [interval from G to C] = -1
-            int accidentalSemitones = Accidental.Semitones + interval.Specific
-                - Interval.Between(Name, nextName).Specific;
+            int accidentalSemitones = Accidental.Semitones + interval.SpecificWidth
+                - Interval.Between(Name, nextName).SpecificWidth;
             
             // The "demodulus" operator here produces the enharmonic accidental closest to natural; for example 11
             // sharps would be converted to 1 flat.
